@@ -65,6 +65,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 #### 属性変換ルール定義（`ClaimsTransformations`エレメント配下）  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）　 
 SELMIDでは以下の属性変換ルールをビルトインしています。まずはビルトインルールで要件が満たせるかどうかご検討ください。  
+
 | ルール名 | 動作概要 | 入力 | 出力 |
 |:---|:---|:---|:---|
 | CreateOtherMailsFromEmail | メールアドレスをotherMailsコレクションに加えます | email | otherMails |
