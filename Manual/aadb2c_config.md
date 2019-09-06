@@ -8,7 +8,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 |:---|:---|:---|
 | BASE | 不可 | 基本動作に必要な定義 |
 | SELMID_EXTENSION | 不可 | CTC拡張機能の定義 |
-| USER_EXTENSION_BASE | 可 | 契約企業様毎の設定（スキーマ、UI定義、各種IdPの接続情報） |
+| [USER_EXTENSION_BASE](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#user_extension_base) | 可 | 契約企業様毎の設定（スキーマ、UI定義、各種IdPの接続情報） |
 | USER_EXTENSION_USERJOURNEYS | 可 | 契約企業様毎のユーザジャーニーの設定 |
 | USER_EXTENSION_RP_XX | 可 | 契約企業様毎のアプリケーションとの連携設定（呼び出すポリシー単位で作成） |
 - 編集不可となっているポリシーの修正～アップロードを行った場合、動作の保証がされません。  
