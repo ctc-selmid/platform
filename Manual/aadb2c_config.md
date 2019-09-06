@@ -38,11 +38,24 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 
 # 各構成内容  
 ## USER_EXTENSION_BASE  
-### スキーマ定義  
+### スキーマ定義(`ClaimsSchema`エレメント配下)  
 - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）  
-- ClaimType IdのPrefixにより永続させる（Azure AD B2Cのデータベースのスキーマ拡張と属性値の保持）ことが出来るかどうかが決定されます  
+- 注意点) ClaimType IdのPrefixにより永続させる（Azure AD B2Cのデータベースのスキーマ拡張と属性値の保持）ことが出来るかどうかが決定されます  
   - prefixなし : 非永続（カスタムポリシー内のみで利用可能）  
   - extension_ : 永続化（Azure AD B2Cのデータベース内に保存可能）  
+- 定義内容  
+
+| 要素種別 | 定義項目 | 説明 |
+|:---|:---|:---|
+| 属性 | Id | Claim（属性）の識別子 |
+| 要素 | Displayname | Claimの表示名 |
+|| DataType | 属性の型<br>- string: 文字列<br>- boolean: ブール値<br>- date: 日付型<br>- datetime: 日付時刻型<br>- int: int型<br>- long: long型<br>- stringCollection: 文字列コレクション型<br>- alternativeSecurityIdCollection: 外部IdPの識別子コレクション |
+|| Mask | 値のマスクパターン |
+|| UserHelpText | ヘルプテキスト |
+|| UserInputType | ユーザが値を入力する場合に使うフォームの型<br>- TextBox: テキストボックス<br>- EmailBox: メールアドレス<br>- Password: パスワード<br>- DateTimeDropdown: 日付と時刻の選択<br>- RadioSingleSelect: ラジオボタン<br>- DropdownSingleSelect: ドロップダウンリスト（単一選択）<br>- CheckboxMultiSelect: チェックボックス（複数選択）<br>- Readonly: 表示のみ<br>- Paragraph:メッセージ表示  |
+|| Restriction | 入力値を制限する際に使う正規表現 |
+|| PredicateValidationReference | 入力値を制限する際に使うPredicate定義への参照 |
+
 - 例 1: 文字列属性（非永続）の定義  
 ```
 <ClaimType Id="sampleStringAttribute1">
