@@ -9,11 +9,13 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 | BASE | 不可 | 基本動作に必要な定義 |
 | SELMID_EXTENSION | 不可 | CTC拡張機能の定義 |
 | [USER_EXTENSION_BASE](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#user_extension_base) | 可 | 契約企業様毎の設定（スキーマ、UI定義、各種IdPの接続情報） |
-| USER_EXTENSION_USERJOURNEYS | 可 | 契約企業様毎のユーザジャーニーの設定 |
-| USER_EXTENSION_RP_XX | 可 | 契約企業様毎のアプリケーションとの連携設定（呼び出すポリシー単位で作成） |
+| [USER_EXTENSION_USERJOURNEYS](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#user_extension_userjourneys) | 可 | 契約企業様毎のユーザジャーニーの設定 |
+| [USER_EXTENSION_RP_XX](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#user_extension_rp_xx) | 可 | 契約企業様毎のアプリケーションとの連携設定（呼び出すポリシー単位で作成） |
 - 編集不可となっているポリシーの修正～アップロードを行った場合、動作の保証がされません。  
 - 基本的に上位のポリシーを下位のポリシーがオーバーライドします。  
 
+# 各構成内容  
+※すべての設定可能項目を記載している訳ではありません。公式ドキュメントに記載されている設定項目はご利用いただけますが詳細はお問い合わせください。  
 ## USER_EXTENSION_BASE  
 ### 設定内容  
 - スキーマ（カスタム属性）  
@@ -26,20 +28,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
   - 外部IdP（SNS等）との接続情報（client_id, client_secret, 取得する属性等）を定義します
   - 基盤本体のIDデータベースとのインターフェイス（書き込み・読み込みする属性）を定義します
 
-## USER_EXTENSION_USERJOURNEYS  
-### 設定内容  
-- ユーザジャーニー定義
-  - アクション単位の動作フローを定義します  
-
-## USER_EXTENSION_RP_XX  
-### 設定内容  
-- アプリケーションとのインターフェイス定義  
-  - id_tokenに含める属性を定義します  
-
-# 各構成内容  
-※すべての設定可能項目を記載している訳ではありません。公式ドキュメントに記載されている設定項目はご利用いただけますが詳細はお問い合わせください。  
-## USER_EXTENSION_BASE  
-### スキーマ定義(`ClaimsSchema`エレメント配下)  
+#### スキーマ定義(`ClaimsSchema`エレメント配下)  
 - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）  
 - 注意点) ClaimType IdのPrefixにより永続させる（Azure AD B2Cのデータベースのスキーマ拡張と属性値の保持）ことが出来るかどうかが決定されます  
   - prefixなし : 非永続（カスタムポリシー内のみで利用可能）  
@@ -73,16 +62,22 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 </ClaimType>
 ```
 
-### 属性変換ルール定義  
+#### 属性変換ルール定義  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）  
-### UI定義  
+#### UI定義  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/contentdefinitions)）  
-### 各種IdPとの接続情報  
+#### 各種IdPとの接続情報  
 
 ## USER_EXTENSION_USERJOURNEYS  
-### ユーザジャーニー定義  
+### 設定内容  
+- ユーザジャーニー定義
+  - アクション単位の動作フローを定義します  
+#### ユーザジャーニー定義  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/userjourneys)）  
 
 ## USER_EXTENSION_RP_XX  
-### アプリケーションとのインターフェイス定義  
+### 設定内容  
+- アプリケーションとのインターフェイス定義  
+  - id_tokenに含める属性を定義します  
+#### アプリケーションとのインターフェイス定義  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/relyingparty)）  
