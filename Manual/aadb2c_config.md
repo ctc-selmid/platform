@@ -18,6 +18,8 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 ### 設定内容  
 - スキーマ（カスタム属性）  
   - 標準外の属性を定義します
+- 属性変換ルール定義  
+  - 属性値を変換する関数を定義します  
 - UI定義  
   - 各種画面テンプレートを定義します
 - 各種IdPとの接続情報  
@@ -26,10 +28,28 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 
 ## USER_EXTENSION_USERJOURNEYS  
 ### 設定内容  
-- ユーザジャーニー
+- ユーザジャーニー定義
   - アクション単位の動作フローを定義します  
 
 ## USER_EXTENSION_RP_XX  
 ### 設定内容  
 - アプリケーションとのインターフェイス定義  
   - id_tokenに含める属性を定義します  
+
+# 各構成内容  
+## USER_EXTENSION_BASE  
+### スキーマ定義  
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）  
+### 属性変換ルール定義  
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）  
+### UI定義  
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/contentdefinitions)）  
+### 各種IdPとの接続情報  
+
+## USER_EXTENSION_USERJOURNEYS  
+### ユーザジャーニー定義  
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/userjourneys)）  
+
+## USER_EXTENSION_RP_XX  
+### アプリケーションとのインターフェイス定義  
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/relyingparty)）  
