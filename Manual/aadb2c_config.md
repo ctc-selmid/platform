@@ -44,7 +44,6 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 || UserHelpText | ヘルプテキスト |
 || UserInputType | ユーザが値を入力する場合に使うフォームの型<br>- TextBox: テキストボックス<br>- EmailBox: メールアドレス<br>- Password: パスワード<br>- DateTimeDropdown: 日付と時刻の選択<br>- RadioSingleSelect: ラジオボタン<br>- DropdownSingleSelect: ドロップダウンリスト（単一選択）<br>- CheckboxMultiSelect: チェックボックス（複数選択）<br>- Readonly: 表示のみ<br>- Paragraph:メッセージ表示  |
 || Restriction | 入力値を制限する際に使う正規表現 |
-|| PredicateValidationReference | 入力値を制限する際に使うPredicate定義への参照 |
 
 - 例 1: 文字列属性（非永続）の定義  
 ```
@@ -62,8 +61,20 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 </ClaimType>
 ```
 
-#### 属性変換ルール定義  
-参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）  
+
+#### 属性変換ルール定義（`ClaimsTransformations`エレメント配下）  
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）　 
+SELMIDでは以下の属性変換ルールをビルトインしています。まずはビルトインルールで要件が満たせるかどうかご検討ください。  
+| ルール名 | 動作概要 | 入力 | 出力 |
+|:---|:---|:---|:---|
+| CreateOtherMailsFromEmail | メールアドレスをotherMailsコレクションに加えます | email | otherMails |
+| CreateRandomUPNUserName | GUID形式でupnUserNameを生成します | - | upnUserName |
+| CreateUserPrincipalName | cpim_{upnUserName}@{tenant名}形式でuserPrincipalName（Azure AD B2C内部の識別子）を生成します<br>例）cpim_32407727-a73a-4944-9fdb-54cf4d755ddf@yourtenant.onmicrosoft.com | upnUserName | userPrincipalName |
+| CreateAlternativeSecurityId | 外部IdPの識別子からalternativeSecurityIdを生成します | issuerUserId<br>identityProvider | alternativeSecurityId |
+| AssertAccountEnabledIsTrue | accountEnabled属性がtrueならtrueを返却します | accountEnabled | True/False |
+| CreateUserIdForMFA | 多要素認証用のuserId属性を生成します<br>{objectId}@{tenant名}の形式 | objectId | userIdForMFA |
+| CopyEmailToReadOnly | email属性の値をreadOnlyEmail属性にコピーします | email | readOnlyEmail |
+
 #### UI定義  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/contentdefinitions)）  
 #### 各種IdPとの接続情報  
