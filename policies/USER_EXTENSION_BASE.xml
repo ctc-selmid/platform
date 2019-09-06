@@ -3,11 +3,11 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
     PolicySchemaVersion="0.3.0.0"
-    TenantId="kdxpoc.onmicrosoft.com"
+    TenantId="yourtenant.onmicrosoft.com"
     PolicyId="B2C_1A_USER_EXTENSION_BASE"
-    PublicPolicyUri="http://kdxpoc.onmicrosoft.com/B2C_1A_USER_EXTENSION_BASE">
+    PublicPolicyUri="http://yourtenant.onmicrosoft.com/B2C_1A_USER_EXTENSION_BASE">
   <BasePolicy>
-    <TenantId>kdxpoc.onmicrosoft.com</TenantId>
+    <TenantId>yourtenant.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_SELMID_EXTENSION</PolicyId>
   </BasePolicy>
   <BuildingBlocks>
@@ -184,7 +184,7 @@
       <TechnicalProfiles>
         <TechnicalProfile Id="Facebook-OAUTH">
           <Metadata>
-            <Item Key="client_id">600240237170189</Item>
+            <Item Key="client_id">your_client_id</Item>
             <!-- facebookで許可するscopeを指定します -->
             <Item Key="scope">email public_profile</Item>
             <!-- scopeに合わせて取得する属性をqueryStringに指定します -->
@@ -202,7 +202,7 @@
       <TechnicalProfiles>
         <TechnicalProfile Id="Twitter-OAUTH1">
           <Metadata>
-            <Item Key="client_id">Au9fKPS7MmOTubY4ul4CsPGu8</Item>
+            <Item Key="client_id">your_client_id</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="client_secret" StorageReferenceId="B2C_1A_TwitterSecret" />
@@ -217,7 +217,7 @@
         <TechnicalProfile Id="Google-OAUTH">
           <Metadata>
             <Item Key="scope">email</Item>
-            <Item Key="client_id">355061768210-c6ecobg4anvdab0pdrs4a9qombo3o1r9.apps.googleusercontent.com</Item>
+            <Item Key="client_id">your_client_id</Item>
           </Metadata>
           <CryptographicKeys>
             <Key Id="client_secret" StorageReferenceId="B2C_1A_GoogleSecret" />
@@ -231,7 +231,7 @@
       <TechnicalProfiles>
         <TechnicalProfile Id="LINE-OIDC">
           <Metadata>
-            <Item Key="client_id">1607851403</Item>
+            <Item Key="client_id">your_client_id</Item>
             <!-- LINEで許可するscopeを指定します -->
             <Item Key="scope">openid profile email</Item>
           </Metadata>
@@ -247,7 +247,7 @@
       <TechnicalProfiles>
         <TechnicalProfile Id="YahooJAPAN-OAUTH">
           <Metadata>
-            <Item Key="client_id">dj00aiZpPUY5S2lPYjJNZUg0UyZzPWNvbnN1bWVyc2VjcmV0Jng9NmQ-</Item>
+            <Item Key="client_id">your_client_id</Item>
             <!-- Yahoo! JAPANで許可するscopeを指定します -->
             <Item Key="scope">openid email profile address</Item>
           </Metadata>
@@ -263,7 +263,7 @@
       <TechnicalProfiles>
         <TechnicalProfile Id="Apple-OIDC">
           <Metadata>
-            <Item Key="client_id">jp.eidentity.client</Item>
+            <Item Key="client_id">your_client_id</Item>
             <!-- Sign in with Appleで許可するscopeを指定します -->
             <Item Key="scope">name email</Item>
           </Metadata>
