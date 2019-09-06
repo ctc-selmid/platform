@@ -15,7 +15,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 - 基本的に上位のポリシーを下位のポリシーがオーバーライドします。  
 
 ## USER_EXTENSION_BASE  
-### 設定できる内容  
+### 設定内容  
 - スキーマ（カスタム属性）  
   - 標準外の属性を定義します
 - UI定義  
@@ -23,3 +23,13 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 - 各種IdPとの接続情報  
   - 外部IdP（SNS等）との接続情報（client_id, client_secret, 取得する属性等）を定義します
   - 基盤本体のIDデータベースとのインターフェイス（書き込み・読み込みする属性）を定義します
+
+## USER_EXTENSION_USERJOURNEYS  
+### 設定内容  
+- ユーザジャーニー
+  - アクション単位の動作フローを定義します  
+
+## USER_EXTENSION_RP_XX  
+### 設定内容  
+- アプリケーションとのインターフェイス定義  
+  - id_tokenに含める属性を定義します  
