@@ -1,0 +1,31 @@
+<TrustFrameworkPolicy
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
+    PolicySchemaVersion="0.3.0.0"
+    TenantId="kdxpoc.onmicrosoft.com"
+    PolicyId="B2C_1A_USER_EXTENSION_RP_PR"
+    PublicPolicyUri="http://kdxpoc.onmicrosoft.com/B2C_1A_USER_EXTENSION_RP_PR">
+  <BasePolicy>
+    <TenantId>kdxpoc.onmicrosoft.com</TenantId>
+    <PolicyId>B2C_1A_USER_EXTENSION_USERJOURNEYS</PolicyId>
+  </BasePolicy>
+  <!--
+      UserJourney
+      サンプル3: パスワード変更
+  -->
+  <RelyingParty>
+    <DefaultUserJourney ReferenceId="PasswordReset" />
+    <TechnicalProfile Id="PolicyProfile">
+      <DisplayName>PolicyProfile</DisplayName>
+      <Protocol Name="OpenIdConnect" />
+      <OutputClaims>
+        <OutputClaim ClaimTypeReferenceId="email" />
+        <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub" />
+        <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
+      </OutputClaims>
+      <SubjectNamingInfo ClaimType="sub" />
+    </TechnicalProfile>
+  </RelyingParty>
+
+</TrustFrameworkPolicy>

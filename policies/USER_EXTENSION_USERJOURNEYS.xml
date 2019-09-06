@@ -1,0 +1,278 @@
+<TrustFrameworkPolicy
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
+    PolicySchemaVersion="0.3.0.0"
+    TenantId="kdxpoc.onmicrosoft.com"
+    PolicyId="B2C_1A_USER_EXTENSION_USERJOURNEYS"
+    PublicPolicyUri="http://kdxpoc.onmicrosoft.com/B2C_1A_USER_EXTENSION_USERJOURNEYS">
+  <BasePolicy>
+    <TenantId>kdxpoc.onmicrosoft.com</TenantId>
+    <PolicyId>B2C_1A_USER_EXTENSION_BASE</PolicyId>
+  </BasePolicy>
+  <UserJourneys>
+    <!--
+        UserJourney
+        サンプル1: サインアップ/サインイン
+    -->
+    <UserJourney Id="SignUpOrSignIn">
+      <OrchestrationSteps>
+        <!--
+            Application Insightsにログイン要求を記録する
+        -->
+        <OrchestrationStep Order="1" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="TrackSignInRequest" TechnicalProfileReferenceId="AzureInsights-SignInRequest" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            IdP選択画面を表示する
+        -->
+        <OrchestrationStep Order="2" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
+          <!-- check existing session -->
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>AlternativeSecurityId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>objectId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsProviderSelections>
+            <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="TwitterExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="GoogleExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="LINEExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="YahooExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="AppleExchange" />
+            <ClaimsProviderSelection ValidationClaimsExchangeId="LocalAccountSigninEmailExchange" />
+          </ClaimsProviderSelections>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="LocalAccountSigninEmailExchange" TechnicalProfileReferenceId="SelfAsserted-LocalAccountSignin-Email" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            選択したIDプロバイダから属性を取得する
+        -->
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>AlternativeSecurityId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>objectId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="FacebookExchange" TechnicalProfileReferenceId="Facebook-OAUTH" />
+            <ClaimsExchange Id="TwitterExchange" TechnicalProfileReferenceId="Twitter-OAUTH1" />
+            <ClaimsExchange Id="GoogleExchange" TechnicalProfileReferenceId="Google-OAUTH" />
+            <ClaimsExchange Id="LINEExchange" TechnicalProfileReferenceId="LINE-OIDC" />
+            <ClaimsExchange Id="YahooExchange" TechnicalProfileReferenceId="YahooJAPAN-OAUTH" />
+            <ClaimsExchange Id="AppleExchange" TechnicalProfileReferenceId="Apple-OIDC" />
+            <ClaimsExchange Id="SignUpWithLogonEmailExchange" TechnicalProfileReferenceId="LocalAccountSignUpWithLogonEmail" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            ソーシャルログインをした場合、Azure Active Directory上に既に登録済みかどうか確認する
+        -->
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>authenticationSource</Value>
+              <Value>localAccountAuthentication</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AADUserReadUsingAlternativeSecurityId" TechnicalProfileReferenceId="AAD-UserReadUsingAlternativeSecurityId-NoError" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            新規ユーザだった場合、手動で属性を登録させる
+        -->
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>objectId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-Social" TechnicalProfileReferenceId="SelfAsserted-Social" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            ローカルアカウントだった場合、Azure Active Directoryから属性を取得する
+        -->
+        <OrchestrationStep Order="6" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>authenticationSource</Value>
+              <Value>socialIdpAuthentication</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AADUserReadWithObjectId" TechnicalProfileReferenceId="AAD-UserReadUsingObjectId" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            手動で入力した属性をAzure Active Direcotry上へ登録する
+        -->
+        <OrchestrationStep Order="7" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>objectId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AADUserWrite" TechnicalProfileReferenceId="AAD-UserWriteUsingAlternativeSecurityId" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            新規ユーザだった場合、Application Insightsに記録する
+        -->
+        <OrchestrationStep Order="8" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+              <Value>newUser</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>newUser</Value>
+              <Value>false</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="TrackUserSignUp" TechnicalProfileReferenceId="AzureInsights-UserSignup" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            id_tokenを発行する
+        -->
+        <OrchestrationStep Order="9" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
+        <!--
+            認証完了をApplication Insightsに記録する
+        -->
+        <OrchestrationStep Order="10" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="TrackSignInComplete" TechnicalProfileReferenceId="AzureInsights-SignInComplete" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+      </OrchestrationSteps>
+      <ClientDefinition ReferenceId="DefaultWeb" />
+    </UserJourney>
+
+    <!--
+        UserJourney
+        サンプル2: プロファイル変更
+    -->
+    <UserJourney Id="ProfileEdit">
+      <OrchestrationSteps>
+        <!--
+            IdP選択画面を表示する
+        -->
+        <OrchestrationStep Order="1" Type="ClaimsProviderSelection" ContentDefinitionReferenceId="api.idpselections">
+          <ClaimsProviderSelections>
+            <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="TwitterExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="GoogleExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="LINEExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="YahooExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="AppleExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="LocalAccountSigninEmailExchange" />
+          </ClaimsProviderSelections>
+        </OrchestrationStep>
+        <!--
+            選択したIDプロバイダから属性を取得する
+        -->
+        <OrchestrationStep Order="2" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="FacebookExchange" TechnicalProfileReferenceId="Facebook-OAUTH" />
+            <ClaimsExchange Id="TwitterExchange" TechnicalProfileReferenceId="Twitter-OAUTH1" />
+            <ClaimsExchange Id="GoogleExchange" TechnicalProfileReferenceId="Google-OAUTH" />
+            <ClaimsExchange Id="LINEExchange" TechnicalProfileReferenceId="LINE-OIDC" />
+            <ClaimsExchange Id="YahooExchange" TechnicalProfileReferenceId="YahooJAPAN-OAUTH" />
+            <ClaimsExchange Id="AppleExchange" TechnicalProfileReferenceId="Apple-OIDC" />
+            <ClaimsExchange Id="LocalAccountSigninEmailExchange" TechnicalProfileReferenceId="SelfAsserted-LocalAccountSignin-Email" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            ソーシャルログインをした場合、Azure Active Directory上に既に登録済みかどうか確認する
+        -->
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>authenticationSource</Value>
+              <Value>localAccountAuthentication</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AADUserRead" TechnicalProfileReferenceId="AAD-UserReadUsingAlternativeSecurityId" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            ローカルアカウントだった場合、Azure Active Directoryから属性を取得する
+        -->
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>authenticationSource</Value>
+              <Value>socialIdpAuthentication</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AADUserReadWithObjectId" TechnicalProfileReferenceId="AAD-UserReadUsingObjectId" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            属性を更新する
+        -->
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="B2CUserProfileUpdateExchange" TechnicalProfileReferenceId="SelfAsserted-ProfileUpdate" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <OrchestrationStep Order="6" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
+      </OrchestrationSteps>
+      <ClientDefinition ReferenceId="DefaultWeb" />
+    </UserJourney>
+
+    <!--
+        UserJourney
+        サンプル3: パスワード変更
+    -->
+    <UserJourney Id="PasswordReset">
+      <OrchestrationSteps>
+        <!--
+            メールアドレスをキーにユーザを検索する
+        -->
+        <OrchestrationStep Order="1" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="PasswordResetUsingEmailAddressExchange" TechnicalProfileReferenceId="LocalAccountDiscoveryUsingEmailAddress" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            新しいパスワードを書き込む
+        -->
+        <OrchestrationStep Order="2" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="NewCredentials" TechnicalProfileReferenceId="LocalAccountWritePasswordUsingObjectId" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <OrchestrationStep Order="3" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
+      </OrchestrationSteps>
+      <ClientDefinition ReferenceId="DefaultWeb" />
+    </UserJourney>
+  </UserJourneys>
+
+</TrustFrameworkPolicy>
