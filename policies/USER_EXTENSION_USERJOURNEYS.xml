@@ -3,11 +3,11 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
     PolicySchemaVersion="0.3.0.0"
-    TenantId="kdxpoc.onmicrosoft.com"
+    TenantId="yourtenant.onmicrosoft.com"
     PolicyId="B2C_1A_USER_EXTENSION_USERJOURNEYS"
-    PublicPolicyUri="http://kdxpoc.onmicrosoft.com/B2C_1A_USER_EXTENSION_USERJOURNEYS">
+    PublicPolicyUri="http://yourtenant.onmicrosoft.com/B2C_1A_USER_EXTENSION_USERJOURNEYS">
   <BasePolicy>
-    <TenantId>kdxpoc.onmicrosoft.com</TenantId>
+    <TenantId>yourtenant.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_USER_EXTENSION_BASE</PolicyId>
   </BasePolicy>
   <UserJourneys>
