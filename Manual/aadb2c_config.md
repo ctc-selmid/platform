@@ -20,7 +20,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 ### 設定内容  
 - スキーマ（カスタム属性）  
   - 標準外の属性を定義します
-- 属性変換ルール定義  
+- [属性変換ルール定義](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#%E5%B1%9E%E6%80%A7%E5%A4%89%E6%8F%9B%E3%83%AB%E3%83%BC%E3%83%AB%E5%AE%9A%E7%BE%A9claimstransformations%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)  
   - 属性値を変換する関数を定義します  
 - UI定義  
   - 各種画面テンプレートを定義します
