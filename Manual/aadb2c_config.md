@@ -37,6 +37,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
   - id_tokenに含める属性を定義します  
 
 # 各構成内容  
+※すべての設定可能項目を記載している訳ではありません。公式ドキュメントに記載されている設定項目はご利用いただけますが詳細はお問い合わせください。  
 ## USER_EXTENSION_BASE  
 ### スキーマ定義(`ClaimsSchema`エレメント配下)  
 - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）  
