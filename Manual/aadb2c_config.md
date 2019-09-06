@@ -39,7 +39,22 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 # 各構成内容  
 ## USER_EXTENSION_BASE  
 ### スキーマ定義  
-参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）  
+- 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）  
+- ClaimType IdのPrefixにより永続させる（Azure AD B2Cのデータベースのスキーマ拡張と属性値の保持）ことが出来るかどうかが決定されます  
+  - prefixなし : 非永続（カスタムポリシー内のみで利用可能）  
+  - extension_ : 永続化（Azure AD B2Cのデータベース内に保存可能）  
+- 例 1: 文字列属性（非永続）の定義  
+`      <ClaimType Id="sampleStringAttribute1">  
+        <DisplayName>sample string attribute1</DisplayName>  
+        <DataType>string</DataType>  
+        <UserInputType>TextBox</UserInputType>  
+      </ClaimType>`  
+- 例 2: 文字列属性（永続）の定義  
+`      <ClaimType Id="extension_samplePersistentAttribute">  
+        <DisplayName>sample persistent attribute</DisplayName>  
+        <DataType>string</DataType>  
+      </ClaimType>`  
+
 ### 属性変換ルール定義  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）  
 ### UI定義  
