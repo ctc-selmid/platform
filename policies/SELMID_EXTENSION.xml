@@ -357,12 +357,12 @@
         <TechnicalProfile Id="login-NonInteractive">
           <Metadata>
             <!-- Specify IEF/IEF Proxy Application Id -->
-            <Item Key="client_id">07a40349-3d8f-4f6a-926f-34d3faab610c</Item>
-            <Item Key="IdTokenAudience">08b8d840-2bbb-4f68-a225-3b6ef1fc57da</Item>
+            <Item Key="client_id">your_application_id</Item>
+            <Item Key="IdTokenAudience">your_application_id</Item>
           </Metadata>
           <InputClaims>
-            <InputClaim ClaimTypeReferenceId="client_id" DefaultValue="07a40349-3d8f-4f6a-926f-34d3faab610c" />
-            <InputClaim ClaimTypeReferenceId="resource_id" PartnerClaimType="resource" DefaultValue="08b8d840-2bbb-4f68-a225-3b6ef1fc57da" />
+            <InputClaim ClaimTypeReferenceId="client_id" DefaultValue="your_application_id" />
+            <InputClaim ClaimTypeReferenceId="resource_id" PartnerClaimType="resource" DefaultValue="your_application_id" />
           </InputClaims>
         </TechnicalProfile>
       </TechnicalProfiles>
@@ -378,8 +378,8 @@
         <TechnicalProfile Id="AAD-Common">
           <Metadata>
             <!-- Appication Id for writing extension attributes -->
-            <Item Key="ApplicationObjectId">522a1aec-8b83-4f6b-86bf-255f41817081</Item>
-            <Item Key="ClientId">2a2b91d1-fcab-40c7-b111-e8a48dcfa72a</Item>
+            <Item Key="ApplicationObjectId">your_application_id</Item>
+            <Item Key="ClientId">your_application_id</Item>
           </Metadata>
         </TechnicalProfile>
       </TechnicalProfiles>
@@ -394,7 +394,7 @@
         <TechnicalProfile Id="AzureInsights-Common">
           <Metadata>
             <!-- The ApplicationInsights instrumentation key which will be used for logging the events -->
-            <Item Key="InstrumentationKey">fd6c702f-ba70-4aad-ad9a-651aca897d0c</Item>
+            <Item Key="InstrumentationKey">your_instrumentationkey</Item>
             <!-- A Boolean that indicates whether developer mode is enabled. This controls how events are buffered. In a development environment with minimal event volume, enabling developer mode results in events being sent immediately to ApplicationInsights. -->
             <Item Key="DeveloperMode">true</Item>
             <!-- A Boolean that indicates whether telemetry should be enabled or not. -->
