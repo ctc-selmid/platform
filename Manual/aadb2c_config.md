@@ -131,6 +131,73 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 #### ユーザジャーニー定義（`UserJourneys`エレメント配下）  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/userjourneys)）  
 
+| 要素種別 | 定義項目 | 説明 |
+|:---|:---|:---|
+| 属性 | Id | UserJourneyの識別子 |
+| 要素 | OrchestrationSteps | UserJourneyを構成するオーケストレーションステップの定義 |
+
+OrchestrationsStepの構成要素
+
+| 要素種別 | 定義項目 | 説明 |
+|:---|:---|:---|
+| 属性 | Order | 実行順序 |
+| 属性 | Type | 実行するステップのタイプ<br>- ClaimsProviderSelection: IdP選択画面の表示<br>- CombinedSignInAndSignUp: サインアップ/サインイン画面の表示<br>- ClaimsExchange: ClaimsProviderと属性の交換<br>- SendClaims: id_tokenの発行 |
+| 属性 | ContentDefinitionReferenceId | ClaimsProviderSelection, CombinedSignInAndSignUpの際に表示するコンテンツ定義 |
+| 属性 | CpimIssuerTechnicalProfileReferenceId | SendClaimsの際に使うトークン定義 |
+| 要素 | Preconditions | ステップを実行する条件 |
+| 要素 | ClaimsProviderSelections | TargetClaimsExchangeIdに選択対象となるClaimsProviderのClaimsExchangeIdを指定 |
+| 要素 | ClaimsExchanges | 属性交換を行うClaimsProviderのTechnicalProfileを指定 |
+
+例 1: 外部IdPの選択画面を表示し、選択したIdPから属性を取得する  
+```
+<!-- IdP一覧の表示 -->
+<OrchestrationStep Order="1" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
+  <ClaimsProviderSelections>
+    <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange" />
+    <ClaimsProviderSelection TargetClaimsExchangeId="TwitterExchange" />
+    <ClaimsProviderSelection TargetClaimsExchangeId="GoogleExchange" />
+    <ClaimsProviderSelection TargetClaimsExchangeId="LINEExchange" />
+    <ClaimsProviderSelection TargetClaimsExchangeId="YahooExchange" />
+    <ClaimsProviderSelection TargetClaimsExchangeId="AppleExchange" />
+    <ClaimsProviderSelection ValidationClaimsExchangeId="LocalAccountSigninEmailExchange" />
+  </ClaimsProviderSelections>
+  <ClaimsExchanges>
+    <ClaimsExchange Id="LocalAccountSigninEmailExchange" TechnicalProfileReferenceId="SelfAsserted-LocalAccountSignin-Email" />
+  </ClaimsExchanges>
+</OrchestrationStep>
+<!-- 選択したIdPから属性を取得する -->
+<OrchestrationStep Order="2" Type="ClaimsExchange">
+  <ClaimsExchanges>
+    <ClaimsExchange Id="FacebookExchange" TechnicalProfileReferenceId="Facebook-OAUTH" />
+    <ClaimsExchange Id="TwitterExchange" TechnicalProfileReferenceId="Twitter-OAUTH1" />
+    <ClaimsExchange Id="GoogleExchange" TechnicalProfileReferenceId="Google-OAUTH" />
+    <ClaimsExchange Id="LINEExchange" TechnicalProfileReferenceId="LINE-OIDC" />
+    <ClaimsExchange Id="YahooExchange" TechnicalProfileReferenceId="YahooJAPAN-OAUTH" />
+    <ClaimsExchange Id="AppleExchange" TechnicalProfileReferenceId="Apple-OIDC" />
+    <ClaimsExchange Id="SignUpWithLogonEmailExchange" TechnicalProfileReferenceId="LocalAccountSignUpWithLogonEmail" />
+  </ClaimsExchanges>
+</OrchestrationStep>
+```
+
+Preconditionの構成要素
+
+| 要素種別 | 定義項目 | 説明 |
+|:---|:---|:---|
+| 属性 | type | 条件のタイプ<br>- ClaimsExist: 属性が存在するか<br>- ClaimEquals: 属性が等しいか |
+| 属性 | ExecuteActionsIf | 実行条件<br>- true: typeが真なら実行<br>- false: typeが偽なら実行 |
+| 要素 | Value | 判定対象の属性 |
+| 要素 | Action | 条件に合致した場合に実行するアクション<br>- SkipThisOrchestrationStep: ステップをスキップする |
+
+- 参考）Preconditionを複数指定した場合は各条件のorが取られる  
+例 2: objectIdが存在したらこのステップをスキップする  
+```
+<Preconditions>
+  <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+    <Value>objectId</Value>
+    <Action>SkipThisOrchestrationStep</Action>
+  </Precondition>
+</Preconditions>
+```
 
 
 ## USER_EXTENSION_RP_XX  
