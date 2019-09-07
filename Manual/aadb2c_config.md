@@ -24,7 +24,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
   - 属性値を変換する関数を定義します  
 - [UI定義](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#ui%E5%AE%9A%E7%BE%A9contentdefinitions%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)  
   - 各種画面テンプレートを定義します
-- 各種IdPとの接続情報  
+- [各種IdPとの接続情報](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#%E5%90%84%E7%A8%AEidp%E3%81%A8%E3%81%AE%E6%8E%A5%E7%B6%9A%E6%83%85%E5%A0%B1)  
   - 外部IdP（SNS等）との接続情報（client_id, client_secret, 取得する属性等）を定義します
   - 基盤本体のIDデータベースとのインターフェイス（書き込み・読み込みする属性）を定義します
 
@@ -103,7 +103,7 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
   - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/localization)）
 
 
-#### 各種IdPとの接続情報  
+#### 各種IdPとの接続情報（`ClaimsProviders`エレメント配下）  
 基本的に以下の情報を設定することで外部IdPと連携します。  
 
 | 設定項目 | 説明 | 取得元 | 設定箇所 |
@@ -128,8 +128,10 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 ### 設定内容  
 - ユーザジャーニー定義
   - アクション単位の動作フローを定義します  
-#### ユーザジャーニー定義  
+#### ユーザジャーニー定義（`UserJourneys`エレメント配下）  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/userjourneys)）  
+
+
 
 ## USER_EXTENSION_RP_XX  
 ### 設定内容  
