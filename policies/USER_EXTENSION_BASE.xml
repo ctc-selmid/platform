@@ -141,7 +141,12 @@
         <Metadata>
           <Item Key="DisplayName">Local account sign up page</Item>
         </Metadata>
-      </ContentDefinition>
+        <!-- ローカライズ設定 -->
+        <LocalizedResourcesReferences MergeBehavior="Prepend">
+          <LocalizedResourcesReference Language="en" LocalizedResourcesReferenceId="api.localaccountsignup.en" />
+          <LocalizedResourcesReference Language="ja" LocalizedResourcesReferenceId="api.localaccountsignup.ja" />
+        </LocalizedResourcesReferences>
+        </ContentDefinition>
       <!-- ローカルアカウントのパスワードリセット時のUI  -->
       <ContentDefinition Id="api.localaccountpasswordreset">
         <LoadUri>~/tenant/templates/AzureBlue/selfAsserted.cshtml</LoadUri>
@@ -167,6 +172,39 @@
         </Metadata>
       </ContentDefinition>
     </ContentDefinitions>
+
+    <!--
+        カスタムUIのローカライゼーション設定
+
+    -->
+    <Localization Enabled="true">
+      <!-- サポートする言語 -->
+      <SupportedLanguages DefaultLanguage="ja" MergeBehavior="ReplaceAll">
+        <SupportedLanguage>en</SupportedLanguage>
+        <SupportedLanguage>ja</SupportedLanguage>
+      </SupportedLanguages>
+      <!-- 英語 -->
+      <LocalizedResources Id="api.localaccountsignup.en">
+        <LocalizedStrings>
+          <LocalizedString ElementType="ClaimType" ElementId="email" StringId="DisplayName">Email</LocalizedString>
+        <LocalizedString ElementType="ClaimType" ElementId="email" StringId="UserHelpText">Please enter your email</LocalizedString>
+          <LocalizedString ElementType="ClaimType" ElementId="email" StringId="PatternHelpText">Please enter a valid email address</LocalizedString>
+          <LocalizedString ElementType="UxElement" StringId="button_continue">Create new account</LocalizedString>
+        <LocalizedString ElementType="ErrorMessage" StringId="UserMessageIfClaimsPrincipalAlreadyExists">The account you are trying to create already exists, please sign-in.</LocalizedString>
+        </LocalizedStrings>
+      </LocalizedResources>
+      <!-- 日本語 -->
+      <LocalizedResources Id="api.localaccountsignup.ja">
+        <LocalizedStrings>
+          <LocalizedString ElementType="ClaimType" ElementId="email" StringId="DisplayName">電子メールアドレス</LocalizedString>
+        <LocalizedString ElementType="ClaimType" ElementId="email" StringId="UserHelpText">電子メールアドレスを入力してください</LocalizedString>
+          <LocalizedString ElementType="ClaimType" ElementId="email" StringId="PatternHelpText">正しい電子メールアドレス形式で入力してください</LocalizedString>
+          <LocalizedString ElementType="UxElement" StringId="button_continue">新しいアカウントを作成する</LocalizedString>
+        <LocalizedString ElementType="ErrorMessage" StringId="UserMessageIfClaimsPrincipalAlreadyExists">作成しようとしたアカウントは既に存在します。サインインしてください。</LocalizedString>
+        </LocalizedStrings>
+      </LocalizedResources>
+    </Localization>
+    
   </BuildingBlocks>
 
   <!--
