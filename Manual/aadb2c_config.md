@@ -22,7 +22,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
   - 標準外の属性を定義します
 - [属性変換ルール定義](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#%E5%B1%9E%E6%80%A7%E5%A4%89%E6%8F%9B%E3%83%AB%E3%83%BC%E3%83%AB%E5%AE%9A%E7%BE%A9claimstransformations%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)  
   - 属性値を変換する関数を定義します  
-- UI定義  
+- [UI定義](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#ui%E5%AE%9A%E7%BE%A9contentdefinitions%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)  
   - 各種画面テンプレートを定義します
 - 各種IdPとの接続情報  
   - 外部IdP（SNS等）との接続情報（client_id, client_secret, 取得する属性等）を定義します
@@ -82,10 +82,10 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 本項目ではUIのテンプレートとローカライゼーションを行います。  
 - UIテンプレートの定義
   - htmlテンプレートを作成し、Azure Storageへ格納します  
-  - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/active-directory-b2c-ui-customization-custom)
+  - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/active-directory-b2c-ui-customization-custom)）
 - ローカライゼーションの定義  
   - `Localization`エレメント配下に各言語に対応した`ContentDefinition`を用意し、`LocalizedResourcesReferences`に作成したコンテンツ定義の`LocalizedResourcesReferenceId`を指定します  
-  - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/localization)
+  - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/localization)）
 
 
 #### 各種IdPとの接続情報  
