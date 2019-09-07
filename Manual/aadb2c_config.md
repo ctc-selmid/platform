@@ -188,7 +188,7 @@ Preconditionの構成要素
 | 要素 | Value | 判定対象の属性 |
 | 要素 | Action | 条件に合致した場合に実行するアクション<br>- SkipThisOrchestrationStep: ステップをスキップする |
 
-- 参考）Preconditionを複数指定した場合は各条件のorが取られる  
+参考）Preconditionを複数指定した場合は各条件のorが取られる  
 例 2: objectIdが存在したらこのステップをスキップする  
 ```
 <Preconditions>
@@ -203,6 +203,50 @@ Preconditionの構成要素
 ## USER_EXTENSION_RP_XX  
 ### 設定内容  
 - アプリケーションとのインターフェイス定義  
+  - 実行するuserJourneyを定義します
   - id_tokenに含める属性を定義します  
-#### アプリケーションとのインターフェイス定義  
+
+#### アプリケーションとのインターフェイス定義（`RelyingParty`エレメント配下）  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/relyingparty)）  
+
+| 要素種別 | 定義項目 | 説明 |
+|:---|:---|:---|
+| 要素 | DefaultUserJourney | 実行されるUserJourneyの識別子 |
+| 要素 | UserJourneyBehaviors | UserJourney実行時の振る舞い（シングルサインオン、セッション）の定義 |
+| 要素 | TechnicalProfile | アプリケーションとのインターフェイス定義（プロトコル、id_tokenに含める属性） |
+
+TechnicalProfileの構成要素
+
+| 要素種別 | 定義項目 | 説明 |
+|:---|:---|:---|
+| 属性 | Id | TechnicalProfileの識別子 |
+| 構成要素 | DisplayName | TechnicalProfileの表示名 |
+| 構成要素 | Protocol | アプリケーションとの連携するプロトコル<br>- OpenIdConnect<br>- SAML2 |
+| 構成要素 | OutputClaims | トークンに含める属性 |
+| 構成要素 | SubjectNamingInfo | ネーミング属性とする属性名(sub) |
+
+例 1: サインアップ/サインインを行う。OpenID Connect RPとの連携設定  
+```
+<RelyingParty>
+  <DefaultUserJourney ReferenceId="SignUpOrSignIn" />
+  <UserJourneyBehaviors>
+    <SingleSignOn Scope="TrustFramework" KeepAliveInDays="7" />
+    <SessionExpiryType>Rolling</SessionExpiryType>
+    <SessionExpiryInSeconds>1800</SessionExpiryInSeconds>
+  </UserJourneyBehaviors>
+  <TechnicalProfile Id="PolicyProfile">
+    <DisplayName>PolicyProfile</DisplayName>
+    <Protocol Name="OpenIdConnect" />
+    <OutputClaims>
+      <OutputClaim ClaimTypeReferenceId="displayName" />
+      <OutputClaim ClaimTypeReferenceId="givenName" />
+      <OutputClaim ClaimTypeReferenceId="surname" />
+      <OutputClaim ClaimTypeReferenceId="email" />
+      <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub" />
+      <OutputClaim ClaimTypeReferenceId="identityProvider" />
+      <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
+    </OutputClaims>
+    <SubjectNamingInfo ClaimType="sub" />
+  </TechnicalProfile>
+</RelyingParty>
+```
