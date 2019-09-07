@@ -100,6 +100,13 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 以下の外部IdPとの接続に対応しています。（随時追加）  
 
 | Identity Provider名 | プロトコル | 設定する情報 | IdP側の設定手順 |
+|:---|:---|:---|:---|
+| Facebook | OAuth2.0 | client_id, client_secret, scope, ClaimsEndpoint | - |
+| Twitter | OAuth1.0a | client_id, client_secret | - |
+| Google | OAuth2.0 | client_id, client_secret | - |
+| LINE | OpenID Connect | client_id, client_secret, scope | - |
+| Yahoo! JAPAN | OAuth2.0 | client_id, client_secret, scope | - |
+| Apple<br>*テスト実装 | OpenID Connect | client_id, client_secret, scope | - |
 
 
 ## USER_EXTENSION_USERJOURNEYS  
