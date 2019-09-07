@@ -17,7 +17,6 @@
         ClaimType
             Id : 属性名を定義します。永続属性としてIDデータベースへ保存する場合は接頭辞として「extension_」をつける必要があります
         DisplayName : UIに属性を表示する場合のラベルとなる文字列を指定します
-            ##TODO: 多言語の場合の定義方法の記載
         DataType : 属性値の型を指定します。
             string : 文字列
             boolean : bool値
@@ -55,7 +54,6 @@
         ClaimsTransformation
             Id : 関数名を指定します
             TransformationMethod : 関数タイプを指定します
-                ##TODO : 指定できる関数タイプ一覧の記載
         InputClaim : 入力属性を指定します
             ClaimTypeReferenceId : 属性名を指定します
             TransformationClaimType : 関数内で使用する属性の型を指定します
@@ -175,7 +173,6 @@
 
     <!--
         カスタムUIのローカライゼーション設定
-
     -->
     <Localization Enabled="true">
       <!-- サポートする言語 -->
@@ -347,7 +344,6 @@
           <Metadata>
             <!--
                 ユーザが登録されていなかった場合のエラーメッセージ
-                ##TODO : 多言語対応
             -->
             <Item Key="UserMessageIfClaimsPrincipalDoesNotExist">User does not exist. Please sign up before you can sign in.</Item>
           </Metadata>
@@ -368,7 +364,6 @@
           <Metadata>
             <!--
                 既にユーザが登録されていた場合のエラーメッセージ
-                ##TODO : 多言語対応
             -->
             <Item Key="UserMessageIfClaimsPrincipalAlreadyExists">You are already registered, please press the back button and sign in instead.</Item>
           </Metadata>
@@ -389,7 +384,6 @@
           <Metadata>
             <!--
                 ユーザが登録されていなかった場合のエラーメッセージ
-                ##TODO : 多言語対応
             -->
             <Item Key="UserMessageIfClaimsPrincipalDoesNotExist">An account could not be found for the provided user ID.</Item>
           </Metadata>
@@ -428,7 +422,6 @@
           <Metadata>
             <!--
                 ユーザが登録されていなかった場合のエラーメッセージ
-                ##TODO : 多言語対応
             -->
             <Item Key="UserMessageIfClaimsPrincipalDoesNotExist">An account could not be found for the provided objectId.</Item>
           </Metadata>
