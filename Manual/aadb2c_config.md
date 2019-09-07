@@ -76,6 +76,21 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 | CreateUserIdForMFA | 多要素認証用のuserId属性を生成します<br>{objectId}@{tenant名}の形式 | objectId | userIdForMFA |
 | CopyEmailToReadOnly | email属性の値をreadOnlyEmail属性にコピーします | email | readOnlyEmail |
 
+- 例 : 入力属性値にprefix_をつけて返却する  
+```
+<ClaimsTransformation Id="sampleFormatTransformation" TransformationMethod="FormatStringClaim">
+  <InputClaims>
+    <InputClaim ClaimTypeReferenceId="sampleStringAttribute1" TransformationClaimType="inputClaim" />
+  </InputClaims>
+  <InputParameters>
+    <InputParameter Id="stringFormat" DataType="string" Value="prefix_{0}" />
+  </InputParameters>
+  <OutputClaims>
+    <OutputClaim ClaimTypeReferenceId="sampleStringAttribute2" TransformationClaimType="outputClaim" />
+  </OutputClaims>
+</ClaimsTransformation>
+```
+
 
 #### UI定義（`ContentDefinitions`エレメント配下）  
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/contentdefinitions)）  
