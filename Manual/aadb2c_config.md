@@ -89,6 +89,18 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 
 
 #### 各種IdPとの接続情報  
+基本的に以下の情報を設定することで外部IdPと連携します。  
+
+| 設定項目 | 説明 | 取得元 | 設定箇所 |
+|:---|:---|:---|:---|
+| client_id | SELMIDをclient（外部IdPから見たアクセス元アプリケーション）として識別するためのID | 外部IdP | SELMID/USER_EXTENSION_BASE |
+| client_secret | SELMIDを正しいclientとして認証するためのシークレット | 外部IdP | SELMID/管理コンソールのポリシーキー |
+| redirect_uri | 外部IdPからの戻り先URL（SELMIDのURL） | SELMID<br>`https://yourtenant.b2clogin.com/yourtenant.onmicrosoft.com/oauth2/authresp`を使用 | 外部IdP |
+
+以下の外部IdPとの接続に対応しています。（随時追加）  
+
+| Identity Provider名 | プロトコル | 設定する情報 | IdP側の設定手順 |
+
 
 ## USER_EXTENSION_USERJOURNEYS  
 ### 設定内容  
