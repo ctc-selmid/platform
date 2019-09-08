@@ -75,6 +75,11 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 | AssertAccountEnabledIsTrue | accountEnabled属性がtrueならtrueを返却します | accountEnabled | True/False |
 | CreateUserIdForMFA | 多要素認証用のuserId属性を生成します<br>{objectId}@{tenant名}の形式 | objectId | userIdForMFA |
 | CopyEmailToReadOnly | email属性の値をreadOnlyEmail属性にコピーします | email | readOnlyEmail |
+| GetCurrentDateTime | 現在の日付・時刻を取得し規約に同意した日付・時刻として記録します | - | extension_termsOfUseConsentDateTime |
+| IsTermsOfUseConsentRequiredForDateTime | ユーザの同意記録と最新の規約の更新日付・時刻を比較して追加の同意の必要性を判別します | extension_termsOfUseConsentDateTime | termsOfUseConsentRequired |
+| GetCurrentTermsOfUseVersion | 現在の最新の規約バージョンを取得し同意したバージョンの規約として記録します | - | extension_termsOfUseConsentVersion |
+| IsTermsOfUseConsentRequiredForVersion | ユーザの同意記録と最新の規約の更新バージョンを比較して追加の同意の必要性を判別します | extension_termsOfUseConsentVersion | termsOfUseConsentRequired |
+
 
 - 例 : 入力属性値にprefix_をつけて返却する  
 ```
