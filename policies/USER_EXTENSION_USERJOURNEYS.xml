@@ -1,18 +1,25 @@
+<!--
+  デプロイ時の手順
+  - テナント名の置換:
+    - B2Cテナント : yourtenant.onmicrosoft.com
+  ※詳細な説明は以下のURLを参照
+    https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md
+-->
 <TrustFrameworkPolicy
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
-    PolicySchemaVersion="0.3.0.0"
-    TenantId="yourtenant.onmicrosoft.com"
-    PolicyId="B2C_1A_USER_EXTENSION_USERJOURNEYS"
-    PublicPolicyUri="http://yourtenant.onmicrosoft.com/B2C_1A_USER_EXTENSION_USERJOURNEYS">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
+  PolicySchemaVersion="0.3.0.0"
+  TenantId="yourtenant.onmicrosoft.com"
+  PolicyId="B2C_1A_USER_EXTENSION_USERJOURNEYS"
+  PublicPolicyUri="http://yourtenant.onmicrosoft.com/B2C_1A_USER_EXTENSION_USERJOURNEYS" >
   <BasePolicy>
     <TenantId>yourtenant.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_USER_EXTENSION_BASE</PolicyId>
   </BasePolicy>
   <UserJourneys>
     <!--
-        UserJourney
+        UserJourney: SignUpOrSignIn
         サンプル1: サインアップ/サインイン
     -->
     <UserJourney Id="SignUpOrSignIn">
@@ -169,9 +176,8 @@
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb" />
     </UserJourney>
-
     <!--
-        UserJourney
+        UserJourney: ProfileEdit
         サンプル2: プロファイル変更
     -->
     <UserJourney Id="ProfileEdit">
@@ -246,9 +252,8 @@
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb" />
     </UserJourney>
-
     <!--
-        UserJourney
+        UserJourney: PasswordReset
         サンプル3: パスワード変更
     -->
     <UserJourney Id="PasswordReset">
@@ -273,6 +278,101 @@
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb" />
     </UserJourney>
+    <!--
+      UserJourney: SignUpOrSignInToU
+      サンプル4: 規約への同意
+    -->
+    <UserJourney Id="SignUpOrSignInToU">
+      <OrchestrationSteps>
+        <!--
+            IdP選択画面を表示する
+        -->
+        <OrchestrationStep Order="1" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
+          <ClaimsProviderSelections>
+            <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="TwitterExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="GoogleExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="LINEExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="YahooExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="AppleExchange" />
+            <ClaimsProviderSelection ValidationClaimsExchangeId="LocalAccountSigninEmailExchange" />
+          </ClaimsProviderSelections>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="LocalAccountSigninEmailExchange" TechnicalProfileReferenceId="SelfAsserted-LocalAccountSignin-Email" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            選択したIDプロバイダから属性を取得する
+        -->
+        <OrchestrationStep Order="2" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="FacebookExchange" TechnicalProfileReferenceId="Facebook-OAUTH" />
+            <ClaimsExchange Id="TwitterExchange" TechnicalProfileReferenceId="Twitter-OAUTH1" />
+            <ClaimsExchange Id="GoogleExchange" TechnicalProfileReferenceId="Google-OAUTH" />
+            <ClaimsExchange Id="LINEExchange" TechnicalProfileReferenceId="LINE-OIDC" />
+            <ClaimsExchange Id="YahooExchange" TechnicalProfileReferenceId="YahooJAPAN-OAUTH" />
+            <ClaimsExchange Id="AppleExchange" TechnicalProfileReferenceId="Apple-OIDC" />
+            <ClaimsExchange Id="SignUpWithLogonEmailExchange" TechnicalProfileReferenceId="LocalAccountSignUpWithLogonEmail" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!-- ソーシャルの場合：ユーザ情報の取得 -->
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+              <Value>authenticationSource</Value>
+              <Value>localAccountAuthentication</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="AADUserReadUsingAlternativeSecurityId" TechnicalProfileReferenceId="AAD-UserReadUsingAlternativeSecurityId-NoError" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!-- 新規ユーザなら属性登録を行う -->
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
+              <Value>objectId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="SelfAsserted-Social" TechnicalProfileReferenceId="SelfAsserted-Social" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!-- 同意の状態を取得する -->
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimsExist" ExecuteActionsIf="false">
+              <Value>objectId</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="Check-TOU-Status" TechnicalProfileReferenceId="Check-TOU-Status-by-Version" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            同意が必要なら規約を表示する
+        -->
+        <OrchestrationStep Order="6" Type="ClaimsExchange">
+          <Preconditions>
+            <Precondition Type="ClaimEquals" ExecuteActionsIf="false">
+              <Value>termsOfUseConsentRequired</Value>
+              <Value>True</Value>
+              <Action>SkipThisOrchestrationStep</Action>
+            </Precondition>
+          </Preconditions>
+          <ClaimsExchanges>
+            <ClaimsExchange Id="ShowToUConsentPage" TechnicalProfileReferenceId="SelfAsserted-Input-ToU-SignIn" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <!--
+            id_tokenを発行する
+        -->
+        <OrchestrationStep Order="7" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
+      </OrchestrationSteps>
+      <ClientDefinition ReferenceId="DefaultWeb" />
+    </UserJourney>
   </UserJourneys>
-
 </TrustFrameworkPolicy>
