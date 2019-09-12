@@ -6,7 +6,7 @@
   - Public：ネイティブ、SPAなどclient_secretの安全に保存できないサービス  
 - 言語、フレームワーク  
   - 利用するライブラリの検討  
-    [公式ページ](https://docs.microsoft.com/ja-jp/azure/active-directory/develop/reference-v2-libraries]  
+    [公式ページ](https://docs.microsoft.com/ja-jp/azure/active-directory/develop/reference-v2-libraries)  
 
 ### Azure AD B2C側の設定   
 - アプリケーションの登録  
