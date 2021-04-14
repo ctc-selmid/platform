@@ -1,39 +1,39 @@
-# ID基盤の構成  
-Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシーを利用してSELMIDの振る舞いの設定を行います。  
+# ID基盤の構成
+Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシーを利用してSELMIDの振る舞いの設定を行います。
 
-## カスタムポリシーの構造  
+## カスタムポリシーの構造
 以下のカスタムポリシーが提供されます。
 
 | ポリシー名 | 契約企業様による編集可否 | 定義内容 |
 |:---|:---|:---|
 | BASE | 不可 | 基本動作に必要な定義 |
 | SELMID_EXTENSION | 不可 | CTC拡張機能の定義 |
-| [USER_EXTENSION_BASE](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#user_extension_base) | 可 | 契約企業様毎の設定（スキーマ、UI定義、各種IdPの接続情報） |
-| [USER_EXTENSION_USERJOURNEYS](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#user_extension_userjourneys) | 可 | 契約企業様毎のユーザジャーニーの設定 |
-| [USER_EXTENSION_RP_XX](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#user_extension_rp_xx) | 可 | 契約企業様毎のアプリケーションとの連携設定（呼び出すポリシー単位で作成） |
-- 編集不可となっているポリシーの修正～アップロードを行った場合、動作の保証がされません。  
-- 基本的に上位のポリシーを下位のポリシーがオーバーライドします。  
+| [USER_EXTENSION_BASE](./aadb2c_config.md#user_extension_base) | 可 | 契約企業様毎の設定（スキーマ、UI定義、各種IdPの接続情報） |
+| [USER_EXTENSION_USERJOURNEYS](./aadb2c_config.md#user_extension_userjourneys) | 可 | 契約企業様毎のユーザジャーニーの設定 |
+| [USER_EXTENSION_RP_XX](./aadb2c_config.md#user_extension_rp_xx) | 可 | 契約企業様毎のアプリケーションとの連携設定（呼び出すポリシー単位で作成） |
+- 編集不可となっているポリシーの修正～アップロードを行った場合、動作の保証がされません。
+- 基本的に上位のポリシーを下位のポリシーがオーバーライドします。
 
-# 各構成内容  
-※すべての設定可能項目を記載している訳ではありません。公式ドキュメントに記載されている設定項目はご利用いただけますが詳細はお問い合わせください。  
-## USER_EXTENSION_BASE  
-### 設定内容  
-- [スキーマ（カスタム属性）](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E5%AE%9A%E7%BE%A9claimsschema%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)  
+# 各構成内容
+※すべての設定可能項目を記載している訳ではありません。公式ドキュメントに記載されている設定項目はご利用いただけますが詳細はお問い合わせください。
+## USER_EXTENSION_BASE
+### 設定内容
+- [スキーマ（カスタム属性）](./aadb2c_config.md#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E5%AE%9A%E7%BE%A9claimsschema%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)
   - 標準外の属性を定義します
-- [属性変換ルール定義](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#%E5%B1%9E%E6%80%A7%E5%A4%89%E6%8F%9B%E3%83%AB%E3%83%BC%E3%83%AB%E5%AE%9A%E7%BE%A9claimstransformations%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)  
-  - 属性値を変換する関数を定義します  
-- [UI定義](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#ui%E5%AE%9A%E7%BE%A9contentdefinitions%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)  
+- [属性変換ルール定義](./aadb2c_config.md#%E5%B1%9E%E6%80%A7%E5%A4%89%E6%8F%9B%E3%83%AB%E3%83%BC%E3%83%AB%E5%AE%9A%E7%BE%A9claimstransformations%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)
+  - 属性値を変換する関数を定義します
+- [UI定義](./aadb2c_config.md#ui%E5%AE%9A%E7%BE%A9contentdefinitions%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)
   - 各種画面テンプレートを定義します
-- [各種IdPとの接続情報](https://github.com/ctc-selmid/platform/blob/master/Manual/aadb2c_config.md#%E5%90%84%E7%A8%AEidp%E3%81%A8%E3%81%AE%E6%8E%A5%E7%B6%9A%E6%83%85%E5%A0%B1)  
+- [各種IdPとの接続情報](./aadb2c_config.md#%E5%90%84%E7%A8%AEidp%E3%81%A8%E3%81%AE%E6%8E%A5%E7%B6%9A%E6%83%85%E5%A0%B1)
   - 外部IdP（SNS等）との接続情報（client_id, client_secret, 取得する属性等）を定義します
   - 基盤本体のIDデータベースとのインターフェイス（書き込み・読み込みする属性）を定義します
 
-#### スキーマ定義(`ClaimsSchema`エレメント配下)  
-- 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）  
-- 注意点) ClaimType IdのPrefixにより永続させる（Azure AD B2Cのデータベースのスキーマ拡張と属性値の保持）ことが出来るかどうかが決定されます  
-  - prefixなし : 非永続（カスタムポリシー内のみで利用可能）  
-  - extension_ : 永続化（Azure AD B2Cのデータベース内に保存可能）  
-- 定義内容  
+#### スキーマ定義(`ClaimsSchema`エレメント配下)
+- 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）
+- 注意点) ClaimType IdのPrefixにより永続させる（Azure AD B2Cのデータベースのスキーマ拡張と属性値の保持）ことが出来るかどうかが決定されます
+  - prefixなし : 非永続（カスタムポリシー内のみで利用可能）
+  - extension_ : 永続化（Azure AD B2Cのデータベース内に保存可能）
+- 定義内容
 
 | 要素種別 | 定義項目 | 説明 |
 |:---|:---|:---|
@@ -45,7 +45,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 || UserInputType | ユーザが値を入力する場合に使うフォームの型<br>- TextBox: テキストボックス<br>- EmailBox: メールアドレス<br>- Password: パスワード<br>- DateTimeDropdown: 日付と時刻の選択<br>- RadioSingleSelect: ラジオボタン<br>- DropdownSingleSelect: ドロップダウンリスト（単一選択）<br>- CheckboxMultiSelect: チェックボックス（複数選択）<br>- Readonly: 表示のみ<br>- Paragraph:メッセージ表示  |
 || Restriction | 入力値を制限する際に使う正規表現 |
 
-- 例 1: 文字列属性（非永続）の定義  
+- 例 1: 文字列属性（非永続）の定義
 ```
 <ClaimType Id="sampleStringAttribute1">
    <DisplayName>sample string attribute1</DisplayName>
@@ -53,7 +53,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
    <UserInputType>TextBox</UserInputType>
 </ClaimType>
 ```
-- 例 2: 文字列属性（永続）の定義  
+- 例 2: 文字列属性（永続）の定義
 ```
 <ClaimType Id="extension_samplePersistentAttribute">
    <DisplayName>sample persistent attribute</DisplayName>
@@ -62,9 +62,9 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 ```
 
 
-#### 属性変換ルール定義（`ClaimsTransformations`エレメント配下）  
-参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）　 
-SELMIDでは以下の属性変換ルールをビルトインしています。まずはビルトインルールで要件が満たせるかどうかご検討ください。  
+#### 属性変換ルール定義（`ClaimsTransformations`エレメント配下）
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）
+SELMIDでは以下の属性変換ルールをビルトインしています。まずはビルトインルールで要件が満たせるかどうかご検討ください。
 
 | ルール名 | 動作概要 | 入力 | 出力 |
 |:---|:---|:---|:---|
@@ -81,7 +81,7 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 | IsTermsOfUseConsentRequiredForVersion | ユーザの同意記録と最新の規約の更新バージョンを比較して追加の同意の必要性を判別します | extension_termsOfUseConsentVersion | termsOfUseConsentRequired |
 
 
-- 例 : 入力属性値にprefix_をつけて返却する  
+- 例 : 入力属性値にprefix_をつけて返却する
 ```
 <ClaimsTransformation Id="sampleFormatTransformation" TransformationMethod="FormatStringClaim">
   <InputClaims>
@@ -97,19 +97,19 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 ```
 
 
-#### UI定義（`ContentDefinitions`エレメント配下）  
-参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/contentdefinitions)）  
-本項目ではUIのテンプレートとローカライゼーションを行います。  
+#### UI定義（`ContentDefinitions`エレメント配下）
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/contentdefinitions)）
+本項目ではUIのテンプレートとローカライゼーションを行います。
 - UIテンプレートの定義
-  - htmlテンプレートを作成し、Azure Storageへ格納します  
+  - htmlテンプレートを作成し、Azure Storageへ格納します
   - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/active-directory-b2c-ui-customization-custom)）
-- ローカライゼーションの定義  
-  - `Localization`エレメント配下に各言語に対応した`ContentDefinition`を用意し、`LocalizedResourcesReferences`に作成したコンテンツ定義の`LocalizedResourcesReferenceId`を指定します  
+- ローカライゼーションの定義
+  - `Localization`エレメント配下に各言語に対応した`ContentDefinition`を用意し、`LocalizedResourcesReferences`に作成したコンテンツ定義の`LocalizedResourcesReferenceId`を指定します
   - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/localization)）
 
 
-#### 各種IdPとの接続情報（`ClaimsProviders`エレメント配下）  
-基本的に以下の情報を設定することで外部IdPと連携します。  
+#### 各種IdPとの接続情報（`ClaimsProviders`エレメント配下）
+基本的に以下の情報を設定することで外部IdPと連携します。
 
 | 設定項目 | 説明 | 取得元 | 設定箇所 |
 |:---|:---|:---|:---|
@@ -117,7 +117,7 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 | client_secret | SELMIDを正しいclientとして認証するためのシークレット | 外部IdP | SELMID/管理コンソールのポリシーキー |
 | redirect_uri | 外部IdPからの戻り先URL（SELMIDのURL） | SELMID<br>`https://yourtenant.b2clogin.com/yourtenant.onmicrosoft.com/oauth2/authresp`を使用 | 外部IdP |
 
-以下の外部IdPとの接続に対応しています。（随時追加）  
+以下の外部IdPとの接続に対応しています。（随時追加）
 
 | Identity Provider名 | プロトコル | 設定する情報 | 取得できる属性 | IdP側の設定手順 |
 |:---|:---|:---|:---|:---|
@@ -129,12 +129,12 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 | Apple<br>*テスト実装 | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br> | [Sign in with Apple](https://developer.apple.com/sign-in-with-apple/) |
 
 
-## USER_EXTENSION_USERJOURNEYS  
-### 設定内容  
+## USER_EXTENSION_USERJOURNEYS
+### 設定内容
 - ユーザジャーニー定義
-  - アクション単位の動作フローを定義します  
-#### ユーザジャーニー定義（`UserJourneys`エレメント配下）  
-参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/userjourneys)）  
+  - アクション単位の動作フローを定義します
+#### ユーザジャーニー定義（`UserJourneys`エレメント配下）
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/userjourneys)）
 
 | 要素種別 | 定義項目 | 説明 |
 |:---|:---|:---|
@@ -153,7 +153,7 @@ OrchestrationsStepの構成要素
 | 要素 | ClaimsProviderSelections | TargetClaimsExchangeIdに選択対象となるClaimsProviderのClaimsExchangeIdを指定 |
 | 要素 | ClaimsExchanges | 属性交換を行うClaimsProviderのTechnicalProfileを指定 |
 
-例 1: 外部IdPの選択画面を表示し、選択したIdPから属性を取得する  
+例 1: 外部IdPの選択画面を表示し、選択したIdPから属性を取得する
 ```
 <!-- IdP一覧の表示 -->
 <OrchestrationStep Order="1" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
@@ -193,8 +193,8 @@ Preconditionの構成要素
 | 要素 | Value | 判定対象の属性 |
 | 要素 | Action | 条件に合致した場合に実行するアクション<br>- SkipThisOrchestrationStep: ステップをスキップする |
 
-参考）Preconditionを複数指定した場合は各条件のorが取られる  
-例 2: objectIdが存在したらこのステップをスキップする  
+参考）Preconditionを複数指定した場合は各条件のorが取られる
+例 2: objectIdが存在したらこのステップをスキップする
 ```
 <Preconditions>
   <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
@@ -205,14 +205,14 @@ Preconditionの構成要素
 ```
 
 
-## USER_EXTENSION_RP_XX  
-### 設定内容  
-- アプリケーションとのインターフェイス定義  
+## USER_EXTENSION_RP_XX
+### 設定内容
+- アプリケーションとのインターフェイス定義
   - 実行するuserJourneyを定義します
-  - id_tokenに含める属性を定義します  
+  - id_tokenに含める属性を定義します
 
-#### アプリケーションとのインターフェイス定義（`RelyingParty`エレメント配下）  
-参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/relyingparty)）  
+#### アプリケーションとのインターフェイス定義（`RelyingParty`エレメント配下）
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/relyingparty)）
 
 | 要素種別 | 定義項目 | 説明 |
 |:---|:---|:---|
@@ -230,7 +230,7 @@ TechnicalProfileの構成要素
 | 構成要素 | OutputClaims | トークンに含める属性 |
 | 構成要素 | SubjectNamingInfo | ネーミング属性とする属性名(sub) |
 
-例 1: サインアップ/サインインを行う。OpenID Connect RPとの連携設定  
+例 1: サインアップ/サインインを行う。OpenID Connect RPとの連携設定
 ```
 <RelyingParty>
   <DefaultUserJourney ReferenceId="SignUpOrSignIn" />
