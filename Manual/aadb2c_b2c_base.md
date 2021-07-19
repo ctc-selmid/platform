@@ -1,6 +1,6 @@
-# B2C_BASE_V3
+# B2C_BASE_V4
  - Azure AD B2Cで標準で用意されている または 標準的な機能に関する各定義を行うファイル。
- - バージョン：3
+ - バージョン：4
 
 ## <a id="claimtype"></a> ClaimType定義(`ClaimsSchema`エレメント配下)
 | ID | 概要 |
@@ -47,6 +47,8 @@
 | <a id="alternativesecurityid"/>alternativeSecurityId | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | <a id="alternativesecurityids"/>alternativeSecurityIds | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | displayName | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
+| givenName | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
+| surname | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | mailNickName | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | objectId | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | otherMails | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
@@ -54,6 +56,7 @@
 | passwordPolicies | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | signInNames.emailAddress | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | strongAuthenticationPhoneNumber | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
+| refreshTokensValidFromDateTime | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 
 ## <a id="claimstransformations"></a>属性変換ルール定義（`ClaimsTransformations`エレメント配下）
 | ID | 動作概要 | 入力 | 出力 |
@@ -74,16 +77,16 @@
 ## UI定義（`ContentDefinitions`エレメント配下）
 | ID | 概要 | DataUri |
 |:---|:---|:---|
-| api.error | エラー ページ - 例外またはエラーが発生したときにエラーページを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:globalexception:1.2.0 |
-| api.idpselections | ID プロバイダーの選択ページ - ユーザーがサインイン時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.0 |
-| api.idpselections.signup | サインアップのための ID プロバイダーの選択 - ユーザーがサインアップ時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.0 |
-| api.signuporsignin | 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。 | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:1.2.0 |
-| api.selfasserted | ソーシャル アカウントのサインアップ ページ - ソーシャル ID プロバイダーの既存のアカウントを使用してサインアップするときに、ユーザーが入力する必要があるフォームを表示します。 このページは、パスワード入力フィールドを除いて、上記のソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.selfasserted.profileupdate | プロファイルの更新ページ - ユーザーがプロファイルを更新するためにアクセスできるフォームを表示します。 このページは、パスワード入力フィールドを除いて、ソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.localaccountsignup | ローカル アカウントのサインアップ ページ - 電子メール アドレスまたはユーザー名に基づいたローカル アカウントでサインアップするためのフォームを表示します。 このフォームには、テキスト入力ボックス、パスワード入力ボックス、ラジオ ボタン、単一選択ドロップダウン ボックス、複数選択チェック ボックスなど、さまざまな入力コントロールを含めることができます。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.localaccountpasswordreset | パスワードを忘れた場合のページ - パスワードのリセットを開始するためにユーザーが入力する必要があるフォームを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.phonefactor | 多要素認証ページ - サインアップ中またはサインイン中にテキストまたは音声を使用して電話番号を確認します。 | urn:com:microsoft:aad:b2c:elements:contract:multifactor:1.2.2 |
-| api.signuporsigninwithkmsi | サインインしたまま機能付き 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。（api.signuporsigninを利用してください（setting.enableRememberMe属性で指定可能です）） | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:1.2.1 |
+| api.error | エラー ページ - 例外またはエラーが発生したときにエラーページを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:globalexception:1.2.1 |
+| api.idpselections | ID プロバイダーの選択ページ - ユーザーがサインイン時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.1 |
+| api.idpselections.signup | サインアップのための ID プロバイダーの選択 - ユーザーがサインアップ時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.1 |
+| api.signuporsignin | 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。 | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.4 |
+| api.selfasserted | ソーシャル アカウントのサインアップ ページ - ソーシャル ID プロバイダーの既存のアカウントを使用してサインアップするときに、ユーザーが入力する必要があるフォームを表示します。 このページは、パスワード入力フィールドを除いて、上記のソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.selfasserted.profileupdate | プロファイルの更新ページ - ユーザーがプロファイルを更新するためにアクセスできるフォームを表示します。 このページは、パスワード入力フィールドを除いて、ソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.localaccountsignup | ローカル アカウントのサインアップ ページ - 電子メール アドレスまたはユーザー名に基づいたローカル アカウントでサインアップするためのフォームを表示します。 このフォームには、テキスト入力ボックス、パスワード入力ボックス、ラジオ ボタン、単一選択ドロップダウン ボックス、複数選択チェック ボックスなど、さまざまな入力コントロールを含めることができます。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.localaccountpasswordreset | パスワードを忘れた場合のページ - パスワードのリセットを開始するためにユーザーが入力する必要があるフォームを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.phonefactor | 多要素認証ページ - サインアップ中またはサインイン中にテキストまたは音声を使用して電話番号を確認します。 | urn:com:microsoft:aad:b2c:elements:contract:multifactor:1.2.4 |
+| api.signuporsigninwithkmsi | サインインしたまま機能付き 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。（api.signuporsigninを利用してください（setting.enableRememberMe属性で指定可能です）） | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.4 |
 
 ## Azure Actvie Directoryに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | 入力 | 永続 | 出力 | IncludeTechnicalProfile |
@@ -118,7 +121,7 @@
 | LocalAccountWritePasswordUsingObjectId | 画面で入力されたパスワードでローカル アカウントのパスワードを更新します | objectId | newPassword<br>reenterPassword | AAD-UserWritePasswordUsingObjectId |
 
 ## PhoneFactorに関連する機能定義（`ClaimsProviders`エレメント配下）
-| ID | 動作概要 | 入力要求変換 | 入力 | 出力 |
+| ID | 動作概要 | 入力変換 | 入力 | 出力 |
 |:---|:---|:---|:---|:---|
 | PhoneFactor-InputOrVerify | 電話番号を検証または登録するための画面 | CreateUserIdForMFA | userIdForMFA<br>strongAuthenticationPhoneNumber | Verified.strongAuthenticationPhoneNumber<br>newPhoneNumberEntered |
 
