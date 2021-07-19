@@ -1,91 +1,98 @@
-# SELMID_EXTENSION_V3
+# SELMID_EXTENSION_V4
  - CTC拡張機能の関する各定義を行うファイル。
- - バージョン：3
+ - バージョン：4
 
 ## <a id="claimtype"></a> ClaimType定義(`ClaimsSchema`エレメント配下)
 | ID | 概要 | 設定 |
 |:---|:---|:---|
 | readOnlyEmail | 読み取り用メールアドレス | 属性：Mask、Type：Regex、Regex： (?&lt;=..).(?=.*..$)、値： * |
-| givenName | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
-| surname | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
-| identityProviderAccessToken | IdPから取得したアクセストークン |
-| oidc_display | OIDCパラメータ |
-| oidc_prompt | OIDCパラメータ |
-| oidc_max_age | OIDCパラメータ |
-| oidc_ui_locales | OIDCパラメータ |
-| oidc_id_token_hint | OIDCパラメータ |
-| oidc_login_hint | OIDCパラメータ |
-| oidc_acr_values | OIDCパラメータ |
-| oidc_redirect_uri | OIDCパラメータ |
-| bot_prompt | LINEログイン：LINE公式アカウントを友だち追加するオプション |
-| termsOfUseConsentChoice | 規約への同意チェックボックス |
-| termsOfUseConsentCurrentVersion | 規約への同意：現在の最新バージョン |
-| termsOfUseConsentRequired | 規約への同意：同意が必要か |
-| extension_termsOfUseConsentDateTime | 規約への同意：同意取得時刻 |
-| extension_termsOfUseConsentVersion | 規約への同意：同意取得時のバージョン |
-| userMessage | REST API：処理結果メッセージ |
-| status | REST API：処理結果ステータス（HTTP CODE） |
-| errorMessage | エラーメッセージ |
-| ipaddress | IPアドレス |
-| capy_private_key | CAPY用定義：Privateキー |
-| submit.capy_answer | CAPY用定義：パズルキャプチャのcapy_answer |
-| submit.capy_challengekey | CAPY用定義：パズルキャプチャのcapy_challengekey |
-| capy_puzzle_result | CAPY用定義：パズルキャプチャの結果 |
-| capy_puzzle_reason | CAPY用定義：パズルキャプチャの理由 |
-| capy_puzzle_error_message | CAPY用定義：パズルキャプチャのエラーメッセージ |
-| capy_riskbase_key | CAPY用定義：リスクベース認証のキー |
-| capy_userId | CAPY用定義：リスクベース認証のcapy_data生成時のuserId |
-| capy_data | CAPY用定義：リスクベース認証のcapy_data |
-| capy_risk_result | CAPY用定義：リスクベース認証の結果 |
-| capy_risk_level | CAPY用定義：リスクベース認証のレベル  |
-| capy_risk_reason | CAPY用定義：リスクベース認証の理由（複数存在する場合は1件目が設定） |
-| capy_risk_reasons | CAPY用定義：リスクベース認証の理由（複数存在する場合は","区切り） |
-| capy_risk_reasons_collection | CAPY用定義：capy_risk_reasonsのCollection型  |
-| debug_capy_risk_reasons | CAPY用定義：リスクベース認証のデバッグ用。強制的に返却するdebug_capy_risk_reasonsを指定（複数指定する場合は","区切り）  |
-| capy_blacklist_key | CAPY用定義：リアルタイムブラックリストのキー |
-| capy_ipaddress | CAPY用定義：リアルタイムブラックリストのipaddress |
-| capy_black_types | CAPY用定義：リアルタイムブラックリストの評価結果のtypes(複数の場合はカンマ区切り)  |
-| capy_black_result | CAPY用定義：リアルタイムブラックリストの評価結果のresult  |
-| capy_black_value | CAPY用定義：リアルタイムブラックリストの評価結果のvalue  |
-| userIdentity | [Deprecated]アカウントリンクV2用のuserIdentity。今後は[alternativeSecurityId](./aadb2c_b2c_base.md#alternativesecurityid)を利用してください。 |
-| userIdentities | [Deprecated]アカウントリンクV2用のuserIdentities。今後は[alternativeSecurityIds](./aadb2c_b2c_base.md#alternativesecurityids)を利用してください。 |
-| userIdentityToLink | [Deprecated]アカウントリンクV2用のuserIdentity。今後は[alternativeSecurityIdToLink](./aadb2c_b2c_base.md#alternativesecurityidtolink)を利用してください。 |
-| userIdentitiesToLink | [Deprecated]アカウントリンクV2用のuserIdentity。V3では未使用。 |
-| otp | custom sender用定義：ワンタイムパスワード  |
-| verificationCode | custom sender用定義：ワンタイムパスワード検証用入力  |
-| sendGridReqBody | custom sender用定義：SendGrid APIリクエストBody  |
-| lang_ja | 多言語用定義：ブラウザ設定がjaか  |
-| lang_en | 多言語用定義：ブラウザ設定がenか  |
+| accountBlocked | ユーザがブロックされているか | - |
+| refreshTokenIssuedOnDateTime | リフレッシュトークン発行日 | - |
+| identityProviderAccessToken | IdPから取得したアクセストークン | - |
+| oidc_display | OIDCパラメータ | - |
+| oidc_prompt | OIDCパラメータ | - |
+| oidc_max_age | OIDCパラメータ | - |
+| oidc_ui_locales | OIDCパラメータ | - |
+| oidc_id_token_hint | OIDCパラメータ | - |
+| oidc_login_hint | OIDCパラメータ | - |
+| oidc_acr_values | OIDCパラメータ | - |
+| oidc_redirect_uri | OIDCパラメータ | - |
+| bot_prompt | LINEログイン：LINE公式アカウントを友だち追加するオプション | - |
+| termsOfUseConsentChoice | 規約への同意チェックボックス | - |
+| termsOfUseConsentCurrentVersion | 規約への同意：現在の最新バージョン | - |
+| termsOfUseConsentRequired | 規約への同意：同意が必要か | - |
+| extension_termsOfUseConsentDateTime | 規約への同意：同意取得時刻 | - |
+| extension_termsOfUseConsentVersion | 規約への同意：同意取得時のバージョン | - |
+| userMessage | REST API：処理結果メッセージ | - |
+| status | REST API：処理結果ステータス（HTTP CODE） | - |
+| errorMessage | エラーメッセージ | - |
+| ipaddress | IPアドレス | - |
+| capy_private_key | CAPY用定義：Privateキー | - |
+| submit.capy_answer | CAPY用定義：パズルキャプチャのcapy_answer | - |
+| submit.capy_challengekey | CAPY用定義：パズルキャプチャのcapy_challengekey | - |
+| capy_puzzle_result | CAPY用定義：パズルキャプチャの結果 | - |
+| capy_puzzle_reason | CAPY用定義：パズルキャプチャの理由 | - |
+| capy_puzzle_error_message | CAPY用定義：パズルキャプチャのエラーメッセージ | - |
+| capy_riskbase_key | CAPY用定義：リスクベース認証のキー | - |
+| capy_userId | CAPY用定義：リスクベース認証のcapy_data生成時のuserId | - |
+| capy_data | CAPY用定義：リスクベース認証のcapy_data | - |
+| capy_risk_result | CAPY用定義：リスクベース認証の結果 | - |
+| capy_risk_level | CAPY用定義：リスクベース認証のレベル  | - |
+| capy_risk_reason | CAPY用定義：リスクベース認証の理由（複数存在する場合は1件目が設定） | - |
+| capy_risk_reasons | CAPY用定義：リスクベース認証の理由（複数存在する場合は","区切り） | - |
+| capy_risk_reasons_collection | CAPY用定義：capy_risk_reasonsのCollection型  | - |
+| debug_capy_risk_reasons | CAPY用定義：リスクベース認証のデバッグ用。強制的に返却するdebug_capy_risk_reasonsを指定（複数指定する場合は","区切り）  | - |
+| capy_blacklist_key | CAPY用定義：リアルタイムブラックリストのキー | - |
+| capy_ipaddress | CAPY用定義：リアルタイムブラックリストのipaddress | - |
+| capy_black_types | CAPY用定義：リアルタイムブラックリストの評価結果のtypes(複数の場合はカンマ区切り)  | - |
+| capy_black_result | CAPY用定義：リアルタイムブラックリストの評価結果のresult  | - |
+| capy_black_value | CAPY用定義：リアルタイムブラックリストの評価結果のvalue  | - |
+| userIdentity | [Deprecated]アカウントリンクV2用のuserIdentity。今後は[alternativeSecurityId](./aadb2c_b2c_base.md#alternativesecurityid)を利用してください。 | - |
+| userIdentities | [Deprecated]アカウントリンクV2用のuserIdentities。今後は[alternativeSecurityIds](./aadb2c_b2c_base.md#alternativesecurityids)を利用してください。 | - |
+| userIdentityToLink | [Deprecated]アカウントリンクV2用のuserIdentity。今後は[alternativeSecurityIdToLink](./aadb2c_b2c_base.md#alternativesecurityidtolink)を利用してください。 | - |
+| userIdentitiesToLink | [Deprecated]アカウントリンクV2用のuserIdentity。V3では未使用。 | - |
+| otp | custom sender用定義：ワンタイムパスワード  | - |
+| verificationCode | custom sender用定義：ワンタイムパスワード検証用入力  | - |
+| sendGridReqBody | custom sender用定義：SendGrid APIリクエストBody  | - |
+| lang_ja | 多言語用定義：ブラウザ設定がjaか  | - |
+| lang_en | 多言語用定義：ブラウザ設定がenか  | - |
 | SELMID個別機能属性定義  |
-| selmid_capy_riskbase_enabled | リスクベース認証：有効設定（ON：有効、OFF：無効 or 定義なし）  |
-| selmid_issuerUserId | リスクベース認証：追加認証した際のissuerUserId(email)  |
-| selmid_identity_provider |  (本人確認等を行う)Identity Provider |
-| selmid_idp_access_token |  (本人確認等を行う)IdPの access token |
-| selmid_result |  (本人確認API等の) 実行結果 |
-| selmid_docomo_endpoint_url | 本人確認API属性用定義：ドコモ本人確認アシストAPI URL |
-| selmid_docomo_client_id |  本人確認API属性用定義：dアカウント・コネクト client_id |
-| selmid_docomo_client_secret |  本人確認API属性用定義：dアカウント・コネクト client_secret |
-| selmid_docomo_result_code |  本人確認API属性用定義：ドコモ本人確認アシストAPI 処理結果コード |
-| selmid_docomo_mb_result |  本人確認API属性用定義：ドコモ本人確認アシストAPI 処理結果の戻り値（処理結果コード”10FU”の場合のみ） |
-| selmid_docomo_mb_guidancecode |  本人確認API属性用定義：ドコモ本人確認アシストAPI HTTP エラーコード。異常時のみ。 |
-| selmid_docomo_httpMessage |  本人確認API属性用定義：ドコモ本人確認アシストAPI HTTP エラー内容。異常時のみ。 |
-| selmid_docomo_moreInformation |  本人確認API属性用定義：ドコモ本人確認アシストAPI エラー情報。異常時のみ。 |
-| selmid_kddi_endpoint_url | 本人確認API属性用定義：KDDI本人確認支援サービスAPI URL |
-| selmid_kddi_api_key | 本人確認API属性用定義：KDDI本人確認支援サービスAPI KDDI-API-KEY |
-| selmid_kddi_cp_id | 本人確認API属性用定義：KDDI本人確認支援サービスAPI 加盟店ID |
-| selmid_kddi_service_id | 本人確認API属性用定義：KDDI本人確認支援サービスAPI 加盟店ID |
-| selmid_kddi_status | 本人確認API属性用定義：KDDI本人確認支援サービスAPI レスポンスステータス |
-| selmid_kddi_result_code | 本人確認API属性用定義：KDDI本人確認支援サービスAPI 結果に関するコード |
-| selmid_kddi_error_result_code | 本人確認API属性用定義：KDDI本人確認支援サービスAPI エラー結果に関するコード。異常時のみ。 |
-| selmid_kddi_error_message | 本人確認API属性用定義：KDDI本人確認支援サービスAPI エラーメッセージ。異常時のみ。 |
-| selmid_totp_otpauth_url | TOTP用定義：登録時のアプリ読み込み用QRコードに設定する値（テキスト） |
-| selmid_totp_secret_code | TOTP用定義：登録時のアプリがQRを読めない場合のテキストコード |
-| selmid_totp_code | TOTP用定義：登録時のアプリで生成されたワンタイムコード |
-| selmid_totp_issuer | TOTP用定義：発行者（サービス名。認証アプリに表示） |
-| selmid_totp_encryption_secret_key | TOTP用定義：HMAC処理で利用されるシークレット |
-| selmid_totp_error_message | TOTP用定義：エラーメッセージ |
-| extension_selmid_totp_secret_key | TOTP用定義：拡張属性 シークレットキー(RESTAPIで生成) |
-| extension_selmid_totp_timestepmatched | TOTP用定義：拡張属性 ユーザーが最後に認証成功した認証コード。（現在入力されているコードが、既に入力されているものではないかを確認する用）|
+| selmid_capy_riskbase_enabled | リスクベース認証：有効設定（ON：有効、OFF：無効 or 定義なし）  | - |
+| selmid_issuerUserId | リスクベース認証：追加認証した際のissuerUserId(email)  | - |
+| selmid_identity_provider |  (本人確認等を行う)Identity Provider | - | - |
+| selmid_idp_access_token |  (本人確認等を行う)IdPの access token | - | - |
+| selmid_result |  (本人確認API等の) 実行結果 | - |
+| selmid_docomo_endpoint_url | 本人確認API属性用定義：ドコモ本人確認アシストAPI URL | - |
+| selmid_docomo_client_id |  本人確認API属性用定義：dアカウント・コネクト client_id | - |
+| selmid_docomo_client_secret |  本人確認API属性用定義：dアカウント・コネクト client_secret | - |
+| selmid_docomo_result_code |  本人確認API属性用定義：ドコモ本人確認アシストAPI 処理結果コード | - |
+| selmid_docomo_mb_result |  本人確認API属性用定義：ドコモ本人確認アシストAPI 処理結果の戻り値（処理結果コード”10FU”の場合のみ） | - |
+| selmid_docomo_mb_guidancecode |  本人確認API属性用定義：ドコモ本人確認アシストAPI HTTP エラーコード。異常時のみ。 | - |
+| selmid_docomo_httpMessage |  本人確認API属性用定義：ドコモ本人確認アシストAPI HTTP エラー内容。異常時のみ。 | - |
+| selmid_docomo_moreInformation |  本人確認API属性用定義：ドコモ本人確認アシストAPI エラー情報。異常時のみ。 | - |
+| selmid_kddi_endpoint_url | 本人確認API属性用定義：KDDI本人確認支援サービスAPI URL | - |
+| selmid_kddi_api_key | 本人確認API属性用定義：KDDI本人確認支援サービスAPI KDDI-API-KEY | - |
+| selmid_kddi_cp_id | 本人確認API属性用定義：KDDI本人確認支援サービスAPI 加盟店ID | - |
+| selmid_kddi_service_id | 本人確認API属性用定義：KDDI本人確認支援サービスAPI 加盟店ID | - |
+| selmid_kddi_status | 本人確認API属性用定義：KDDI本人確認支援サービスAPI レスポンスステータス | - |
+| selmid_kddi_result_code | 本人確認API属性用定義：KDDI本人確認支援サービスAPI 結果に関するコード | - |
+| selmid_kddi_error_result_code | 本人確認API属性用定義：KDDI本人確認支援サービスAPI エラー結果に関するコード。異常時のみ。 | - |
+| selmid_kddi_error_message | 本人確認API属性用定義：KDDI本人確認支援サービスAPI エラーメッセージ。異常時のみ。 | - |
+| selmid_totp_otpauth_url | TOTP用定義：登録時のアプリ読み込み用QRコードに設定する値（テキスト） | - |
+| selmid_totp_secret_code | TOTP用定義：登録時のアプリがQRを読めない場合のテキストコード | - |
+| selmid_totp_code | TOTP用定義：登録時のアプリで生成されたワンタイムコード | - |
+| selmid_totp_issuer | TOTP用定義：発行者（サービス名。認証アプリに表示） | - |
+| selmid_totp_encryption_secret_key | TOTP用定義：HMAC処理で利用されるシークレット | - |
+| selmid_totp_error_message | TOTP用定義：エラーメッセージ | - |
+| selmid_dummy_local_account_email | ソーシャル情報をもとにローカルアカウントを作成定義：ダミーemail | - |
+| extension_selmid_totp_secret_key | TOTP用定義：拡張属性 シークレットキー(RESTAPIで生成) | - |
+| extension_selmid_totp_timestepmatched | TOTP用定義：拡張属性 ユーザーが最後に認証成功した認証コード。（現在入力されているコードが、既に入力されているものではないかを確認する用）| - |
+| selmid_dummy_password | ソーシャル情報をもとにローカルアカウントを作成定義：ダミーパスワード | - |
+| selmid_temp_dummy_password | ソーシャル情報をもとにローカルアカウントを作成定義：テンポラリダミーパスワード | - |
+| selmid_output_email | ソーシャル情報をもとにローカルアカウントを作成定義：id_tokenやrestapi等への出力用email。signInNames.emailAddress、ソーシャルIdPから取得したemailから優先度に基づいて設定される | - |
+| signInNames_emailAddress_domainName | ソーシャル情報をもとにローカルアカウントを作成定義：signInNames.emailAddressのドメイン部分 | - |
+| is_selmid_dummy_local_account_email | ソーシャル情報をもとにローカルアカウントを作成定義：signInNames.emailAddressがダミーemailかを判断 | - |
+| executed-SelfAssertedAsLocalAccount-Input | ソーシャル情報をもとにローカルアカウントを作成定義：ユーザによって属性が入力されたか | - |
 
 ## <a id="claimstransformations"></a>属性変換ルール定義（`ClaimsTransformations`エレメント配下）
 | ID | 動作概要 | 入力 | 出力 |
@@ -112,15 +119,26 @@
 | AssertReadOnlyEmailAreEqual | 読み取り用メールアドレスが画面で変更されていないかチェックします(MFA OTP用) | otp<br>email | - |
 | IsJapanese | ブラウザの言語設定が「ja」かを判断します | Culture | lang_ja |
 | IsEnglish | ブラウザの言語設定が「en」かを判断します | Culture | lang_en |
+| CreateSelmidDummyEmailAsLocalAccount | ソーシャル情報をもとにローカルアカウントを作成する際のダミーEmailを作成します | upnUserName | selmid_dummy_local_account_email |
+| SetSignInNamesEmailAddressDomainName | signInNames.emailAddressのドメイン部分を設定します | signInNames.emailAddress | signInNames_emailAddress_domainName |
+| IsSelmidDummyLocalAccountEmail | ssignInNames.emailAddressがダミーemailかを返します | signInNames_emailAddress_DomainName | is_selmid_dummy_local_account_email |
+| SetSelmidOutputEmailFromSignInNamesEmailAddress | selmid_output_emailにsignInNames.emailAddressの値を設定します | signInNames.emailAddress | selmid_output_email |
+| SetSelmidOutputEmailFromEmail | selmid_output_emailにemail（ソーシャルアカウントから取得）の値を設定します | email | selmid_output_email |
+| SetErrorMessageForAccountLinkTargetIdentityIsExists | リンク対象のアカウントが既に存在する場合のエラーメッセージ設定します（ローカライズ対応） | ErrorMessage_AccountLinkTargetIdentityIsExists | errorMessage |
+| SetErrorMessageForSignInNamesEmailAddressIsNotSet | signInNames.emailAddressが未設定の場合のエラーメッセージ設定します（ローカライズ対応） | ErrorMessage_SignInNamesEmailAddressIsNotSet | errorMessage |
+| CreateTempDummyPassword | テンポラリダミーパスワード作成します | GUID | selmid_temp_dummy_password |
+| CreateDummyPassword | ダミーパスワード作成（テンポラリダミーパスワードを複数回アペンドします。桁数を増やすため。） | selmid_temp_dummy_password | selmid_dummy_password |
+| CopySelmidOutputEmailToReadOnly | selmid_output_emailをメールアドレス検証用のreadOnlyEmailへコピーします | selmid_output_email | readOnlyEmail |
+| AssertRefreshTokenIssuedOnDateTimeIsLaterThanRefreshTokensValidFromDateTime | refreshTokenIssuedOnDateTimeがrefreshTokensValidFromDateTimeよりあと（新しい）ことを検証します | refreshTokenIssuedOnDateTime<br>refreshTokensValidFromDateTime | - |
 
 ## <a id="contentdefinitions"></a> UI定義（`ContentDefinitions`エレメント配下）
 | ID | 概要 | DataUri |
 |:---|:---|:---|
-| api.selfasserted.tou | 利用規約を表示する画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.selfasserted.makecapydataforriskbases | リスクベース認証 Capyデータ作成画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.localaccountsignupwithpuzzle | ローカルアカウントのサインアップ画面（パズルキャプチャ付き） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.selfasserted.totp.regist | TOTP登録画面（QRコード読み取り/テキストコード入力を行い、認証コードを入力します） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
-| api.selfasserted.totp.verify| TOTP検証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.1 |
+| api.selfasserted.tou | 利用規約を表示する画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.selfasserted.makecapydataforriskbases | リスクベース認証 Capyデータ作成画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.localaccountsignupwithpuzzle | ローカルアカウントのサインアップ画面（パズルキャプチャ付き） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.selfasserted.totp.regist | TOTP登録画面（QRコード読み取り/テキストコード入力を行い、認証コードを入力します） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.selfasserted.totp.verify| TOTP検証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
 
 ## <a id="displaycontrols"></a> DisplayControl定義（`DisplayControls`エレメント配下）
 | ID | 概要 | DisplayClaims | OutputClaims | Actions |
@@ -236,15 +254,23 @@
 | <a id="idp_auid-unlink-v3"/>auID-Unlink-v3 | アカウントアンリンク定義v3 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>kddi.com</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink-v3 |
 
 ## <a id="claimstransformation"></a>属性変換に関連する機能定義（`ClaimsProviders`エレメント配下）  
-| ID | 概要 | Metadata | 入力 | 出力 | IncludeTechnicalProfile |
-|:---|:---|:---|:---|:---|:---|
-| SocialAccount-Unlink-Base | アカウントアンリンクの共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimTypeOnWhichToEnable</td><td>issuers</td></tr></table> | - | issuerToUnlink | - |
-| SocialAccount-Unlink | アカウントリンク定義v2。今後は[SocialAccount-Unlink-v3](./aadb2c_selmid_extension.md#socialaccount-unlink-v3)を利用してください。 | - | - | RemoveUserIdentityFromCollectionByIssuer | SocialAccount-Unlink-Base |
-| <a id="socialaccount-unlink-v3"/>SocialAccount-Unlink-v3 | アカウントリンク定義v3 | - | - | RemoveAlternativeSecurityFromCollectionByIssuer | SocialAccount-Unlink-Base |
-| GetContextData | コンテキスト情報を取得します | <table><tr><th>key</th><th>value</th></tr><tr><td>IncludeClaimResolvingInClaimsHandling</td><td>true</td></tr></table> | ipaddress<br>Culture<br>LanguageName<br>lang_ja<br>lang_en | - |
-| AssertReadOnlyEmailNotChange | 二段階認証用画面（メールアドレス）でメールアドレスが画面で変更されていないかチェックします | - | - | readOnlyEmail | - |
-| GenerateWelcomeMessage | Welcome用メールの本文を生成します | - | email | sendGridReqBody | - |
-| GeneratePasswordChangeMessage | パスワード変更用メールの本文を生成します | - | email | sendGridReqBody | - |
+| ID | 概要 | Metadata | 入力 | 出力 | 出力変換 | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|:---|:---|
+| SocialAccount-Unlink-Base | アカウントアンリンクの共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimTypeOnWhichToEnable</td><td>issuers</td></tr></table> | - | issuerToUnlink | - | - |
+| SocialAccount-Unlink | アカウントリンク定義v2。今後は[SocialAccount-Unlink-v3](./aadb2c_selmid_extension.md#socialaccount-unlink-v3)を利用してください。 | - | - | RemoveUserIdentityFromCollectionByIssuer | - | SocialAccount-Unlink-Base |
+| <a id="socialaccount-unlink-v3"/>SocialAccount-Unlink-v3 | アカウントリンク定義v3 | - | - | RemoveAlternativeSecurityFromCollectionByIssuer | - | SocialAccount-Unlink-Base |
+| GetContextData | コンテキスト情報を取得します | <table><tr><th>key</th><th>value</th></tr><tr><td>IncludeClaimResolvingInClaimsHandling</td><td>true</td></tr></table> | ipaddress<br>Culture<br>LanguageName<br>lang_ja<br>lang_en | - | - | - |
+| AssertReadOnlyEmailNotChange | 二段階認証用画面（メールアドレス）でメールアドレスが画面で変更されていないかチェックします | - | - | readOnlyEmail | - | - | - |
+| GenerateWelcomeMessage | Welcome用メールの本文を生成します | - | email | sendGridReqBody | - | - |
+| GeneratePasswordChangeMessage | パスワード変更用メールの本文を生成します | - | email | sendGridReqBody | - | - |
+| GetSelmidOutputEmailFromEmail | emailの値をもとにselmid_output_email属性を取得します | - | - | selmid_output_email | SetSelmidOutputEmailFromEmail | - |
+| GetIsSelmidDummyLocalAccountEmail | signInNames.emailAddressがダミーemailかを取得します | - | signInNames.emailAddress | is_selmid_dummy_local_account_email | SetSignInNamesEmailAddressDomainName<br>IsSelmidDummyLocalAccountEmail | - |
+| GetDummyPasswordBase | selmid_dummy_password取得用の共通処理 | - | selmid_temp_dummy_password<br>selmid_dummy_password | selmid_dummy_password | CreateTempDummyPassword<br>CreateDummyPassword | - |
+| GetDummyPassword1 | selmid_dummy_passwordを取得します(1回目。36桁) | - | - | - | - | GetDummyPasswordBase |
+| GetDummyPassword2 | selmid_dummy_passwordを取得します(2回目。72桁) | - | - | - | - | GetDummyPasswordBase |
+| GetDummyPassword3 | selmid_dummy_passwordを取得します(3回目。108桁) | - | - | - | - | GetDummyPasswordBase |
+| GetDummyPassword4 | selmid_dummy_passwordを取得します(4回目。144桁) | - | - | - | - | GetDummyPasswordBase |
+| GetSelmidOutputEmailFromSignInNamesEmailAddress | signInNames.emailAddressの値をもとにselmid_output_email属性を取得します | - | - | selmid_output_email | - | SetSelmidOutputEmailFromSignInNamesEmailAddress |
 
 ## <a id="restapi"></a>REST APIに関連する機能定義（`ClaimsProviders`エレメント配下）  
 | ID | 概要 | 入力 | 出力 | IncludeTechnicalProfile |
@@ -271,17 +297,28 @@
 | login-NonInteractive | ローカルアカウントのサインイン(Password Grant) | <table><tr><th>key</th><th>value</th></tr><tr><td>client_id</td><td></td></tr><tr><td>IdTokenAudience</td><td></td></tr></table> | client_id<br>resource_id | - | - |
 
 ## Azure Actvie Directoryに関連する機能定義（`ClaimsProviders`エレメント配下）
-| ID | 動作概要 | Metadata | 入力 | 永続 | 出力 | IncludeTechnicalProfile |
+| ID | 動作概要 | Metadata | 入力 | 永続 | 出力 | 出力変換 | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| AAD-Common | Active Directoryの共通プロファイル | <table><tr><th>key</th><th>value</th></tr><tr><td>ApplicationObjectId</td><td></td></tr><tr><td>ClientId</td><td></td></tr></table> | - | - | - | - | - |
+| AAD-UserReadUsingUserIdentityToLink-NoError | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）（存在しない場合でもエラーは発生しません）。今後は[AAD-UserReadUsingAlternativeSecurityIdToLink-NoError](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityidtolinknoerror)を利用してください。 | - | userIdentitiesToLink | - | objectIdToLink | - | AAD-Common |
+| AAD-UserReadUsingUserIdentity | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）。今後は[AAD-UserReadUsingAlternativeSecurityId](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityid)を利用してください。 | - | userIdentities | - | objectId<br>userIdentities | - | AAD-Common |
+| AAD-UserReadUsingUserIdentity-NoError | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）（存在しない場合のエラーなし）。今後は[AAD-UserReadUsingAlternativeSecurityId-NoError](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityidnoerror)を利用してください。 | - | - | - | - | - | AAD-UserReadUsingUserIdentity |
+| AAD-UserWriteUsingUserIdentity | [Deprecated]userIdentitiesをキーに属性情報をAzure Active Directoryのデータベースへ登録します（アカウントリンク用） | - | userIdentities | userIdentities<br>userPrincipalName<br>mailNickName<br>displayName | objectId<br>userIdentities<br>newUser<br>otherMails | - | - | AAD-Common |
+| AAD-UserUpdateWithUserIdentities | [Deprecated]アカウントリンク・アンリンク後の状態を更新します（アカウントリンク用）。今後は[AAD-AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#aaduserupdatewithalternativesecurityids)を利用してください。 | - | objectId | objectId<br>userIdentities | objectId<br>userIdentities | - | AAD-Common |
+| Update-TOU-Status | 規約への同意状態を書き込みます | - | objectId | objectId<br>extension_termsOfUseConsentDateTime<br>extension_termsOfUseConsentVersion | extension_termsOfUseConsentDateTime<br>extension_termsOfUseConsentVersion | - | AAD-Common |
+| Check-TOU-Status-by-Version | 規約への同意状態取得します（バージョンで比較する場合） | - | objectId | - | extension_termsOfUseConsentVersion<br>extension_termsOfUseConsentDateTime | - | AAD-Common |
+| Check-TOU-Status-by-DateTime | 規約への同意状態取得します（日付で比較する場合） | - | objectId | - | extension_termsOfUseConsentVersion<br>extension_termsOfUseConsentDateTime | - | AAD-Common |
+| AAD-UserWriteUsingSocial| ソーシャル情報をもとにローカルアカウントとして書き込みます | - | selmid_dummy_local_account_email | selmid_dummy_local_account_email<br>selmid_dummy_password<br>displayName<br>passwordPolicies | objectId<br>newUser<br>userPrincipalName | - | AAD-Common |
+| AAD-UserReadSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）のみを取得します | - | objectId | - | signInNames.emailAddress | - | AAD-Common |
+| AAD-UserWriteSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）を書き込みます | - | objectId | objectId<br>email | - | - | AAD-Common |
+| AAD-UserReadUsingObjectId-ThrowIfRefreshTokenIsNotValid | objectIdをキーにリフレッシュトークン有効日を取得します（リフレッシュトークンが無効の場合はエラー） | - | - | - | refreshTokensValidFromDateTime | AssertRefreshTokenIssuedOnDateTimeIsLaterThanRefreshTokensValidFromDateTime | AAD-UserReadUsingObjectId |
+| TpEngine_RefreshToken | リフレッシュトークン取得定義 | - | - | - | objectId<br>refreshTokenIssuedOnDateTime | - | - |
+
+## PhoneFactorに関連する機能定義（`ClaimsProviders`エレメント配下）
+| ID | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 動作概要 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|:---|
-| AAD-Common | Active Directoryの共通プロファイル | <table><tr><th>key</th><th>value</th></tr><tr><td>ApplicationObjectId</td><td></td></tr><tr><td>ClientId</td><td></td></tr></table> | - | - | - | - |
-| AAD-UserReadUsingUserIdentityToLink-NoError | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）（存在しない場合でもエラーは発生しません）。今後は[AAD-UserReadUsingAlternativeSecurityIdToLink-NoError](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityidtolinknoerror)を利用してください。 | - | userIdentitiesToLink | - | objectIdToLink | AAD-Common |
-| AAD-UserReadUsingUserIdentity | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）。今後は[AAD-UserReadUsingAlternativeSecurityId](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityid)を利用してください。 | - | userIdentities | - | objectId<br>userIdentities | AAD-Common |
-| AAD-UserReadUsingUserIdentity-NoError | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）（存在しない場合のエラーなし）。今後は[AAD-UserReadUsingAlternativeSecurityId-NoError](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityidnoerror)を利用してください。 | - | - | - | - | AAD-UserReadUsingUserIdentity |
-| AAD-UserWriteUsingUserIdentity | [Deprecated]userIdentitiesをキーに属性情報をAzure Active Directoryのデータベースへ登録します（アカウントリンク用） | - | userIdentities | userIdentities<br>userPrincipalName<br>mailNickName<br>displayName | objectId<br>userIdentities<br>newUser<br>otherMails | AAD-Common |
-| AAD-UserUpdateWithUserIdentities | [Deprecated]アカウントリンク・アンリンク後の状態を更新します（アカウントリンク用）。今後は[AAD-AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#aaduserupdatewithalternativesecurityids)を利用してください。 | - | objectId | objectId<br>userIdentities | objectId<br>userIdentities | AAD-Common |
-| Update-TOU-Status | 規約への同意状態を書き込みます | - | objectId | objectId<br>extension_termsOfUseConsentDateTime<br>extension_termsOfUseConsentVersion | extension_termsOfUseConsentDateTime<br>extension_termsOfUseConsentVersion | AAD-Common |
-| Check-TOU-Status-by-Version | 規約への同意状態取得します（バージョンで比較する場合） | - | objectId | - | extension_termsOfUseConsentVersion<br>extension_termsOfUseConsentDateTime | AAD-Common |
-| Check-TOU-Status-by-DateTime | 規約への同意状態取得します（日付で比較する場合） | - | objectId | - | extension_termsOfUseConsentVersion<br>extension_termsOfUseConsentDateTime | AAD-Common |
+| PhoneFactor-Input | 電話番号入力するための画面 | - | - | - | - | PhoneFactor-InputOrVerify |
+| PhoneFactor-VerifyByAuthenticationPhoneNumber | 登録済み電話番号の検証するための画面 | <table><tr><th>key</th><th>value</th></tr><tr><td>ManualPhoneNumberEntryAllowed</td><td>false</td></tr></table> | - | - | - | PhoneFactor-InputOrVerify |
 
 ##  Application Insightsに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | Metadata | 入力 |
@@ -289,28 +326,57 @@
 | AzureInsights-Common | Active Directoryの共通プロファイル | <table><tr><th>key</th><th>value</th></tr><tr><td>InstrumentationKey</td><td></td></tr><tr><td>DeveloperMode</td><td>true</td></tr><tr><td>DisableTelemetry</td><td>false</td></tr></table> | <table><tr><th>ClaimTypeReferenceId</th><th>PartnerClaimType</th><th>DefaultValue</th></tr><tr><td>PolicyId</td><td>{property:Policy}</td><td>{Policy:PolicyId}</td></tr><tr><td>CorrelationId</td><td>{property:CorrelationId}</td><td>{Context:CorrelationId}</td></tr><tr><td>Culture</td><td>{property:Culture}</td><td>{Culture:RFC5646}</td></tr><tr><td>AppId</td><td>{property:App}</td><td>{OIDC:ClientId}</td></tr></table> |
 
 ## セルフ アサートに関連する機能定義（`ClaimsProviders`エレメント配下）
-| ID | 動作概要 | 入力 | 出力 | 検証プロファイル |
-|:---|:---|:---|:---|:---|
-| SelfAsserted-Input-ToU-SignIn | 利用規約の表示、同意の取得のための画面 | objectId<br>termsOfUseConsentChoice | termsOfUseConsentChoice<br>extension_termsOfUseConsentVersion | Update-TOU-Status |
-| MakeCapydata-ForRiskBases | リスクベース認証 Capyデータ作成画面 | capy_userId | capy_userId<br>capy_data | - |
-| EmailVerifyOnSignIn | メールアドレス検証画面 | readOnlyEmail | readOnlyEmail | - |
-| SelfAsserted-Error | エラーメッセージ画面 | errorMessage | errorMessage | - |
-| SelfAsserted-Social-v2 | [Deprecated]ソーシャルアカウントのサインアップ画面。今後は[AAD-AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#selfassertedsocial)を利用してください。 | displayName<br>givenName<br>surname | displayName<br>givenName<br>surname | AAD-UserWriteUsingUserIdentity |
-| AppFactor-TOTP-Regist | TOTP登録画面(QR表示&コード検証) | selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_secret_key | selmid_totp_code<br>selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_timestepmatched | - |
-| AppFactor-TOTP-Verify | TOTP検証画面(コード検証) | extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | selmid_totp_code<br>extension_selmid_totp_timestepmatched | - |
+| ID | 動作概要 | 入力変換 | 入力 | 出力 | 検証プロファイル  | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|:---|:---|
+| SelfAsserted-Input-ToU-SignIn | 利用規約の表示、同意の取得のための画面 | - | objectId<br>termsOfUseConsentChoice | termsOfUseConsentChoice<br>extension_termsOfUseConsentVersion | Update-TOU-Status | - |
+| MakeCapydata-ForRiskBases | リスクベース認証 Capyデータ作成画面 | - | capy_userId | capy_userId<br>capy_data | - | - |
+| EmailVerifyOnSignIn | メールアドレス検証画面 | - | readOnlyEmail | readOnlyEmail | - | - |
+| SelfAsserted-Error | エラーメッセージ画面 | - | errorMessage | errorMessage | - | - |
+| SelfAsserted-Social-v2 | [Deprecated]ソーシャルアカウントのサインアップ画面。今後は[AAD-AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#selfassertedsocial)を利用してください。 | - | displayName<br>givenName<br>surname | displayName<br>givenName<br>surname | AAD-UserWriteUsingUserIdentity | - |
+| AppFactor-TOTP-Regist | TOTP登録画面(QR表示&コード検証) | - |  - |selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_secret_key | selmid_totp_code<br>selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_timestepmatched | - | - |
+| AppFactor-TOTP-Verify | TOTP検証画面(コード検証) |  - |extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | selmid_totp_code<br>extension_selmid_totp_timestepmatched | - | - |
+| SelfAsserted-SocialAsLocalAccount | ソーシャルサインアップ画面（ローカルアカウントとして作成用）| CreateSelmidDummyEmailAsLocalAccount | - | objectId<br>newUser<br>executed-SelfAsserted-Input<executed-SelfAssertedAsLocalAccount-Input> | GetDummyPassword1<br>GetDummyPassword2<br>GetDummyPassword3<br>GetDummyPassword4<br>AAD-UserWriteUsingSocial | - |
+| LocalAccountWriteSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）の設定画面 | - |objectId | email | AAD-UserWriteSignInNamesEmailAddressUsingObjectId |
+| SelfAsserted-Error-AccountLinkTargetIdentityIsExists | リンク対象のアカウントが既に存在する場合のエラー画面 | SetErrorMessageForAccountLinkTargetIdentityIsExists | - | - | - | SelfAsserted-Error |
+| SelfAsserted-Error-SignInNamesEmailAddressIsNotSet | signInNames.emailAddressが未設定の場合のエラー画面 | SetErrorMessageForSignInNamesEmailAddressIsNotSet | - | - | - | SelfAsserted-Error |
 
 ## OneTimePasswordに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | Metadata | 入力 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|
 | GenerateOtp-Common | ワンタイムパスワード生成の共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>GenerateCode</td></tr><tr><td>CodeExpirationInSeconds</td><td>1200</td></tr><tr><td>CodeLength</td><td>6</td></tr><tr><td>CharacterSet</td><td>a-zA-Z0-9</td></tr><tr><td>ReuseSameCode</td><td>true</td></tr><tr><td>MaxNumAttempts</td><td>5</td></tr></table> | - | - | - |
-| VerifyOtp-Common | ワンタイムパスワード検証の共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>VerifyCode</td></tr><tr><td>UserMessage.VerificationHasExpired</td><td>You have exceed the maximum time allowed.</td></tr><tr><td>UserMessage.MaxRetryAttemped</td><td>You have exceed the number of retries allowed.</td></tr><tr><td>UserMessage.InvalidCode</td><td>You have entered the wrong code.</td></tr><tr><td>UserMessage.ServerError</td><td>Cannot verify the code, please try again later.</td></tr></table>
- | - | - | - |
+| VerifyOtp-Common | ワンタイムパスワード検証の共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>VerifyCode</td></tr><tr><td>UserMessage.VerificationHasExpired</td><td>You have exceed the maximum time allowed.</td></tr><tr><td>UserMessage.MaxRetryAttemped</td><td>You have exceed the number of retries allowed.</td></tr><tr><td>UserMessage.InvalidCode</td><td>You have entered the wrong code.</td></tr><tr><td>UserMessage.ServerError</td><td>Cannot verify the code, please try again later.</td></tr></table> | - | - | - |
 | GenerateOtp | [Deprecated]ワンタイムパスワードを生成します。今後は[GenerateGeneralOtp](./aadb2c_selmid_extension.md#generategeneralotp)を利用してください。 | - | email | otp | GenerateOtp-Common |
 | VerifyOtp | [Deprecated]ワンタイムパスワードを検証します。今後は[VerifyGeneralOtp](./aadb2c_selmid_extension.md#verifygeneralotp)を利用してください。 | - | email<br>verificationCode | - | VerifyOtp-Common |
 | <a id="generategeneralotp"/>GenerateGeneralOtp | ワンタイムパスワードを生成します。 | - | - | otp | GenerateOtp-Common |
 | <a id="verifygeneralotp"/>VerifyGeneralOtp | ワンタイムパスワードを検証します。 | - | verificationCode | - | VerifyOtp-Common |
 | GenerateMfaOtp | MFA用ワンタイムパスワードを生成します。 | - | - | otp | GenerateOtp-Common |
 | VerifyMfaOtp | MFA用ワンタイムパスワードを検証します。 | - | verificationCode | - | VerifyOtp-Common |
+
+## セッション管理定義（`ClaimsProviders`エレメント配下）
+| ID | 概要 | 永続 | 出力 | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|
+| SM-SocialLogin | ソーシャルアカウントのサインインセッションを管理します| identityProvider<br>authenticationSource | - | - |
+| SM-MFA | 多要素認証セッションを管理します| strongAuthenticationPhoneNumber | - | - |
+| SM-MFA-Email |emailによるMFA用セッションを管理します | readOnlyEmail | isActiveMFASession | - |
+| SM-MFA-Totp | TOTPによるMFA用セッションを管理します | selmid_totp_code | isActiveMFASession | - |
+
+## トークン発行者定義（`ClaimsProviders`エレメント配下）
+| ID | 概要 | Metadata |
+|:---|:---|:---|
+| JwtIssuer | アプリケーションに返却される JWT トークンを発行します | <table><tr><th>key</th><th>value</th></tr><tr><td>RefreshTokenUserJourneyId</td><td>TokenRefresh</td></tr></table> |
+
+## UserJourneysに関連する機能定義（`UserJourneys`エレメント配下）
+### UserJourney
+| ID | 概要 |
+|:---|:---|
+| TokenRefresh | リフレッシュトークン（無効の場合はエラー） | 
+
+## SubJourneysに関連する機能定義（`SubJourneys`エレメント配下）
+### SubJourney
+| ID | 概要 | タイプ |
+|:---|:---|:---|
+| SetSelmidOutputEmail | selmid_output_email（id_tokenやrestapi等への出力用email）を決定します | Call |
+| CheckSignInNamesEmailAddressIsDummy | signInNames.emailAddressが設定されていない（ダミー値のまま）場合は、パスワード設定出来ないようにチェックを実施します。 | Call |
 
 ## RelyingPartyに関連する機能定義（`RelyingParty`エレメント配下）
 ### UserJourneyBehaviors
