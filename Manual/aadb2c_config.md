@@ -6,29 +6,55 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 
 | ポリシー名 | 契約企業様による編集可否 | 定義内容 |
 |:---|:---|:---|
-| BASE | 不可 | 基本動作に必要な定義 |
-| SELMID_EXTENSION | 不可 | CTC拡張機能の定義 |
-| [USER_EXTENSION_BASE](./aadb2c_config.md#user_extension_base) | 可 | 契約企業様毎の設定（スキーマ、UI定義、各種IdPの接続情報） |
-| [USER_EXTENSION_USERJOURNEYS](./aadb2c_config.md#user_extension_userjourneys) | 可 | 契約企業様毎のユーザジャーニーの設定 |
+| [B2C_BASE](./aadb2c_b2c_base.md) | 不可 | 基本動作に必要な定義 |
+| [SELMID_EXTENSION](./aadb2c_selmid_extension.md) | 不可 | SELMID拡張機能の定義 |
+| [USER_IDP_SETTINGS](./aadb2c_config.md#user_idp_settings) | 可 | 契約企業様毎の設定（各種IdPの接続情報） |
+| [USER_EXTENSION_BASE](./aadb2c_config.md#user_extension_base) | 可 | 契約企業様毎の各RPの共通定義（スキーマ、UI定義、各種テクニカルプロファイル） |
 | [USER_EXTENSION_RP_XX](./aadb2c_config.md#user_extension_rp_xx) | 可 | 契約企業様毎のアプリケーションとの連携設定（呼び出すポリシー単位で作成） |
 - 編集不可となっているポリシーの修正～アップロードを行った場合、動作の保証がされません。
 - 基本的に上位のポリシーを下位のポリシーがオーバーライドします。
 
-# 各構成内容
-※すべての設定可能項目を記載している訳ではありません。公式ドキュメントに記載されている設定項目はご利用いただけますが詳細はお問い合わせください。
-## USER_EXTENSION_BASE
-### 設定内容
-- [スキーマ（カスタム属性）](./aadb2c_config.md#%E3%82%B9%E3%82%AD%E3%83%BC%E3%83%9E%E5%AE%9A%E7%BE%A9claimsschema%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)
-  - 標準外の属性を定義します
-- [属性変換ルール定義](./aadb2c_config.md#%E5%B1%9E%E6%80%A7%E5%A4%89%E6%8F%9B%E3%83%AB%E3%83%BC%E3%83%AB%E5%AE%9A%E7%BE%A9claimstransformations%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)
-  - 属性値を変換する関数を定義します
-- [UI定義](./aadb2c_config.md#ui%E5%AE%9A%E7%BE%A9contentdefinitions%E3%82%A8%E3%83%AC%E3%83%A1%E3%83%B3%E3%83%88%E9%85%8D%E4%B8%8B)
-  - 各種画面テンプレートを定義します
-- [各種IdPとの接続情報](./aadb2c_config.md#%E5%90%84%E7%A8%AEidp%E3%81%A8%E3%81%AE%E6%8E%A5%E7%B6%9A%E6%83%85%E5%A0%B1)
-  - 外部IdP（SNS等）との接続情報（client_id, client_secret, 取得する属性等）を定義します
-  - 基盤本体のIDデータベースとのインターフェイス（書き込み・読み込みする属性）を定義します
+<img border="0" src="./assets/images/PolicyDependencies.png"  alt="ポリシーの依存関係"/>
 
-#### スキーマ定義(`ClaimsSchema`エレメント配下)
+## 各構成内容
+※すべての設定可能項目を記載している訳ではありません。公式ドキュメントに記載されている設定項目はご利用いただけますが詳細はお問い合わせください。
+
+## <a id="user_idp_settings"></a>USER_IDP_SETTINGS
+各種IdPとの接続情報（`ClaimsProviders`エレメント配下）
+
+### 基本的に以下の情報を設定することで外部IdPと連携します。
+| 設定項目 | 説明 | 取得元 | 設定箇所 |
+|:---|:---|:---|:---|
+| client_id | SELMIDをclient（外部IdPから見たアクセス元アプリケーション）として識別するためのID | 外部IdP | SELMID/USER_EXTENSION_BASE |
+| client_secret | SELMIDを正しいclientとして認証するためのシークレット | 外部IdP | SELMID/管理コンソールのポリシーキー |
+| redirect_uri | 外部IdPからの戻り先URL（SELMIDのURL） | SELMID<br>`https://yourtenant.b2clogin.com/yourtenant.onmicrosoft.com/oauth2/authresp`を使用 | 外部IdP |
+
+### 対応する外部IdP（随時追加）
+| Identity Provider名 | プロトコル | 設定する情報 | 取得できる属性 | IdP側の設定手順 |
+|:---|:---|:---|:---|:---|
+| Facebook | OAuth2.0 | client_id<br>client_secret<br>scope<br>ClaimsEndpoint | issuerUserId<br>givenName<br>surname<br>displayName<br>email | [facebook for developers](https://developers.facebook.com/docs/apps?locale=ja_JP) |
+| Twitter | OAuth1.0a | client_id<br>client_secret | issuerUserId<br>displayName<br>email | [twitter developer](https://developer.twitter.com/en/apps) |
+| Google | OAuth2.0 | client_id<br>client_secret | issuerUserId<br>email<br>givenName<br>surname<br>displayName | [Google Developer Console](https://developers.google.com/identity/protocols/OAuth2?hl=ja) |
+| LINE | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>identityProviderAccessToken | [LINE Developer](https://developers.line.biz/ja/docs/line-login/web/integrate-line-login/) |
+| Yahoo! JAPAN | OAuth2.0 | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [Yahoo! ID連携](https://developer.yahoo.co.jp/yconnect/v2/) |
+| Apple<br>*テスト実装 | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br> | [Sign in with Apple](https://developer.apple.com/sign-in-with-apple/) |
+| dアカウント・コネクト | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [dアカウント・コネクト](https://id.smt.docomo.ne.jp/src/index_business.html) |
+| auID | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email | - |
+
+## <a id="user_extension_base"></a>USER_EXTENSION_BASE
+各RPの共通となるスキーマ、UI定義、各種テクニカルプロファイルの定義
+
+### 設定内容
+- [スキーマ（カスタム属性）](./aadb2c_config.md#claimsschema)
+  - 標準外の属性を定義します
+- [属性変換ルール定義](./aadb2c_config.md#claimstransformations)
+  - 属性値を変換する関数を定義します
+- [UI定義](./aadb2c_config.md#contentdefinitions)
+  - 各種画面テンプレートを定義します
+- [各種テクニカルプロファイル定義](./aadb2c_config.md#technicalprofiles)
+  - 基盤本体のIDデータベースとのインターフェイス（書き込み・読み込みする属性）等を定義します
+
+### <a id="claimsschema"></a>スキーマ定義(`ClaimsSchema`エレメント配下)
 - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimsschema)）
 - 注意点) ClaimType IdのPrefixにより永続させる（Azure AD B2Cのデータベースのスキーマ拡張と属性値の保持）ことが出来るかどうかが決定されます
   - prefixなし : 非永続（カスタムポリシー内のみで利用可能）
@@ -61,25 +87,10 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 </ClaimType>
 ```
 
+### <a id="claimstransformations"></a>属性変換ルール定義（`ClaimsTransformations`エレメント配下）
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）　 
 
-#### 属性変換ルール定義（`ClaimsTransformations`エレメント配下）
-参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/claimstransformations)）
-SELMIDでは以下の属性変換ルールをビルトインしています。まずはビルトインルールで要件が満たせるかどうかご検討ください。
-
-| ルール名 | 動作概要 | 入力 | 出力 |
-|:---|:---|:---|:---|
-| CreateOtherMailsFromEmail | メールアドレスをotherMailsコレクションに加えます | email | otherMails |
-| CreateRandomUPNUserName | GUID形式でupnUserNameを生成します | - | upnUserName |
-| CreateUserPrincipalName | cpim_{upnUserName}@{tenant名}形式でuserPrincipalName（Azure AD B2C内部の識別子）を生成します<br>例）cpim_32407727-a73a-4944-9fdb-54cf4d755ddf@yourtenant.onmicrosoft.com | upnUserName | userPrincipalName |
-| CreateAlternativeSecurityId | 外部IdPの識別子からalternativeSecurityIdを生成します | issuerUserId<br>identityProvider | alternativeSecurityId |
-| AssertAccountEnabledIsTrue | accountEnabled属性がtrueならtrueを返却します | accountEnabled | True/False |
-| CreateUserIdForMFA | 多要素認証用のuserId属性を生成します<br>{objectId}@{tenant名}の形式 | objectId | userIdForMFA |
-| CopyEmailToReadOnly | email属性の値をreadOnlyEmail属性にコピーします | email | readOnlyEmail |
-| GetCurrentDateTime | 現在の日付・時刻を取得し規約に同意した日付・時刻として記録します | - | extension_termsOfUseConsentDateTime |
-| IsTermsOfUseConsentRequiredForDateTime | ユーザの同意記録と最新の規約の更新日付・時刻を比較して追加の同意の必要性を判別します | extension_termsOfUseConsentDateTime | termsOfUseConsentRequired |
-| GetCurrentTermsOfUseVersion | 現在の最新の規約バージョンを取得し同意したバージョンの規約として記録します | - | extension_termsOfUseConsentVersion |
-| IsTermsOfUseConsentRequiredForVersion | ユーザの同意記録と最新の規約の更新バージョンを比較して追加の同意の必要性を判別します | extension_termsOfUseConsentVersion | termsOfUseConsentRequired |
-
+SELMIDでは[基本的な属性変換ルール](./aadb2c_b2c_base.md#claimstransformations)と[SELMID拡張の属性変換ルール](./aadb2c_selmid_extension.md#claimstransformations)をビルトインしています。まずはビルトインルールで要件が満たせるかどうかご検討ください。
 
 - 例 : 入力属性値にprefix_をつけて返却する
 ```
@@ -96,8 +107,7 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 </ClaimsTransformation>
 ```
 
-
-#### UI定義（`ContentDefinitions`エレメント配下）
+### <a id="contentdefinitions"></a>UI定義（`ContentDefinitions`エレメント配下）
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/contentdefinitions)）
 本項目ではUIのテンプレートとローカライゼーションを行います。
 - UIテンプレートの定義
@@ -107,33 +117,28 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
   - `Localization`エレメント配下に各言語に対応した`ContentDefinition`を用意し、`LocalizedResourcesReferences`に作成したコンテンツ定義の`LocalizedResourcesReferenceId`を指定します
   - 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/localization)）
 
+### <a id="technicalprofiles"></a>各種テクニカルプロファイル定義（`ClaimsProviders`エレメント配下）
+参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/technicalprofiles)）
 
-#### 各種IdPとの接続情報（`ClaimsProviders`エレメント配下）
-基本的に以下の情報を設定することで外部IdPと連携します。
-
-| 設定項目 | 説明 | 取得元 | 設定箇所 |
-|:---|:---|:---|:---|
-| client_id | SELMIDをclient（外部IdPから見たアクセス元アプリケーション）として識別するためのID | 外部IdP | SELMID/USER_EXTENSION_BASE |
-| client_secret | SELMIDを正しいclientとして認証するためのシークレット | 外部IdP | SELMID/管理コンソールのポリシーキー |
-| redirect_uri | 外部IdPからの戻り先URL（SELMIDのURL） | SELMID<br>`https://yourtenant.b2clogin.com/yourtenant.onmicrosoft.com/oauth2/authresp`を使用 | 外部IdP |
-
-以下の外部IdPとの接続に対応しています。（随時追加）
-
-| Identity Provider名 | プロトコル | 設定する情報 | 取得できる属性 | IdP側の設定手順 |
-|:---|:---|:---|:---|:---|
-| Facebook | OAuth2.0 | client_id<br>client_secret<br>scope<br>ClaimsEndpoint | issuerUserId<br>givenName<br>surname<br>displayName<br>email | [facebook for developers](https://developers.facebook.com/docs/apps?locale=ja_JP) |
-| Twitter | OAuth1.0a | client_id<br>client_secret | issuerUserId<br>displayName<br>email | [twitter developer](https://developer.twitter.com/en/apps) |
-| Google | OAuth2.0 | client_id<br>client_secret | issuerUserId<br>email<br>givenName<br>surname<br>displayName | [Google Developer Console](https://developers.google.com/identity/protocols/OAuth2?hl=ja) |
-| LINE | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>identityProviderAccessToken | [LINE Developer](https://developers.line.biz/ja/docs/line-login/web/integrate-line-login/) |
-| Yahoo! JAPAN | OAuth2.0 | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [Yahoo! ID連携](https://developer.yahoo.co.jp/yconnect/v2/) |
-| Apple<br>*テスト実装 | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br> | [Sign in with Apple](https://developer.apple.com/sign-in-with-apple/) |
-
-
-## USER_EXTENSION_USERJOURNEYS
+本項目ではテクニカルプロファイルの定義を行います。
+- 例 : 既存の定義に保存対象属性としてgivenNameとsurnameを追加する
+```
+<TechnicalProfile Id="AAD-UserWriteUsingAlternativeSecurityId">
+  <PersistedClaims>
+    <!-- 永続させる属性を指定します -->
+    <PersistedClaim ClaimTypeReferenceId="givenName" />
+    <PersistedClaim ClaimTypeReferenceId="surname" />
+  </PersistedClaims>
+</TechnicalProfile>
+```
+## <a id="user_extension_rp_xx"></a>USER_EXTENSION_RP_XX
 ### 設定内容
 - ユーザジャーニー定義
   - アクション単位の動作フローを定義します
-#### ユーザジャーニー定義（`UserJourneys`エレメント配下）
+- アプリケーションとのインターフェイス定義
+  - id_tokenに含める属性を定義します
+
+### ユーザジャーニー定義（`UserJourneys`エレメント配下）
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/userjourneys)）
 
 | 要素種別 | 定義項目 | 説明 |
@@ -141,8 +146,7 @@ SELMIDでは以下の属性変換ルールをビルトインしています。�
 | 属性 | Id | UserJourneyの識別子 |
 | 要素 | OrchestrationSteps | UserJourneyを構成するオーケストレーションステップの定義 |
 
-OrchestrationsStepの構成要素
-
+#### OrchestrationsStepの構成要素
 | 要素種別 | 定義項目 | 説明 |
 |:---|:---|:---|
 | 属性 | Order | 実行順序 |
@@ -184,8 +188,7 @@ OrchestrationsStepの構成要素
 </OrchestrationStep>
 ```
 
-Preconditionの構成要素
-
+#### Preconditionの構成要素
 | 要素種別 | 定義項目 | 説明 |
 |:---|:---|:---|
 | 属性 | type | 条件のタイプ<br>- ClaimsExist: 属性が存在するか<br>- ClaimEquals: 属性が等しいか |
@@ -204,14 +207,7 @@ Preconditionの構成要素
 </Preconditions>
 ```
 
-
-## USER_EXTENSION_RP_XX
-### 設定内容
-- アプリケーションとのインターフェイス定義
-  - 実行するuserJourneyを定義します
-  - id_tokenに含める属性を定義します
-
-#### アプリケーションとのインターフェイス定義（`RelyingParty`エレメント配下）
+### アプリケーションとのインターフェイス定義（`RelyingParty`エレメント配下）
 参考情報（[公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/relyingparty)）
 
 | 要素種別 | 定義項目 | 説明 |
@@ -220,8 +216,7 @@ Preconditionの構成要素
 | 要素 | UserJourneyBehaviors | UserJourney実行時の振る舞い（シングルサインオン、セッション）の定義 |
 | 要素 | TechnicalProfile | アプリケーションとのインターフェイス定義（プロトコル、id_tokenに含める属性） |
 
-TechnicalProfileの構成要素
-
+#### TechnicalProfileの構成要素
 | 要素種別 | 定義項目 | 説明 |
 |:---|:---|:---|
 | 属性 | Id | TechnicalProfileの識別子 |
