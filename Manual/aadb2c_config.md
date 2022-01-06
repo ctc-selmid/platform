@@ -6,8 +6,8 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 
 | ポリシー名 | 契約企業様による編集可否 | 定義内容 |
 |:---|:---|:---|
-| [B2C_BASE](./aadb2c_b2c_base.md) | 不可 | 基本動作に必要な定義 |
-| [SELMID_EXTENSION](./aadb2c_selmid_extension.md) | 不可 | SELMID拡張機能の定義 |
+| [B2C_BASE_{VerNo}](./aadb2c_b2c_base.md) | 不可 | 基本動作に必要な定義 |
+| [SELMID_EXTENSION_{VerNo}](./aadb2c_selmid_extension.md) | 不可 | SELMID拡張機能の定義 |
 | [USER_IDP_SETTINGS](./aadb2c_config.md#user_idp_settings) | 可 | 契約企業様毎の設定（各種IdPの接続情報） |
 | [USER_EXTENSION_BASE](./aadb2c_config.md#user_extension_base) | 可 | 契約企業様毎の各RPの共通定義（スキーマ、UI定義、各種テクニカルプロファイル） |
 | [USER_EXTENSION_RP_XX](./aadb2c_config.md#user_extension_rp_xx) | 可 | 契約企業様毎のアプリケーションとの連携設定（呼び出すポリシー単位で作成） |

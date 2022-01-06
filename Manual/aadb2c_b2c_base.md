@@ -1,6 +1,6 @@
-# B2C_BASE_V4
+# B2C_BASE_V5
  - Azure AD B2Cで標準で用意されている または 標準的な機能に関する各定義を行うファイル。
- - バージョン：4
+ - バージョン：5
 
 ## <a id="claimtype"></a> ClaimType定義(`ClaimsSchema`エレメント配下)
 | ID | 概要 |
@@ -80,13 +80,13 @@
 | api.error | エラー ページ - 例外またはエラーが発生したときにエラーページを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:globalexception:1.2.1 |
 | api.idpselections | ID プロバイダーの選択ページ - ユーザーがサインイン時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.1 |
 | api.idpselections.signup | サインアップのための ID プロバイダーの選択 - ユーザーがサインアップ時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.1 |
-| api.signuporsignin | 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。 | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.4 |
-| api.selfasserted | ソーシャル アカウントのサインアップ ページ - ソーシャル ID プロバイダーの既存のアカウントを使用してサインアップするときに、ユーザーが入力する必要があるフォームを表示します。 このページは、パスワード入力フィールドを除いて、上記のソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.selfasserted.profileupdate | プロファイルの更新ページ - ユーザーがプロファイルを更新するためにアクセスできるフォームを表示します。 このページは、パスワード入力フィールドを除いて、ソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.localaccountsignup | ローカル アカウントのサインアップ ページ - 電子メール アドレスまたはユーザー名に基づいたローカル アカウントでサインアップするためのフォームを表示します。 このフォームには、テキスト入力ボックス、パスワード入力ボックス、ラジオ ボタン、単一選択ドロップダウン ボックス、複数選択チェック ボックスなど、さまざまな入力コントロールを含めることができます。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.localaccountpasswordreset | パスワードを忘れた場合のページ - パスワードのリセットを開始するためにユーザーが入力する必要があるフォームを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.phonefactor | 多要素認証ページ - サインアップ中またはサインイン中にテキストまたは音声を使用して電話番号を確認します。 | urn:com:microsoft:aad:b2c:elements:contract:multifactor:1.2.4 |
-| api.signuporsigninwithkmsi | サインインしたまま機能付き 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。（api.signuporsigninを利用してください（setting.enableRememberMe属性で指定可能です）） | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.4 |
+| api.signuporsignin | 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。 | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.5 |
+| api.selfasserted | ソーシャル アカウントのサインアップ ページ - ソーシャル ID プロバイダーの既存のアカウントを使用してサインアップするときに、ユーザーが入力する必要があるフォームを表示します。 このページは、パスワード入力フィールドを除いて、上記のソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.selfasserted.profileupdate | プロファイルの更新ページ - ユーザーがプロファイルを更新するためにアクセスできるフォームを表示します。 このページは、パスワード入力フィールドを除いて、ソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.localaccountsignup | ローカル アカウントのサインアップ ページ - 電子メール アドレスまたはユーザー名に基づいたローカル アカウントでサインアップするためのフォームを表示します。 このフォームには、テキスト入力ボックス、パスワード入力ボックス、ラジオ ボタン、単一選択ドロップダウン ボックス、複数選択チェック ボックスなど、さまざまな入力コントロールを含めることができます。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.localaccountpasswordreset | パスワードを忘れた場合のページ - パスワードのリセットを開始するためにユーザーが入力する必要があるフォームを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.phonefactor | 多要素認証ページ - サインアップ中またはサインイン中にテキストまたは音声を使用して電話番号を確認します。 | urn:com:microsoft:aad:b2c:elements:contract:multifactor:1.2.5 |
+| api.signuporsigninwithkmsi | サインインしたまま機能付き 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。（api.signuporsigninを利用してください（setting.enableRememberMe属性で指定可能です）） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
 
 ## Azure Actvie Directoryに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | 入力 | 永続 | 出力 | IncludeTechnicalProfile |

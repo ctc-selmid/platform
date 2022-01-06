@@ -1,12 +1,14 @@
-# SELMID_EXTENSION_V4
+# SELMID_EXTENSION_V5
  - CTC拡張機能の関する各定義を行うファイル。
- - バージョン：4
+ - バージョン：5
 
 ## <a id="claimtype"></a> ClaimType定義(`ClaimsSchema`エレメント配下)
 | ID | 概要 | 設定 |
 |:---|:---|:---|
 | readOnlyEmail | 読み取り用メールアドレス | 属性：Mask、Type：Regex、Regex： (?&lt;=..).(?=.*..$)、値： * |
 | accountBlocked | ユーザがブロックされているか | - |
+| tenantName | テナント名 | - |
+| estsRequestId | 条件付きアクセス利用時にサインインと、IdentityProtection のリスクを紐づけるために使用 | - |
 | refreshTokenIssuedOnDateTime | リフレッシュトークン発行日 | - |
 | identityProviderAccessToken | IdPから取得したアクセストークン | - |
 | oidc_display | OIDCパラメータ | - |
@@ -47,6 +49,18 @@
 | capy_black_types | CAPY用定義：リアルタイムブラックリストの評価結果のtypes(複数の場合はカンマ区切り)  | - |
 | capy_black_result | CAPY用定義：リアルタイムブラックリストの評価結果のresult  | - |
 | capy_black_value | CAPY用定義：リアルタイムブラックリストの評価結果のvalue  | - |
+| google_recaptcha_error_message | Google reCAPTCHA用定義：エラーメッセージ | - |
+| google_recaptcha_secret_key | Google reCAPTCHA用定義：Google recaptcha管理画面のシークレットキ | - |
+| google_recaptcha_response | Google reCAPTCHA用定義：recaptchaトークン | - |
+| conditionalAccessClaimCollection | 条件付きアクセス用定義： 評価結果のリスト(block,mfa,chg_pwdなど) | - |
+| conditionalAccessStatus | 条件付きアクセス用定義： 評価結果のステータス| - |
+| conditionalAuthenticationMethodUsed | 条件付きアクセス用定義： 評価処理時のユーザーがサインインに使用したメソッド| - |
+| conditionalAuthenticationMethodsUsed | 条件付きアクセス用定義： 評価処理時のユーザーがサインインに使用したメソッドのリスト。可能な値は Password、およびOneTimePasscode| - |
+| isConditionalAccessFederated | 条件付きアクセス用定義： フェデレーション アカウントを使用してユーザーがサインインしたかどうか| - |
+| isConditionalAccessMfaRegistered | 条件付きアクセス用定義： ユーザーが多要素認証用に電話番号を既に登録しているかどうか| - |
+| isConditionalAccessChallengeBlock | 条件付きアクセス用定義： 評価結果に"block"が存在したか| - |
+| isConditionalAccessChallengeMfa | 条件付きアクセス用定義： 評価結果に"mfa"が存在したか| - |
+| isConditionalAccessChallengeChgPwd | 評価結果に"chg_pwd"が存在したか| - |
 | userIdentity | [Deprecated]アカウントリンクV2用のuserIdentity。今後は[alternativeSecurityId](./aadb2c_b2c_base.md#alternativesecurityid)を利用してください。 | - |
 | userIdentities | [Deprecated]アカウントリンクV2用のuserIdentities。今後は[alternativeSecurityIds](./aadb2c_b2c_base.md#alternativesecurityids)を利用してください。 | - |
 | userIdentityToLink | [Deprecated]アカウントリンクV2用のuserIdentity。今後は[alternativeSecurityIdToLink](./aadb2c_b2c_base.md#alternativesecurityidtolink)を利用してください。 | - |
@@ -93,6 +107,37 @@
 | signInNames_emailAddress_domainName | ソーシャル情報をもとにローカルアカウントを作成定義：signInNames.emailAddressのドメイン部分 | - |
 | is_selmid_dummy_local_account_email | ソーシャル情報をもとにローカルアカウントを作成定義：signInNames.emailAddressがダミーemailかを判断 | - |
 | executed-SelfAssertedAsLocalAccount-Input | ソーシャル情報をもとにローカルアカウントを作成定義：ユーザによって属性が入力されたか | - |
+| selmid_fido_challenge | FIDO用定義：FIDO認証器登録時、認証時の処理開始時にサーバーから渡ってくるランダム値（未使用） | - |
+| selmid_fido_raw_id | FIDO用定義：生成された公開鍵のIDを示す値 | - |
+| selmid_fido_id | FIDO用定義：rawIdをbase64urlエンコードしたもの | - |
+| selmid_fido_client_data_json | FIDO用定義：認証器にクライアントから渡したデータをJSONシリアライズされたデータ | - |
+| selmid_fido_attestation | FIDO用定義：公開鍵データや認証器の情報やattestationを検証するための値などが入ったデータ | - |
+| selmid_fido_user_handle | FIDO用定義：ユーザーハンドル（未使用） | - |
+| selmid_fido_username | FIDO用定義：ユーザー名（未使用） | - |
+| selmid_fido_signature | FIDO用定義：秘密鍵を使って本人性の検証を行った結果を署名したデータ | - |
+| selmid_fido_authenticator_data | FIDO用定義：認証時の情報が入ったデータ | - |
+| selmid_fido_att_type | FIDO用定義：認証器から認可サーバへの資格情報受け取り方法（デフォルト：none） | - |
+| selmid_fido_auth_type | FIDO用定義：認証器の種類（Platform、CrossPlatform） | - |
+| selmid_fido_user_verification | FIDO用定義：認証器でユーザーの本人確認を行うか（デフォルト：preferred） | - |
+| selmid_fido_require_resident_key | FIDO用定義：認証器にユーザーの情報を保存するか（デフォルト：false） | - |
+| selmid_fido_type | FIDO用定義：'public-key'固定の文字列 | - |
+| selmid_fido_extensions | FIDO用定義：拡張機能の利用するか（未実装） | - |
+| selmid_fido_origin | FIDO用定義：WebAuthnAPIの呼び出し元の情報 | - |
+| selmid_fido_select_authenticator | FIDO用定義：認証器の種類選択ボタン用 | - |
+| selmid_fido_authenticator_name | FIDO用定義：認証器名入力用 | - |
+| selmid_fido_api_request | FIDO用定義：Rest APIリクエスト用 | - |
+| selmid_fido_api_response | FIDO用定義：Rest APIレスポンス用 | - |
+| selmid_fido_wapi_error_code | FIDO用定義：WebAuthnエラーコード | - |
+| selmid_fido_wapi_error_message | FIDO用定義：WebAuthnエラーメッセージ | - |
+| selmid_fido_cosmosdb_account_endpoint | FIDO用定義：認証器情報格納用CosmosDBアカウントエンドポイントURI | - |
+| selmid_fido_cosmosdb_account_key | FIDO用定義：認証器情報格納用CosmosDBアカウントキー | - |
+| selmid_fido_cosmosdb_database_id | FIDO用定義：認証器情報格納用CosmosDBのデータベース名 | - |
+| selmid_fido_cosmosdb_challenge_container_id | FIDO用定義：Challenge格納コンテナ名 | - |
+| selmid_fido_cosmosdb_store_container_suffix | FIDO用定義：認証器情報格納コンテナ名の接尾辞 | - |
+| selmid_fido_error_code_conv_map | FIDO用定義：エラーコード変換用 | - |
+| selmid_fido_error_message | FIDO用定義：エラーメッセージ | - |
+| selmid_mfa_fido_selected | MFAとしてFIDOが選択されているか | - |
+| selmid_fido_exists_mfalist | MFAとしてFIDOが登録されているか | - |
 
 ## <a id="claimstransformations"></a>属性変換ルール定義（`ClaimsTransformations`エレメント配下）
 | ID | 動作概要 | 入力 | 出力 |
@@ -130,15 +175,28 @@
 | CreateDummyPassword | ダミーパスワード作成（テンポラリダミーパスワードを複数回アペンドします。桁数を増やすため。） | selmid_temp_dummy_password | selmid_dummy_password |
 | CopySelmidOutputEmailToReadOnly | selmid_output_emailをメールアドレス検証用のreadOnlyEmailへコピーします | selmid_output_email | readOnlyEmail |
 | AssertRefreshTokenIssuedOnDateTimeIsLaterThanRefreshTokensValidFromDateTime | refreshTokenIssuedOnDateTimeがrefreshTokensValidFromDateTimeよりあと（新しい）ことを検証します | refreshTokenIssuedOnDateTime<br>refreshTokensValidFromDateTime | - |
+| CreateFIDOAlternativeSecurityIdToLink | FIDO用AlternativeSecurityIdの作成 | objectId<br>issuerToLink | alternativeSecurityIdToLink |
+| SetFIDOExistsFlag | MFAとしてFIDOが登録されているかを設定 | issuers | selmid_fido_exists_mfalist |
+| GenerateRequestBodyForFIDOMakeCredentials | FIDO用MakeCredentialsへのリクエストボディ生成 | selmid_fido_authenticator_name<br>selmid_fido_client_data_json<br>selmid_fido_attestation<br>selmid_fido_raw_id<br>selmid_fido_id<br>selmid_fido_type<br>selmid_fido_extensions<br>tenantName<br>selmid_fido_cosmosdb_account_endpoint<br>selmid_fido_cosmosdb_account_key<br>selmid_fido_cosmosdb_database_id<br>selmid_fido_cosmosdb_challenge_container_id<br>selmid_fido_cosmosdb_store_container_suffix | selmid_fido_api_request |
+| GenerateRequestBodyForFIDOMakeAssertion | FIDO用MakeAssertionへのリクエストボディ生成 | selmid_fido_raw_id<br>selmid_fido_id<br>selmid_fido_type<br>selmid_fido_extensions<br>selmid_fido_client_data_json<br>selmid_fido_authenticator_data<br>selmid_fido_signature<br>tenantName<br>selmid_fido_cosmosdb_account_endpoint<br>selmid_fido_cosmosdb_account_key<br>selmid_fido_cosmosdb_database_id<br>selmid_fido_cosmosdb_challenge_container_id<br>selmid_fido_cosmosdb_store_container_suffix | selmid_fido_api_request |
+| SetErrorMessageForFidoError | FIDOのChallenge取得エラー発生時のエラーメッセージ設定（ローカライズ対応） | selmid_fido_error_message | errorMessage |
+| AddToconditionalAuthenticationMethodsUsed | 条件付きアクセス：ユーザーがサインインに使用したメソッドの一覧への追加 | conditionalAuthenticationMethodUsed<br>conditionalAuthenticationMethodsUsed | conditionalAuthenticationMethodsUsed |
+| CreatePasswordAuthenticationMethodClaim | 条件付きアクセス：ユーザーがサインインに使用したメソッド：Password | Password | conditionalAuthenticationMethodUsed |
+| CreateOneTimePasscodeAuthenticationMethodClaim | 条件付きアクセス：ユーザーがサインインに使用したメソッド：OneTimePasscode | OneTimePasscode | conditionalAuthenticationMethodUsed |
+| SetIsConditionalAccessChallengeBlock | 条件付きアクセス：評価結果に"block"が存在したかを設定 | conditionalAccessClaimCollection | isConditionalAccessChallengeBlock |
+| SetIsConditionalAccessChallengeMfa | 条件付きアクセス：評価結果に"mfa"が存在したかを設定 | conditionalAccessClaimCollection | isConditionalAccessChallengeMfa |
+| SetIsConditionalAccessChallengeChgPwd | 条件付きアクセス：評価結果に"chg_pwd"が存在したかを設定 | conditionalAccessClaimCollection | isConditionalAccessChallengeChgPwd |
+
 
 ## <a id="contentdefinitions"></a> UI定義（`ContentDefinitions`エレメント配下）
 | ID | 概要 | DataUri |
 |:---|:---|:---|
-| api.selfasserted.tou | 利用規約を表示する画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.selfasserted.makecapydataforriskbases | リスクベース認証 Capyデータ作成画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.localaccountsignupwithpuzzle | ローカルアカウントのサインアップ画面（パズルキャプチャ付き） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.selfasserted.totp.regist | TOTP登録画面（QRコード読み取り/テキストコード入力を行い、認証コードを入力します） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
-| api.selfasserted.totp.verify| TOTP検証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.4 |
+| api.selfasserted.tou | 利用規約を表示する画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.selfasserted.makecapydataforriskbases | リスクベース認証 Capyデータ作成画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.localaccountsignupwithpuzzle | ローカルアカウントのサインアップ画面（パズルキャプチャ付き） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.selfasserted.totp.regist | TOTP登録画面（QRコード読み取り/テキストコード入力を行い、認証コードを入力します） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.selfasserted.totp.verify| TOTP検証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.selfasserted.fido| FIDO登録・認証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
 
 ## <a id="displaycontrols"></a> DisplayControl定義（`DisplayControls`エレメント配下）
 | ID | 概要 | DisplayClaims | OutputClaims | Actions |
@@ -271,25 +329,32 @@
 | GetDummyPassword3 | selmid_dummy_passwordを取得します(3回目。108桁) | - | - | - | - | GetDummyPasswordBase |
 | GetDummyPassword4 | selmid_dummy_passwordを取得します(4回目。144桁) | - | - | - | - | GetDummyPasswordBase |
 | GetSelmidOutputEmailFromSignInNamesEmailAddress | signInNames.emailAddressの値をもとにselmid_output_email属性を取得します | - | - | selmid_output_email | - | SetSelmidOutputEmailFromSignInNamesEmailAddress |
+| GetCosmosDBConfig | FIDO認証機能データベースの接続先設定 | - | - | selmid_fido_cosmosdb_account_endpoint<br>selmid_fido_cosmosdb_account_key<br>selmid_fido_cosmosdb_database_id<br>selmid_fido_cosmosdb_challenge_container_id<br>selmid_fido_cosmosdb_store_container_suffix | - | - |
+| GenerateConditionalAccessClaimFlags | 条件付きアクセスの評価処理結果のChallengeからフラグ設定（個別のフラグを使うことがない場合は不要） | - | - | isConditionalAccessChallengeMfa<br>isConditionalAccessChallengeChgPwd<br>isConditionalAccessChallengeBlock | SetIsConditionalAccessChallengeMfa<br>SetIsConditionalAccessChallengeChgPwd<br>SetIsConditionalAccessChallengeBlock | - |
 
 ## <a id="restapi"></a>REST APIに関連する機能定義（`ClaimsProviders`エレメント配下）  
-| ID | 概要 | 入力 | 出力 | IncludeTechnicalProfile |
-|:---|:---|:---|:---|:---|
-| API-LINEFriendStatus | LINE公式アカウントの友だち関係を取得します | identityProviderAccessToken | extension_LINEFriend | - |
-| REST-API-EVALUATE-CAPYDATA-FOR-RISKBASES | リスクベース認証用データの評価を行います | capy_userId<br>capy_data<br>capy_private_key<br>capy_riskbase_key | capy_risk_result<br>capy_risk_level<br>capy_risk_reasons<br>userMessage | - |
-| REST-API-APPROVE-CAPYDATA-FOR-RISKBASES | リスクベース認証用データの承認を行います | capy_data<br>capy_private_key<br>capy_riskbase_key | capy_risk_result<br>capy_risk_reason<br>userMessage | - |
-| REST-API-EVALUATE-CAPYDATA-FOR-PUZZLE | パズルキャプチャ用データの評価を行います | submit.capy_answer<br>submit.capy_challengekey<br>capy_private_key | capy_puzzle_result<br>capy_puzzle_reason<br>userMessage | - |
-| REST-API-EVALUATE-CAPYBLACKLIST | リアルタイムブラックリストの評価を行います | capy_private_key<br>capy_blacklist_key | capy_black_types<br>capy_black_result<br>capy_black_value | - |
-| REST-API-DISPLAY-FOR-USERMESSAGE | userMessageの表示を行います | - | - | - |
-| REST-API-CUSTOMERINFO-MATCH | 本人確認（マッチング）を行います | - | status<br>userMessage<br>selmid_result<br>selmid_docomo_result_code<br>selmid_kddi_status<br>selmid_kddi_result_code<br>selmid_docomo_mb_result<br>selmid_docomo_mb_guidancecode<br>selmid_docomo_httpCode<br>selmid_docomo_httpMessage<br>selmid_docomo_moreInformation<br>selmid_kddi_error_result_code<br>selmid_kddi_error_message | - |
+| ID | 概要 | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|:---|
+| API-LINEFriendStatus | LINE公式アカウントの友だち関係を取得します | - | identityProviderAccessToken | extension_LINEFriend | - |
+| REST-API-EVALUATE-CAPYDATA-FOR-RISKBASES | リスクベース認証用データの評価を行います | - | capy_userId<br>capy_data<br>capy_private_key<br>capy_riskbase_key | capy_risk_result<br>capy_risk_level<br>capy_risk_reasons<br>userMessage | - |
+| REST-API-APPROVE-CAPYDATA-FOR-RISKBASES | リスクベース認証用データの承認を行います | - | capy_data<br>capy_private_key<br>capy_riskbase_key | capy_risk_result<br>capy_risk_reason<br>userMessage | - |
+| REST-API-EVALUATE-CAPYDATA-FOR-PUZZLE | パズルキャプチャ用データの評価を行います | - | submit.capy_answer<br>submit.capy_challengekey<br>capy_private_key | capy_puzzle_result<br>capy_puzzle_reason<br>userMessage | - |
+| REST-API-EVALUATE-CAPYBLACKLIST | リアルタイムブラックリストの評価を行います | - | capy_private_key<br>capy_blacklist_key | capy_black_types<br>capy_black_result<br>capy_black_value | - |
+| REST-API-DISPLAY-FOR-USERMESSAGE | userMessageの表示を行います | - | - | - | - |
+| REST-API-CUSTOMERINFO-MATCH | 本人確認（マッチング）を行います | - | - | status<br>userMessage<br>selmid_result<br>selmid_docomo_result_code<br>selmid_kddi_status<br>selmid_kddi_result_code<br>selmid_docomo_mb_result<br>selmid_docomo_mb_guidancecode<br>selmid_docomo_httpCode<br>selmid_docomo_httpMessage<br>selmid_docomo_moreInformation<br>selmid_kddi_error_result_code<br>selmid_kddi_error_message | - |
 | SendGrid | SendGrid送信を行います | sendGridReqBody | - | - |
-| SendOtp | [Deprecated]OTP用メール送信を行います。今後は[SendGeneralOtp](./aadb2c_selmid_extension.md#sendgeneralotp)を利用してください。 | - | - | SendGrid |
-| <a id="sendgeneralotp"/>SendGeneralOtp | OTP用メール送信を行います | - | - | SendGrid |
+| SendOtp | [Deprecated]OTP用メール送信を行います。今後は[SendGeneralOtp](./aadb2c_selmid_extension.md#sendgeneralotp)を利用してください。 | - | - | - | SendGrid |
+| <a id="sendgeneralotp"/>SendGeneralOtp | OTP用メール送信を行います | - | - | - | SendGrid |
 | SendMfaOtp | MFA OTP用メール送信を行います | - | - | SendGrid |
-| SendWelcomeMessage | Welcome用メール送信を行います | - | - | SendGrid |
-| SendPasswordChangeMessage | パスワード変更用メール送信を行います | - | - | SendGrid |
-| REST-API-TOTP-GENERATE | TOTPの認証コード生成を行います | - | selmid_totp_otpauth_url<br>selmid_totp_secret_code<br>extension_selmid_totp_secret_key | - |
-| REST-API-TOTP-VERIFY | TOTPの認証コード生成を行います | selmid_totp_code<br>extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | extension_selmid_totp_timestepmatched<br>selmid_result<br>userMessage | - |
+| SendWelcomeMessage | Welcome用メール送信を行います | - | - | - | SendGrid |
+| SendPasswordChangeMessage | パスワード変更用メール送信を行います | - | - | - | SendGrid |
+| REST-API-TOTP-GENERATE | TOTPの認証コード生成を行います | - | - | selmid_totp_otpauth_url<br>selmid_totp_secret_code<br>extension_selmid_totp_secret_key | - |
+| REST-API-TOTP-VERIFY | TOTPの認証コード生成を行います | - | selmid_totp_code<br>extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | extension_selmid_totp_timestepmatched<br>selmid_result<br>userMessage | - |
+| REST-API-GOOGLE-RECAPTCHA-SITE-VERIFY | google reCAPTCHAのresponseデータの検証を行います | - | responseを受け取ったフィールドのClaimType Id（標準ではgoogle_recaptcha_responseを用意）<br>google_recaptcha_secret_key<br>ipaddress | userMessage | - |
+| REST-FIDOGetChallengeForRegist | FIDO登録時Challenge取得処理 | - | tenantName<br>objectId<br>selmid_fido_att_type<br>selmid_fido_auth_type<br>selmid_fido_user_verification | selmid_fido_api_response | - |
+| REST-FIDOGetChallengeForSignIn | FIDO認証時Challenge取得処理 | - | tenantName<br>objectId | selmid_fido_api_response | - |
+| REST-FIDOMakeCredential | FIDO登録処理 | GenerateRequestBodyForFIDOMakeCredentials | selmide_fido_api_request | selmid_result<br>userMessage | - |
+| REST-FIDOMakeAssertion | FIDO認証処理 | GenerateRequestBodyForFIDOMakeAssertion | selmide_fido_api_request | selmid_result<br>userMessage | - |
 
 ## ローカルアカウントに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | Metadata | 入力 | 出力 | 検証プロファイル |
@@ -314,17 +379,6 @@
 | AAD-UserReadUsingObjectId-ThrowIfRefreshTokenIsNotValid | objectIdをキーにリフレッシュトークン有効日を取得します（リフレッシュトークンが無効の場合はエラー） | - | - | - | refreshTokensValidFromDateTime | AssertRefreshTokenIssuedOnDateTimeIsLaterThanRefreshTokensValidFromDateTime | AAD-UserReadUsingObjectId |
 | TpEngine_RefreshToken | リフレッシュトークン取得定義 | - | - | - | objectId<br>refreshTokenIssuedOnDateTime | - | - |
 
-## PhoneFactorに関連する機能定義（`ClaimsProviders`エレメント配下）
-| ID | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 動作概要 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
-|:---|:---|:---|:---|:---|:---|:---|
-| PhoneFactor-Input | 電話番号入力するための画面 | - | - | - | - | PhoneFactor-InputOrVerify |
-| PhoneFactor-VerifyByAuthenticationPhoneNumber | 登録済み電話番号の検証するための画面 | <table><tr><th>key</th><th>value</th></tr><tr><td>ManualPhoneNumberEntryAllowed</td><td>false</td></tr></table> | - | - | - | PhoneFactor-InputOrVerify |
-
-##  Application Insightsに関連する機能定義（`ClaimsProviders`エレメント配下）
-| ID | 動作概要 | Metadata | 入力 |
-|:---|:---|:---|:---|
-| AzureInsights-Common | Active Directoryの共通プロファイル | <table><tr><th>key</th><th>value</th></tr><tr><td>InstrumentationKey</td><td></td></tr><tr><td>DeveloperMode</td><td>true</td></tr><tr><td>DisableTelemetry</td><td>false</td></tr></table> | <table><tr><th>ClaimTypeReferenceId</th><th>PartnerClaimType</th><th>DefaultValue</th></tr><tr><td>PolicyId</td><td>{property:Policy}</td><td>{Policy:PolicyId}</td></tr><tr><td>CorrelationId</td><td>{property:CorrelationId}</td><td>{Context:CorrelationId}</td></tr><tr><td>Culture</td><td>{property:Culture}</td><td>{Culture:RFC5646}</td></tr><tr><td>AppId</td><td>{property:App}</td><td>{OIDC:ClientId}</td></tr></table> |
-
 ## セルフ アサートに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | 入力変換 | 入力 | 出力 | 検証プロファイル  | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|:---|
@@ -339,11 +393,31 @@
 | LocalAccountWriteSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）の設定画面 | - |objectId | email | AAD-UserWriteSignInNamesEmailAddressUsingObjectId |
 | SelfAsserted-Error-AccountLinkTargetIdentityIsExists | リンク対象のアカウントが既に存在する場合のエラー画面 | SetErrorMessageForAccountLinkTargetIdentityIsExists | - | - | - | SelfAsserted-Error |
 | SelfAsserted-Error-SignInNamesEmailAddressIsNotSet | signInNames.emailAddressが未設定の場合のエラー画面 | SetErrorMessageForSignInNamesEmailAddressIsNotSet | - | - | - | SelfAsserted-Error |
+| SelfAsserted-FIDOEnrollment | FIDO認証登録画面 | - | selmid_fido_api_response | selmid_fido_api_response<br>selmid_fido_select_authenticator<br>selmid_fido_authenticator_name<br>selmid_fido_raw_id<br>selmid_fido_client_data_json<br>selmid_fido_attestation<br>selmid_fido_type<br>selmid_fido_extensions<br>selmid_fido_id<br>selmid_fido_wapi_error_code<br>selmid_fido_wapi_error_message<br>issuerToLink | CreateFIDOAlternativeSecurityIdToLink<br>AppendAlternativeSecurityIdToLink | - |
+| SelfAsserted-FIDOSignIn | FIDOサインイン画面 | - | selmid_fido_api_response | selmid_fido_api_response<br>selmid_fido_raw_id<br>selmid_fido_client_data_json<br>selmid_fido_user_handle<br>selmid_fido_signature<br>selmid_fido_authenticator_data<br>selmid_fido_type<br>selmid_fido_extensions<br>selmid_fido_id<br>selmid_fido_wapi_error_code<br>selmid_fido_wapi_error_message | - | - |
+| SelfAsserted-Error-FidoGetChallengeError | FIDOのChallenge取得エラー発生時のエラー画面 | SetErrorMessageForFidoError | - | - | - | SelfAsserted-Error |
+
+## Conditional Accessに関連する機能定義（`ClaimsProviders`エレメント配下）
+| ID | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 動作概要 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|:---|:---|
+| ConditionalAccessEvaluation | 条件付きアクセス:評価処理 | <table><tr><th>key</th><th>value</th></tr><tr><td>OperationType</td><td>Evaluation</td></tr></table> | CreatePasswordAuthenticationMethodClaim<br>AddToconditionalAuthenticationMethodsUsed | objectId<br>conditionalAuthenticationMethodsUsed<br>isConditionalAccessFederated<br>isConditionalAccessMfaRegistered<br>estsRequestId | conditionalAccessClaimCollection<br>conditionalAccessStatus | - |
+| ConditionalAccessRemediation | 条件付きアクセス:修復処理 | <table><tr><th>key</th><th>value</th></tr><tr><td>OperationType</td><td>Remediation</td></tr></table> | - | conditionalAccessClaimCollection | - | - |
+
+## PhoneFactorに関連する機能定義（`ClaimsProviders`エレメント配下）
+| ID | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 動作概要 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|:---|:---|
+| PhoneFactor-Input | 電話番号入力するための画面 | - | - | - | - | PhoneFactor-InputOrVerify |
+| PhoneFactor-VerifyByAuthenticationPhoneNumber | 登録済み電話番号の検証するための画面 | <table><tr><th>key</th><th>value</th></tr><tr><td>ManualPhoneNumberEntryAllowed</td><td>false</td></tr></table> | - | - | - | PhoneFactor-InputOrVerify |
+
+##  Application Insightsに関連する機能定義（`ClaimsProviders`エレメント配下）
+| ID | 動作概要 | Metadata | 入力 |
+|:---|:---|:---|:---|
+| AzureInsights-Common | Active Directoryの共通プロファイル | <table><tr><th>key</th><th>value</th></tr><tr><td>InstrumentationKey</td><td></td></tr><tr><td>DeveloperMode</td><td>true</td></tr><tr><td>DisableTelemetry</td><td>false</td></tr></table> | <table><tr><th>ClaimTypeReferenceId</th><th>PartnerClaimType</th><th>DefaultValue</th></tr><tr><td>PolicyId</td><td>{property:Policy}</td><td>{Policy:PolicyId}</td></tr><tr><td>CorrelationId</td><td>{property:CorrelationId}</td><td>{Context:CorrelationId}</td></tr><tr><td>Culture</td><td>{property:Culture}</td><td>{Culture:RFC5646}</td></tr><tr><td>AppId</td><td>{property:App}</td><td>{OIDC:ClientId}</td></tr></table> |
 
 ## OneTimePasswordに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | Metadata | 入力 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|
-| GenerateOtp-Common | ワンタイムパスワード生成の共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>GenerateCode</td></tr><tr><td>CodeExpirationInSeconds</td><td>1200</td></tr><tr><td>CodeLength</td><td>6</td></tr><tr><td>CharacterSet</td><td>a-zA-Z0-9</td></tr><tr><td>ReuseSameCode</td><td>true</td></tr><tr><td>MaxNumAttempts</td><td>5</td></tr></table> | - | - | - |
+| GenerateOtp-Common | ワンタイムパスワード生成の共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>GenerateCode</td></tr><tr><td>CodeExpirationInSeconds</td><td>1200</td></tr><tr><td>CodeLength</td><td>6</td></tr><tr><td>CharacterSet</td><td>a-zA-Z0-9</td></tr><tr><td>ReuseSameCode</td><td>false</td></tr><tr><td>MaxNumAttempts</td><td>5</td></tr></table> | - | - | - |
 | VerifyOtp-Common | ワンタイムパスワード検証の共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>VerifyCode</td></tr><tr><td>UserMessage.VerificationHasExpired</td><td>You have exceed the maximum time allowed.</td></tr><tr><td>UserMessage.MaxRetryAttemped</td><td>You have exceed the number of retries allowed.</td></tr><tr><td>UserMessage.InvalidCode</td><td>You have entered the wrong code.</td></tr><tr><td>UserMessage.ServerError</td><td>Cannot verify the code, please try again later.</td></tr></table> | - | - | - |
 | GenerateOtp | [Deprecated]ワンタイムパスワードを生成します。今後は[GenerateGeneralOtp](./aadb2c_selmid_extension.md#generategeneralotp)を利用してください。 | - | email | otp | GenerateOtp-Common |
 | VerifyOtp | [Deprecated]ワンタイムパスワードを検証します。今後は[VerifyGeneralOtp](./aadb2c_selmid_extension.md#verifygeneralotp)を利用してください。 | - | email<br>verificationCode | - | VerifyOtp-Common |
@@ -359,6 +433,7 @@
 | SM-MFA | 多要素認証セッションを管理します| strongAuthenticationPhoneNumber | - | - |
 | SM-MFA-Email |emailによるMFA用セッションを管理します | readOnlyEmail | isActiveMFASession | - |
 | SM-MFA-Totp | TOTPによるMFA用セッションを管理します | selmid_totp_code | isActiveMFASession | - |
+| SM-MFA-Fido | FIDOによるMFA用セッションを管理します | objectId | objectIdFromSession<br>isActiveMFASession | - |
 
 ## トークン発行者定義（`ClaimsProviders`エレメント配下）
 | ID | 概要 | Metadata |
