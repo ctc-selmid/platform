@@ -37,7 +37,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 | Google | OAuth2.0 | client_id<br>client_secret | issuerUserId<br>email<br>givenName<br>surname<br>displayName | [Google Developer Console](https://developers.google.com/identity/protocols/OAuth2?hl=ja) |
 | LINE | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>identityProviderAccessToken | [LINE Developer](https://developers.line.biz/ja/docs/line-login/web/integrate-line-login/) |
 | Yahoo! JAPAN | OAuth2.0 | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [Yahoo! ID連携](https://developer.yahoo.co.jp/yconnect/v2/) |
-| Apple<br>*テスト実装 | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br> | [Sign in with Apple](https://developer.apple.com/sign-in-with-apple/) |
+| Apple | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br> | [Sign in with Apple](https://developer.apple.com/sign-in-with-apple/) |
 | dアカウント・コネクト | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [dアカウント・コネクト](https://id.smt.docomo.ne.jp/src/index_business.html) |
 | auID | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email | - |
 
