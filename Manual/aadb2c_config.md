@@ -6,6 +6,7 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 
 | ポリシー名 | 契約企業様による編集可否 | 定義内容 |
 |:---|:---|:---|
+| B2C_BASE | 不可 | バージョン変更による影響をなくす為に必要な定義 |
 | [B2C_BASE_{VerNo}](./aadb2c_b2c_base.md) | 不可 | 基本動作に必要な定義 |
 | [SELMID_EXTENSION_{VerNo}](./aadb2c_selmid_extension.md) | 不可 | SELMID拡張機能の定義 |
 | [USER_IDP_SETTINGS](./aadb2c_config.md#user_idp_settings) | 可 | 契約企業様毎の設定（各種IdPの接続情報） |
@@ -33,13 +34,14 @@ Azure Active Directory B2C(以下、Azure AD B2C）のカスタムポリシー�
 | Identity Provider名 | プロトコル | 設定する情報 | 取得できる属性 | IdP側の設定手順 |
 |:---|:---|:---|:---|:---|
 | Facebook | OAuth2.0 | client_id<br>client_secret<br>scope<br>ClaimsEndpoint | issuerUserId<br>givenName<br>surname<br>displayName<br>email | [facebook for developers](https://developers.facebook.com/docs/apps?locale=ja_JP) |
-| Twitter | OAuth1.0a | client_id<br>client_secret | issuerUserId<br>displayName<br>email | [twitter developer](https://developer.twitter.com/en/apps) |
+| X | OAuth1.0a | client_id<br>client_secret | issuerUserId<br>displayName<br>email | [twitter developer](https://developer.twitter.com/en/apps) |
 | Google | OAuth2.0 | client_id<br>client_secret | issuerUserId<br>email<br>givenName<br>surname<br>displayName | [Google Developer Console](https://developers.google.com/identity/protocols/OAuth2?hl=ja) |
 | LINE | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>identityProviderAccessToken | [LINE Developer](https://developers.line.biz/ja/docs/line-login/web/integrate-line-login/) |
-| Yahoo! JAPAN | OAuth2.0 | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [Yahoo! ID連携](https://developer.yahoo.co.jp/yconnect/v2/) |
+| Yahoo! JAPAN | OAuth2.0/<br>OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [Yahoo! ID連携](https://developer.yahoo.co.jp/yconnect/v2/) |
 | Apple | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br> | [Sign in with Apple](https://developer.apple.com/sign-in-with-apple/) |
 | dアカウント・コネクト | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email<br>givenName<br>surName | [dアカウント・コネクト](https://id.smt.docomo.ne.jp/src/index_business.html) |
 | auID | OpenID Connect | client_id<br>client_secret<br>scope | issuerUserId<br>displayName<br>email | - |
+| xID | OAuth2.0 | client_id<br>client_secret<br>scope | issuerUserId<br>email<br>identityProvider<br>authenticationSource<br>identityProviderAccessToken | [xID for Developers](https://document.x-id.me/) |
 
 ## <a id="user_extension_base"></a>USER_EXTENSION_BASE
 各RPの共通となるスキーマ、UI定義、各種テクニカルプロファイルの定義

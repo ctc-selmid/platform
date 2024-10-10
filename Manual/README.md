@@ -1,4 +1,4 @@
-# SELMID設定方法
+# SELMID 設定方法
 ## はじめに
 ## 目次
 1. [機能実装：ID基盤の構成](./aadb2c_config.md)
