@@ -1,6 +1,6 @@
-# B2C_BASE_V5
+# B2C_BASE_V6
  - Azure AD B2Cで標準で用意されている または 標準的な機能に関する各定義を行うファイル。
- - バージョン：5
+ - バージョン：6
 
 ## <a id="claimtype"></a> ClaimType定義(`ClaimsSchema`エレメント配下)
 | ID | 概要 |
@@ -21,13 +21,14 @@
 | executed-SelfAsserted-Input | 属性がユーザーから収集されたかどうかを示す |
 | objectIdFromSession | オブジェクトIDがSSOセッションから取得されたことを示す |
 | isActiveMFASession | ユーザーがアクティブなMFAセッションを持っていることを示す |
+| lastLogonTime | ユーザーがログインした日時をセッションに保持するための項目 |
 | newPhoneNumberEntered | 新しい電話番号が有効かを示す |
-| EventType | ユーザー動作の追跡用 |
 | PolicyId | 要求リゾルバーのPolicy:PolicyId |
 | Culture | 要求リゾルバーのCulture:RFC5646 |
 | LanguageName | 要求リゾルバーのCulture:LanguageName |
 | CorrelationId | 要求リゾルバーのContext:CorrelationId |
 | AppId | ユーザー動作の追跡用の項目 |
+| EventType | ユーザー動作の追跡用の項目 |
 | federatedUser | ユーザー動作の追跡用の項目 |
 | parsedDomain | ユーザー動作の追跡用の項目 |
 | userInLocalDirectory | ユーザー動作の追跡用の項目 |
@@ -57,10 +58,12 @@
 | signInNames.emailAddress | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | strongAuthenticationPhoneNumber | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
 | refreshTokensValidFromDateTime | Azure ADユーザープロファイルの属性 [公式ドキュメント](https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/user-profile-attributes) |
+| refreshTokensValidFromDateTimeForRevokeSSOSessions | 実態は上記refreshTokensValidFromDateTimeと同等であるが、データ型が異なる |
 
 ## <a id="claimstransformations"></a>属性変換ルール定義（`ClaimsTransformations`エレメント配下）
 | ID | 動作概要 | 入力 | 出力 |
 |:---|:---|:---|:---|
+| SetLastLogonTimeNow | lastLogonTimeに現在日時を設定します | - | lastLogonTime |
 | CreateOtherMailsFromEmail | メールアドレスをotherMailsコレクションに加えます | email | otherMails |
 | CreateRandomUPNUserName | GUID形式でupnUserNameを生成します | - | upnUserName |
 | CreateUserPrincipalName | cpim_{upnUserName}@{tenant名}形式でuserPrincipalName（Azure AD B2C内部の識別子）を生成します<br>例）cpim_32407727-a73a-4944-9fdb-54cf4d755ddf@yourtenant.onmicrosoft.com | upnUserName | userPrincipalName |
@@ -74,33 +77,36 @@
 | CreateUserIdForMFA | 多要素認証用のuserId属性を生成します<br>{objectId}@{tenant名}の形式 | objectId | userIdForMFA |
 | CopyEmailToReadOnly | email属性の値をreadOnlyEmail属性にコピーします | email | readOnlyEmail |
 
-## UI定義（`ContentDefinitions`エレメント配下）
+## <a id="contentdefinitions"></a> UI定義（`ContentDefinitions`エレメント配下）
 | ID | 概要 | DataUri |
 |:---|:---|:---|
-| api.error | エラー ページ - 例外またはエラーが発生したときにエラーページを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:globalexception:1.2.1 |
-| api.idpselections | ID プロバイダーの選択ページ - ユーザーがサインイン時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.1 |
-| api.idpselections.signup | サインアップのための ID プロバイダーの選択 - ユーザーがサインアップ時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.1 |
-| api.signuporsignin | 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。 | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.5 |
-| api.selfasserted | ソーシャル アカウントのサインアップ ページ - ソーシャル ID プロバイダーの既存のアカウントを使用してサインアップするときに、ユーザーが入力する必要があるフォームを表示します。 このページは、パスワード入力フィールドを除いて、上記のソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.selfasserted.profileupdate | プロファイルの更新ページ - ユーザーがプロファイルを更新するためにアクセスできるフォームを表示します。 このページは、パスワード入力フィールドを除いて、ソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.localaccountsignup | ローカル アカウントのサインアップ ページ - 電子メール アドレスまたはユーザー名に基づいたローカル アカウントでサインアップするためのフォームを表示します。 このフォームには、テキスト入力ボックス、パスワード入力ボックス、ラジオ ボタン、単一選択ドロップダウン ボックス、複数選択チェック ボックスなど、さまざまな入力コントロールを含めることができます。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.localaccountpasswordreset | パスワードを忘れた場合のページ - パスワードのリセットを開始するためにユーザーが入力する必要があるフォームを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.phonefactor | 多要素認証ページ - サインアップ中またはサインイン中にテキストまたは音声を使用して電話番号を確認します。 | urn:com:microsoft:aad:b2c:elements:contract:multifactor:1.2.5 |
-| api.signuporsigninwithkmsi | サインインしたまま機能付き 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。（api.signuporsigninを利用してください（setting.enableRememberMe属性で指定可能です）） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.error | エラー ページ - 例外またはエラーが発生したときにエラーページを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:globalexception:1.2.5 |
+| api.idpselections | ID プロバイダーの選択ページ - ユーザーがサインイン時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.4 |
+| api.idpselections.signup | サインアップのための ID プロバイダーの選択 - ユーザーがサインアップ時に選択できる ID プロバイダーを一覧表示します。 ID プロバイダーは、通常、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかです。 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.4 |
+| api.signuporsignin | 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。 | urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.14 |
+| api.selfasserted | ソーシャル アカウントのサインアップ ページ - ソーシャル ID プロバイダーの既存のアカウントを使用してサインアップするときに、ユーザーが入力する必要があるフォームを表示します。 このページは、パスワード入力フィールドを除いて、上記のソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.selfasserted.profileupdate | プロファイルの更新ページ - ユーザーがプロファイルを更新するためにアクセスできるフォームを表示します。 このページは、パスワード入力フィールドを除いて、ソーシャル アカウントのサインアップ ページに似ています。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.localaccountsignup | ローカル アカウントのサインアップ ページ - 電子メール アドレスまたはユーザー名に基づいたローカル アカウントでサインアップするためのフォームを表示します。 このフォームには、テキスト入力ボックス、パスワード入力ボックス、ラジオ ボタン、単一選択ドロップダウン ボックス、複数選択チェック ボックスなど、さまざまな入力コントロールを含めることができます。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.localaccountpasswordreset | パスワードを忘れた場合のページ - パスワードのリセットを開始するためにユーザーが入力する必要があるフォームを表示します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.phonefactor | 多要素認証（電話）ページ - サインアップ中またはサインイン中にテキストまたは音声を使用して電話番号を確認します。 | urn:com:microsoft:aad:b2c:elements:contract:multifactor:1.2.8 |
+| api.selfasserted.emailVerify | 多要素認証（メール）ページ - サインアップ中またはサインイン中にワンタイムパスワードを使用してメールアドレスを確認します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.selfasserted.totp.regist | TOTP登録ページ - QRコード読み取り/テキストコード入力を行い、認証コードを入力、検証しデバイスの登録を行います。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.selfasserted.totp.verify | TOTP認証ページ - 登録デバイスの認証コードを入力、検証します。 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.signuporsigninwithkmsi | サインインしたまま機能付き 統合されたサインアップ ページまたはサインイン ページ - ユーザーのサインアップおよびサインイン プロセスを処理します。 ユーザーは、エンタープライズ ID プロバイダー、ソーシャル ID プロバイダー (Facebook や Google+ など)、ローカル アカウントのいずれかを使用できます。（api.signuporsigninを利用してください（setting.enableRememberMe属性で指定可能です）） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
 
 ## Azure Actvie Directoryに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | 入力 | 永続 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|
 | AAD-Common | Active Directoryの共通プロファイル | - | - | - | - |
 | AAD-UserWriteUsingAlternativeSecurityId | 新しいソーシャル アカウントを作成します | alternativeSecurityId | alternativeSecurityId<br>userPrincipalName<br>mailNickName<br>displayName| objectId<br>newUser | AAD-Common |
-| <a id="aaduserreadusingalternativesecurityid"/>AAD-UserReadUsingAlternativeSecurityId | ディレクトリ内のソーシャル アカウントを検索します | alternativeSecurityId | - | objectId | AAD-Common |
+| <a id="aaduserreadusingalternativesecurityid"/>AAD-UserReadUsingAlternativeSecurityId | ディレクトリ内のソーシャル アカウントを検索します | alternativeSecurityId | - | objectId<br>refreshTokensValidFromDateTimeForRevokeSSOSessions | AAD-Common |
 | <a id="aaduserreadusingalternativesecurityidnoerror"/>AAD-UserReadUsingAlternativeSecurityId-NoError | ディレクトリ内のソーシャル アカウントを検索します（存在しない場合でもエラーは発生しません） | alternativeSecurityId | - | objectId | AAD-Common |
 | AAD-UserWriteUsingLogonEmail | 新しいローカル アカウントを作成します | email | email<br>newPassword<br>passwordPolicies| objectId<br>authenticationSource<br>userPrincipalName<br>signInNames.emailAddress | AAD-Common |
 | AAD-UserReadUsingEmailAddress | ディレクトリ内のローカル アカウントを検索します | email | - | objectId<br>authenticationSource<br>userPrincipalName<br>displayName<br>accountEnabled<br>otherMails<br>signInNames.emailAddress | AAD-Common |
 | AAD-UserWriteUsingLogonEmail | 新しいローカル アカウントを作成します | email | email<br>newPassword<br>passwordPolicies| objectId<br>authenticationSource<br>userPrincipalName<br>signInNames.emailAddress | AAD-Common |
 | AAD-UserWritePasswordUsingObjectId | ローカル アカウントのパスワードを更新します | objectId | objectId<br>newPassword | - | AAD-Common |
 | AAD-UserWriteProfileUsingObjectId | ユーザープロファイルを更新します | objectId | objectId | - | AAD-Common |
-| AAD-UserReadUsingObjectId | ユーザープロファイルを読み取ります | objectId | - | - | AAD-Common |
+| AAD-UserReadUsingObjectId | ユーザープロファイルを読み取ります | objectId | - | refreshTokensValidFromDateTimeForRevokeSSOSessions | AAD-Common |
 | AAD-DeleteClaimsUsingObjectId | 指定された属性をユーザープロファイルから消去します | objectId | objectId | - | AAD-Common |
 | AAD-DeleteUserUsingObjectId | ユーザーアカウントを削除します | objectId | - | - | AAD-Common |
 | <a id="aaduserreadusingalternativesecurityidtolinknoerror"/>AAD-UserReadUsingAlternativeSecurityIdToLink-NoError | ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）（存在しない場合でもエラーは発生しません） | alternativeSecurityIdToLink | - | objectIdToLink | AAD-Common |
@@ -129,13 +135,14 @@
 | ID | 概要 | 永続 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|
 | SM-Noop | このプロバイダーは何もしません。 特定の技術プロファイルの SSO 動作を抑制するために使用できます。| - | - | - |
-| SM-AAD | ローカルアカウントのサインアップ・サインインセッションを管理します| objectId<br>signInName<br>authenticationSource<br>identityProvider<br>newUser<br>executed-SelfAsserted-Input | objectIdFromSession | - |
+| SM-AAD | ローカルアカウントのサインアップ・サインインセッションを管理します| objectId<br>signInName<br>authenticationSource<br>identityProvider<br>newUser<br>lastLogonTime<br>executed-SelfAsserted-Input | objectIdFromSession | - |
 | SM-SocialSignup | ソーシャルアカウントのサインアップセッションを管理します| SM-AADと同様 | - | - |
 | SM-SocialLogin | ソーシャルアカウントのサインインセッションを管理します| alternativeSecurityId | - | SM-AAD |
 | SM-MFA | 多要素認証セッションを管理します| Verified.strongAuthenticationPhoneNumber | - | - |
 | SM-jwt-issuer | OAuth2 または OpenId Connect と Azure AD B2C 間のセッションを管理します| - | - | - |
 | SM-Saml-idp | SAML IDP と Azure AD B2C 間のセッションを管理します| - | - | - |
 | SM-Saml-issuer | SAML SP と Azure AD B2C 間のセッションを管理します| - | - | - |
+| SM-MFA-TOTP | TOTPによるMFA用セッションを管理します	| - | - | - |
 
 ## トークン発行者定義（`ClaimsProviders`エレメント配下）
 | ID | 概要 |

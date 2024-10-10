@@ -1,6 +1,6 @@
-# SELMID_EXTENSION_V5
+# SELMID_EXTENSION_V6
  - CTC拡張機能の関する各定義を行うファイル。
- - バージョン：5
+ - バージョン：6
 
 ## <a id="claimtype"></a> ClaimType定義(`ClaimsSchema`エレメント配下)
 | ID | 概要 | 設定 |
@@ -9,6 +9,11 @@
 | accountBlocked | ユーザがブロックされているか | - |
 | tenantName | テナント名 | - |
 | estsRequestId | 条件付きアクセス利用時にサインインと、IdentityProtection のリスクを紐づけるために使用 | - |
+| errorCode | エラーコード | - |
+| errorMessage | エラーメッセージ | - |
+| isSignUpEnabled | サインアップ機能が有効か否かの判別に利用します | - |
+| isForgotPassword | パスワードを忘れた場合のリンク押下の判別に利用します | - |
+| isSessionRevoked | SSOセッション破棄の判別に利用します | - |
 | refreshTokenIssuedOnDateTime | リフレッシュトークン発行日 | - |
 | identityProviderAccessToken | IdPから取得したアクセストークン | - |
 | oidc_display | OIDCパラメータ | - |
@@ -20,6 +25,7 @@
 | oidc_acr_values | OIDCパラメータ | - |
 | oidc_redirect_uri | OIDCパラメータ | - |
 | bot_prompt | LINEログイン：LINE公式アカウントを友だち追加するオプション | - |
+| extension_LINEFriend | LINEログイン：LINE公式アカウントと友達かどうか | - |
 | termsOfUseConsentChoice | 規約への同意チェックボックス | - |
 | termsOfUseConsentCurrentVersion | 規約への同意：現在の最新バージョン | - |
 | termsOfUseConsentRequired | 規約への同意：同意が必要か | - |
@@ -27,8 +33,9 @@
 | extension_termsOfUseConsentVersion | 規約への同意：同意取得時のバージョン | - |
 | userMessage | REST API：処理結果メッセージ | - |
 | status | REST API：処理結果ステータス（HTTP CODE） | - |
-| errorMessage | エラーメッセージ | - |
 | ipaddress | IPアドレス | - |
+| isLocalSignupFlow | ローカルアカウントサインアップフローかどうか | - |
+| displayMessage | 画面表示用メッセージ欄 | - |
 | capy_private_key | CAPY用定義：Privateキー | - |
 | submit.capy_answer | CAPY用定義：パズルキャプチャのcapy_answer | - |
 | submit.capy_challengekey | CAPY用定義：パズルキャプチャのcapy_challengekey | - |
@@ -65,12 +72,28 @@
 | userIdentities | [Deprecated]アカウントリンクV2用のuserIdentities。今後は[alternativeSecurityIds](./aadb2c_b2c_base.md#alternativesecurityids)を利用してください。 | - |
 | userIdentityToLink | [Deprecated]アカウントリンクV2用のuserIdentity。今後は[alternativeSecurityIdToLink](./aadb2c_b2c_base.md#alternativesecurityidtolink)を利用してください。 | - |
 | userIdentitiesToLink | [Deprecated]アカウントリンクV2用のuserIdentity。V3では未使用。 | - |
+| objectIdDoesNotMatch | objectIdの比較結果 | - |
 | otp | custom sender用定義：ワンタイムパスワード  | - |
 | verificationCode | custom sender用定義：ワンタイムパスワード検証用入力  | - |
+| totpIdentifier | TOTP用定義：TOTP用識別子（アプリ上に表示されるアカウント名）  | - |
+| numberOfAvailableDevices | TOTP用定義：利用可能デバイス数  | - |
+| QrCodeVerifyInstruction | TOTP用定義：QRコード入力要求文言表示用  | - |
+| qrCodeContent | TOTP用定義：QRコード表示内容  | - |
+| totpSecretKey | TOTP用定義：TOTP用秘密鍵  | - |
+| totpUriLabel | TOTP用定義：otpauth URI LABEL部  | - |
+| totp_skip_totp_verify | TOTP用定義：TOTP認証スキップフラグ | - |
+| newPassword | パスワード | - |
+| reenterPassword | パスワード再入力 | - |
 | sendGridReqBody | custom sender用定義：SendGrid APIリクエストBody  | - |
+| sendgridTemplateIdForGeneralOTP | custom sender用定義：SendGrid OTP用メールテンプレートのテンプレートID  | - |
+| sendgridTemplateIdForMfaOTP | custom sender用定義：SendGrid MFA用メールテンプレートのテンプレートID  | - |
+| sendgridTemplateIdForWelcome | custom sender用定義：SendGrid ログイン通知用メールテンプレートのテンプレートID  | - |
+| sendgridTemplateIdForPasswordChange | custom sender用定義：SendGrid パスワード変更通知用メールテンプレートのテンプレートID  | - |
 | lang_ja | 多言語用定義：ブラウザ設定がjaか  | - |
 | lang_en | 多言語用定義：ブラウザ設定がenか  | - |
 | SELMID個別機能属性定義  |
+| selmid_comparison_claim1 | 要求比較要求変換用定義：比較要求1 | - |
+| selmid_comparison_claim2 | 要求比較要求変換用定義：比較要求2 | - |
 | selmid_capy_riskbase_enabled | リスクベース認証：有効設定（ON：有効、OFF：無効 or 定義なし）  | - |
 | selmid_issuerUserId | リスクベース認証：追加認証した際のissuerUserId(email)  | - |
 | selmid_identity_provider |  (本人確認等を行う)Identity Provider | - | - |
@@ -81,9 +104,10 @@
 | selmid_docomo_client_secret |  本人確認API属性用定義：dアカウント・コネクト client_secret | - |
 | selmid_docomo_result_code |  本人確認API属性用定義：ドコモ本人確認アシストAPI 処理結果コード | - |
 | selmid_docomo_mb_result |  本人確認API属性用定義：ドコモ本人確認アシストAPI 処理結果の戻り値（処理結果コード”10FU”の場合のみ） | - |
-| selmid_docomo_mb_guidancecode |  本人確認API属性用定義：ドコモ本人確認アシストAPI HTTP エラーコード。異常時のみ。 | - |
+| selmid_docomo_mb_guidancecode |  本人確認API属性用定義：ドコモ本人確認アシストAPI 処理結果ガイダンスコード（処理結果コード”10FU”の場合のみ） | - |
 | selmid_docomo_httpMessage |  本人確認API属性用定義：ドコモ本人確認アシストAPI HTTP エラー内容。異常時のみ。 | - |
 | selmid_docomo_moreInformation |  本人確認API属性用定義：ドコモ本人確認アシストAPI エラー情報。異常時のみ。 | - |
+| selmid_docomo_httpCode |  本人確認API属性用定義：ドコモ本人確認アシストAPI HTTP エラーコード。異常時のみ。 | - |
 | selmid_kddi_endpoint_url | 本人確認API属性用定義：KDDI本人確認支援サービスAPI URL | - |
 | selmid_kddi_api_key | 本人確認API属性用定義：KDDI本人確認支援サービスAPI KDDI-API-KEY | - |
 | selmid_kddi_cp_id | 本人確認API属性用定義：KDDI本人確認支援サービスAPI 加盟店ID | - |
@@ -138,10 +162,64 @@
 | selmid_fido_error_message | FIDO用定義：エラーメッセージ | - |
 | selmid_mfa_fido_selected | MFAとしてFIDOが選択されているか | - |
 | selmid_fido_exists_mfalist | MFAとしてFIDOが登録されているか | - |
-
+| selmid_keep_stay_on_reload_flag | self_asserted_error発生時、再読み込みでステップ移動するのを抑止するフラグ | - |
+| selmid_xid_private_key | xID秘密鍵 | - |
+| selmid_xid_public_key | xID公開鍵 | - |
+| selmid_xid_is_re_verification | 本人確認更新の実施有無 | - |
+| selmid_xid_reverification_reason | xID Re-Verificationのパラメータ | - |
+| selmid_xid_reverification_notification_title | xID Re-Verificationのパラメータ | - |
+| selmid_xid_reverification_notification_description | xID Re-Verificationのパラメータ | - |
+| selmid_xid_serial_bytes | 本人確認更新の実施有無 | - |
+| selmid_xid_serial_is_digest | xID Serialのパラメータ | - |
+| selmid_xid_serial_reason | xID Serialのパラメータ | - |
+| selmid_xid_serial_notification_title | xID Serialのパラメータ | - |
+| selmid_xid_serial_notification_description | xID Serialのパラメータ | - |
+| selmid_xid_serial_callback_url | xID Serialのパラメータ | - |
+| selmid_xid_debug_last_name | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_first_name | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_year | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_month | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_date | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_prefecture | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_city | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_address | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_gender | xID Userdata APIから返却される値の上書き | - |
+| selmid_xid_debug_status | xID Re-VerificationStatus APIから返却される値の上書き | - |
+| selmid_xid_debug_is_renewed | xID Serial APIから返却される値の上書き | - |
+| selmid_xid_year | xID Userdata APIから返却される値 | - |
+| selmid_xid_month | xID Userdata APIから返却される値 | - |
+| selmid_xid_date | xID Userdata APIから返却される値 | - |
+| selmid_xid_prefecture | xID Userdata APIから返却される値 | - |
+| selmid_xid_city | xID Userdata APIから返却される値 | - |
+| selmid_xid_address | xID Userdata APIから返却される値 | - |
+| selmid_xid_gender | xID Userdata APIから返却される値 | - |
+| selmid_xid_birthdate | xID Userdata APIから返却される値 | - |
+| selmid_xid_status | xID Re-VerificationStatus APIから返却される値 | - |
+| selmid_xid_claims_hash | 基本4情報を文字列連携した値のハッシュ値 | - |
+| selmid_xid_is_renewed | xID Re-Verification APIから返却される値 | - |
+| selmid_xid_verified_at_date | 利用者がxIDに対して最後に公的個人認証を用いた本人確認を実施した時間(datetime型だが、日付部のみ設定。時分秒は0:0:0が設定される。) | - |
+| selmid_xid_system_date_for_reVerification | 電子証明書失効確認要否判定用定義：今回失効確認時のシステム日付 | - |
+| selmid_xid_re_verification_date | 電子証明書失効確認要否判定用定義：前回失効確認時のシステム日付 | - |
+| selmid_xid_is_re_verification_status_latest | selmid_xid_statusの値が「is_latest」どうかの判断結果（is_latestの場合true、is_latest以外の場合false） | - |
+| selmid_xid_error_description | xID APIから返却されるエラー詳細 | - |
+| selmid_xid_error_cd | xID APIから返却されるエラーコード | - |
+| selmid_xid_error_message | xID APIから返却されるエラーメッセージ | - |
+| selmid_line_revokeAuthority_channelId | LINE権限取消用定義：LINEログインチャネルID | - |
+| selmid_line_revokeAuthority_channelSecret | LINE権限取消用定義：LINEログインチャネルシークレット | - |
+| selmid_line_revokeAuthority_userAccessToken | LINE権限取消用定義：アクセストークン | - |
+| selmid_line_revokeAuthority_forceNormalEnd | LINE権限取消用定義：強制正常終了フラグ | - |
+| selmid_line_revokeAuthority_error_message | LINE権限取消用定義：API実行時のエラーメッセージ | - |
+| selmid_line_revokeAuthority_error_message_cd | LINE権限取消用定義：API実行時のエラーコード | - |
+| selmid_line_revokeAuthority_skip | LINE権限取消用定義：スキップフラグ | - |
 ## <a id="claimstransformations"></a>属性変換ルール定義（`ClaimsTransformations`エレメント配下）
 | ID | 動作概要 | 入力 | 出力 |
 |:---|:---|:---|:---|
+| CompareLastLogonTimeToRTRevocationTime | 最新ログオン時間とRefreshTokenのRevoke実行時間を比較します。 | lastLogonTime<br>refreshTokensValidFromDateTimeForRevokeSSOSessions | isSessionRevoked |
+| GenerateSessionRevokedErrorCode | SSOセッション破棄用エラーコードを生成します | - | errorCode |
+| GenerateSessionRevokedErrorMessage | SSOセッション破棄用エラーメッセージを生成します | - | errorMessage |
+| GenerateChangePasswordErrorCode | パスワード変更用エラーコードを生成します | - | errorCode |
+| GenerateChangePasswordErrorMessage | パスワード変更用エラーメッセージを生成します | - | errorMessage |
+| SetDisplayMessageForChangePassword | パスワード変更後の再認証を求めるメッセージを設定します（ローカライズ対応） | - | displayMessage |
 | GetNewUserAgreeToTermsOfUseConsentDateTime | 規約への同意の現在日時を取得します | - | extension_termsOfUseConsentDateTime |
 | IsTermsOfUseConsentRequiredForDateTime | 新しい規約への同意が必要かどうかの判別します。日時で比較する場合用 | extension_termsOfUseConsentDateTime<br>termsOfUseTextUpdateDateTime(Valueで比較対象となる日時を指定) | termsOfUseConsentRequired |
 | SetCurrentTermsOfUseVersion | 規約への同意の現在のバージョン（最新）を設定します | Valueで最新のバージョンを指定する | termsOfUseConsentCurrentVersion |
@@ -149,6 +227,7 @@
 | IsTermsOfUseConsentRequiredForVersion | 新しい規約への同意が必要かどうかの判別します。バージョンで比較する場合 | termsOfUseConsentCurrentVersion<br>extension_termsOfUseConsentVersion | termsOfUseConsentRequired |
 | CreateCapyUserId | リスクベース認証用のCapyUserIdを作成します | objectId | capy_userId |
 | ConvertCapyRiskReasonsToCollection | capy_risk_reasons（","区切り）をCollection型に変換します | capy_risk_reasons | capy_risk_reasons_collection |
+| CompareObjectIdWithObjectIdToLink | ログイン中のユーザーのobjectIdと外部IdPとリンク済みのユーザーのobjectIdが一致しているか判別します | objectId<br>objectIdToLink | objectIdDoesNotMatch |
 | CreateUserIdentity | [Deprecated]ソーシャルアカウントのissuerUserIdとissuerからuserIdentityを作成します。今後は[CreateAlternativeSecurityId](./aadb2c_b2c_base.md#createalternativesecurityid)を利用してください。 | issuerUserId<br>identityProvider | userIdentity |
 | CreateUserIdentityToLink | [Deprecated]ソーシャルアカウントのissuerUserIdとissuerからuserIdentityを作成（リンク用）します。今後は[CreateAlternativeSecurityIdToLink](./aadb2c_b2c_base.md#createalternativesecurityidtolink)を利用してください。 | issuerUserIdToLink<br>issuerToLink | userIdentityToLink |
 | AppendUserIdentity | [Deprecated]userIdentities コレクションに userIdentity を追加します。今後は[AppendAlternativeSecurityId](./aadb2c_b2c_base.md#appendalternativesecurityid)を利用してください。 | userIdentity<br>userIdentities | userIdentities |
@@ -157,10 +236,15 @@
 | RemoveUserIdentityFromCollectionByIssuer | [Deprecated]userIdentities コレクションからissuerToUnlinkを削除します。今後は[RemoveAlternativeSecurityFromCollectionByIssuer](./aadb2c_b2c_base.md#removealternativesecurityfromcollectionbyissuer)を利用してください。 | issuerToUnlink<br>userIdentities | userIdentities |
 | ExtractIssuers | [Deprecated]ユーザーに関連付けられたソーシャル ID プロバイダのリストを抽出します。今後は[ExtractIssuersFromExtractTargetAlternativeSecurityIds](./aadb2c_b2c_base.md#extractissuersfromextracttargetalternativesecurityids)を利用してください。 | userIdentities | issuers |
 | GenerateSendGridRequestBodyForOTP | [Deprecated]OTP用メール本文を生成します。今後は[GenerateSendGridRequestBodyForGeneralOTP](./aadb2c_selmid_extension.md#generatesendgridrequestbodyforgeneralotp)を利用してください。 | email<br>otp<br>lang_ja<br>lang_en | sendGridReqBody |
+| GetTemplateIdForGeneralOTP | OTP用メール用の表示言語に対応するテンプレートIDを取得します | LanguageName | sendgridTemplateIdForGeneralOTP |
+| GetTemplateIdForMfaOTP | MFA OTP用メール用の表示言語に対応するテンプレートIDを取得します | LanguageName | sendgridTemplateIdForMfaOTP |
+| GetTemplateIdForWelcome | Welcome用メール用の表示言語に対応するテンプレートIDを取得します | LanguageName | sendgridTemplateIdForWelcome |
+| GetTemplateIdForPasswordChange | Password Change用メール用の表示言語に対応するテンプレートIDを取得します | LanguageName | sendgridTemplateIdForPasswordChange |
 | <a id="generatesendgridrequestbodyforgeneralotp"/>GenerateSendGridRequestBodyForGeneralOTP | OTP用メール本文を生成します | otp<br>lang_ja<br>lang_en | sendGridReqBody |
 | GenerateSendGridRequestBodyForMfaOTP | MFA OTP用メール本文を生成します | otp<br>lang_ja<br>lang_en | sendGridReqBody |
 | GenerateSendGridRequestBodyForWelcome | Welcome用メール本文を生成します | otp<br>lang_ja<br>lang_en | sendGridReqBody |
 | GenerateSendGridRequestBodyForPasswordChange | Password Change用メール本文を生成します。 | otp<br>lang_ja<br>lang_en | sendGridReqBody |
+| SELMIDAssertComparisonValuesEqual | 比較用要求１、及び２の文字列を比較します | selmid_comparison_claim1<br>selmid_comparison_claim2 | - |
 | AssertReadOnlyEmailAreEqual | 読み取り用メールアドレスが画面で変更されていないかチェックします(MFA OTP用) | otp<br>email | - |
 | IsJapanese | ブラウザの言語設定が「ja」かを判断します | Culture | lang_ja |
 | IsEnglish | ブラウザの言語設定が「en」かを判断します | Culture | lang_en |
@@ -186,24 +270,51 @@
 | SetIsConditionalAccessChallengeBlock | 条件付きアクセス：評価結果に"block"が存在したかを設定 | conditionalAccessClaimCollection | isConditionalAccessChallengeBlock |
 | SetIsConditionalAccessChallengeMfa | 条件付きアクセス：評価結果に"mfa"が存在したかを設定 | conditionalAccessClaimCollection | isConditionalAccessChallengeMfa |
 | SetIsConditionalAccessChallengeChgPwd | 条件付きアクセス：評価結果に"chg_pwd"が存在したかを設定 | conditionalAccessClaimCollection | isConditionalAccessChallengeChgPwd |
+| CreateTOTPSecret | TOTP：秘密鍵の作成 | - | totpSecretKey |
+| CreateOtpauthUriLabel | TOTP：otpauth URIのLABEL部（「発行者」:「アカウント名」）を作成 | totpIdentifier | totpUriLabel |
+| CreateOtpauthUriString | TOTP：otpauth URIの作成 | totpUriLabel<br>totpSecretKey | qrCodeContent |
+| SignInNameToTotpIdentifier | TOTP：signInNameをtotpIdentifierへコピー | signInName | totpIdentifier |
+| DisplayNameToTotpIdentifier | TOTP：displayNameをtotpIdentifierへコピー | displayName | totpIdentifier |
+| IsSelmidXidStatusLatest | xID：re_verification結果のselmid_xid_statusがis_latestかどうかを判断 | selmid_xid_status | selmid_xid_is_re_verification_status_latest |
+| SetLINERevokeAuthorityErrorE0001ToUserMessage | userMessageにLINE権限取消のエラーメッセージコード「E0001」を設定  | "E0001" | userMessage |
+| SetLINERevokeAuthorityErrorMessageCd | LINE権限取消API実行後のエラーメッセージコードを設定  | userMessage | selmid_line_revokeAuthority_error_message_cd |
+| SetLINERevokeAuthorityErrorMessage | LINE権限取消API実行後のエラーコードをもとにエラーメッセージを設定  | selmid_line_revokeAuthority_error_message_cd | selmid_line_revokeAuthority_error_message |
+| SetLINERevokeAuthorityErrorMessageByUnKnown | LINE権限取消API実行後のエラーコードをもとにエラーメッセージを設定（定義にない場合のメッセージ設定）  | userMessage | selmid_line_revokeAuthority_error_message |
+| SetINERevokeAuthorityErrorMessageToErrorMessage | LINE権限取消API実行後のエラーメッセージをエラー画面表示メッセージに設定  | selmid_line_revokeAuthority_error_message | errorMessage |
 
 
 ## <a id="contentdefinitions"></a> UI定義（`ContentDefinitions`エレメント配下）
 | ID | 概要 | DataUri |
 |:---|:---|:---|
-| api.selfasserted.tou | 利用規約を表示する画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.selfasserted.makecapydataforriskbases | リスクベース認証 Capyデータ作成画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.localaccountsignupwithpuzzle | ローカルアカウントのサインアップ画面（パズルキャプチャ付き） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.selfasserted.totp.regist | TOTP登録画面（QRコード読み取り/テキストコード入力を行い、認証コードを入力します） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.selfasserted.totp.verify| TOTP検証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
-| api.selfasserted.fido| FIDO登録・認証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.7 |
+| api.error | エラー発生時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.idpselections | サインインするIdPの選択肢を表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.idpselections.signup | サインアップするIdPの選択肢を表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.signuporsignin | サインアップまたはサインイン時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.selfasserted | 属性登録時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.selfasserted.profileupdate | プロフィール更新時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.localaccountsignup | ローカルアカウントのサインアップ時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.localaccountpasswordreset | ローカルアカウントのパスワードリセット時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.phonefactor | 電話による多要素認証時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.selfasserted.emailVerify | メールによる多要素認証時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.selfasserted.totp.regist | TOTP登録時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.selfasserted.totp.verify | TOTP検証時に表示する画面 | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.signuporsigninwithkmsi | ローカルアカウントでのサインイン時に表示する画面（ログアウトしないボタン付き） | [継承元を参照](./aadb2c_b2c_base.md#contentdefinitions) |
+| api.selfasserted.tou | 利用規約を表示する画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.selfasserted.makecapydataforriskbases | リスクベース認証 Capyデータ作成画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.localaccountsignupwithpuzzle | ローカルアカウントのサインアップ画面（パズルキャプチャ付き） | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.selfasserted.fido| FIDO登録・認証画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
+| api.idpselections.lineRevokeAuthority| LINE権限取消選択時の表示画面 | urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.4 |
+| api.selfasserted.error| セルフアサートエラー表示画面 | urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.26 |
 
 ## <a id="displaycontrols"></a> DisplayControl定義（`DisplayControls`エレメント配下）
-| ID | 概要 | DisplayClaims | OutputClaims | Actions |
-|:---|:---|:---|:---|:---|
-| emailVerificationWidget | [Deprecated]Custom Senderを使ったOTP送信＆確認コントロール。今後は[emailVerificationControl](./aadb2c_b2c_base.md#emailverificationcontrol)を利用してください。 | email<br>verificationCode | email | <table><tr><th>id</th><th>ValidationClaimsExchange</th></tr><tr><td rowspan=2>SendCode</td><td>GenerateOtp</td></tr><tr><td>VerifyCode</td></tr><tr><td>VerifyOtp</td><td>GenerateOtp</td></tr></table> |
-| <a id="emailverificationcontrol"/>emailVerificationControl | Custom Senderを使ったOTP送信＆確認コントロールです | verificationCode | - | <table><tr><th>id</th><th>ValidationClaimsExchange</th></tr><tr><td rowspan=2>SendCode</td><td>GenerateGeneralOtp</td></tr><tr><td>SendGeneralOtp</td></tr><tr><td>VerifyCode</td><td>VerifyGeneralOtp</td></tr></table> |
-| mfaEmailVerificationControl | Custom Senderを使ったMFA OTP送信＆確認コントロールです | verificationCode | - | <table><tr><th>id</th><th>ValidationClaimsExchange</th></tr><tr><td rowspan=2>SendCode</td><td>GenerateMfaOtp</td></tr><tr><td>SendMfaOtp</td></tr><tr><td>VerifyCode</td><td>VerifyMfaOtp</td></tr></table> |
+| ID | 概要 | InputClaims | DisplayClaims | OutputClaims | Actions |
+|:---|:---|:---|:---|:---|:---|
+| emailVerificationWidget | [Deprecated]Custom Senderを使ったOTP送信＆確認コントロール。今後は[emailVerificationControl](./aadb2c_b2c_base.md#emailverificationcontrol)を利用してください。 | - | email<br>verificationCode | email | <table><tr><th>id</th><th>ValidationClaimsExchange</th></tr><tr><td rowspan=2>SendCode</td><td>GenerateOtp</td></tr><tr><td>VerifyCode</td></tr><tr><td>VerifyOtp</td><td>GenerateOtp</td></tr></table> |
+| <a id="emailverificationcontrol"/>emailVerificationControl | Custom Senderを使ったOTP送信＆確認コントロールです | - | verificationCode | - | <table><tr><th>id</th><th>ValidationClaimsExchange</th></tr><tr><td rowspan=2>SendCode</td><td>GenerateGeneralOtp</td></tr><tr><td>SendGeneralOtp</td></tr><tr><td>VerifyCode</td><td>VerifyGeneralOtp</td></tr></table> |
+| mfaEmailVerificationControl | Custom Senderを使ったMFA OTP送信＆確認コントロールです | - | verificationCode | - | <table><tr><th>id</th><th>ValidationClaimsExchange</th></tr><tr><td rowspan=2>SendCode</td><td>GenerateMfaOtp</td></tr><tr><td>SendMfaOtp</td></tr><tr><td>VerifyCode</td><td>VerifyMfaOtp</td></tr></table> |
+| emailVerificationControlThrowsErrorWhenExistsEmail | Custom Senderを使ったOTP送信＆確認コントロールです。<br>OTP確認後、メールアドレスの存在確認を実施し、存在する場合エラーをスローします。 | - | verificationCode | - | <table><tr><th>id</th><th>ValidationClaimsExchange</th></tr><tr><td rowspan=2>SendCode</td><td>GenerateGeneralOtp</td></tr><tr><td>SendGeneralOtp</td></tr><tr><td rowspan=2>VerifyCode</td><td>VerifyGeneralOtp</td></tr><tr><td>AAD-UserReadUsingEmailAddressThrowsErrorWhenExists</td></tr></table> |
+| authenticatorAppIconControl | TOTPの認証アプリアイコン表示コントロールです | qrCodeContent | qrCodeContent | - | - |
+| authenticatorInfoControl | TOTP手動登録用の情報を表示するコントロールです | totpIdentifier<br>totpSecretKey | totpIdentifier<br>totpSecretKey | - | - |
 
 
 ## 各種IdP接続定義（`ClaimsProviders`エレメント配下）
@@ -220,7 +331,7 @@
 | Facebook-Unlink | [Deprecated]アカウントアンリンク定義v2。今後は[Facebook-Unlink-v3](./aadb2c_selmid_extension.md#idp_facebook-unlink-v3)を利用してください。 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>facebook.com</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink |
 | <a id="idp_facebook-unlink-v3"/>Facebook-Unlink-v3 | アカウントアンリンク定義v3 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>facebook.com</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink-v3 |
 
-### twitter接続定義（Domain：twitter.com）
+### X接続定義（Domain：twitter.com）
 | ID | 概要 | Metadata | 入力 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|
 | Twitter-OAUTH1-Base | 接続の共通定義 | - | - | issuerUserId<br>displayName<br>email<br>identityProvider<br>authenticationSource | - |
@@ -253,11 +364,15 @@
 | LINE-OIDC | [Deprecated]接続定義v1。今後は[LINE-OIDC-SignIn-v3](./aadb2c_selmid_extension.md#idp_line-oidc-signin-v3)を利用してください。 | - | - | - | LINE-OIDC-Base |
 | LINE-OIDC-SignIn | [Deprecated]接続定義v2。今後は[LINE-OIDC-SignIn-v3](./aadb2c_selmid_extension.md#idp_line-oidc-signin-v3)を利用してください。 | - | - | - | LINE-OIDC-Base |
 | <a id="idp_line-oidc-signin-v3"/>LINE-OIDC-SignIn-v3 | 接続定義v3 | - | - | - | LINE-OIDC-Base |
+| LINE-OIDC-SignIn-v3-forRevokeAuthority | 接続定義v3(LINE権限取消時のLINEログイン用) | - | - | issuerUserIdToLink<br>issuerToLink<br>selmid_line_revokeAuthority_userAccessToken | LINE-OIDC-Base |
 | LINE-OIDC-Link-Base | アカウントリンクの共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimTypeOnWhichToEnable</td><td>issuers</td></tr><tr><td>ClaimValueOnWhichToEnable</td><td>line.me</td></tr></table> | - | issuerUserIdToLink<br>issuerToLink | LINE-OIDC-Base |
 | LINE-OIDC-Link | [Deprecated]アカウントリンク定義v2。今後は[LINE-OIDC-Link-v3](./aadb2c_selmid_extension.md#idp_line-oidc-link-v3)を利用してください。 | - | - | - | LINE-OIDC-Link-Base |
 | <a id="idp_line-oidc-link-v3"/>LINE-OIDC-Link-v3 | アカウントリンク定義v3 | - | - | - | LINE-OIDC-Link-Base |
 | LINE-Unlink | [Deprecated]アカウントアンリンク定義v2。今後は[LINE-Unlink-v3](./aadb2c_selmid_extension.md#idp_line-unlink-v3)を利用してください。 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>line.me</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink |
 | <a id="idp_line-unlink-v3"/>LINE-Unlink-v3 | アカウントアンリンク定義v3 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>line.me</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink-v3 |
+| LINE-Login-Skip | LINEログインスキップ（LINE権限取消選択画面用） | - | - | selmid_line_revokeAuthority_skip | - |
+| SetLINERevokeAuthorityErrorE0001 | LINE権限取消のエラーメッセージ「E0001」を設定 | - | - | selmid_result<br>userMessage | - |
+| SelfAsserted-Error-LINERevokeAuthority | LINE権限取消エラー画面 | - | - | - | - |
 
 ### Yahoo! JAPAN接続定義（Domain：yahoo.co.jp）
 | ID | 概要 | Metadata | 入力 | 出力 | IncludeTechnicalProfile |
@@ -271,6 +386,10 @@
 | <a id="idp_yahoojapan-oauth-link-v3"/>YahooJAPAN-OAUTH-Link-v3 | アカウントリンク定義v3 | - | - | - | YahooJAPAN-OAUTH-Link-Base |
 | YahooJAPAN-Unlink | [Deprecated]アカウントアンリンク定義v2。今後は[YahooJAPAN-Unlink-v3](./aadb2c_selmid_extension.md#idp_yahoojapan-unlink-v3)を利用してください。 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>yahoo.co.jp</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink |
 | <a id="idp_yahoojapan-unlink-v3"/>YahooJAPAN-Unlink-v3 | アカウントアンリンク定義v3 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>yahoo.co.jp</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink-v3 |
+| YahooJAPAN-OIDC-Base | OIDC版接続の共通定義（UserInfoエンドポイントを利用しない場合はこちらを利用してください） | <table><tr><th>key</th><th>value</th></tr><tr><td>METADATA</td><td>https://auth.login.yahoo.co.jp/yconnect/v2/.well-known/openid-configuration</td></tr><tr><td>response_types</td><td>code</td></tr><tr><td>response_mode</td><td>query</td></tr><tr><td>UsePolicyInRedirectUri</td><td>false</td></tr><tr><td>HttpBinding</td><td>POST</td></tr></table> | - | issuerToUnlink<br>identityProvider<br>authenticationSource | - |
+| YahooJAPAN-OIDC-SignIn-v3 | 接続定義v3（OIDC版） | - | - | - | YahooJAPAN-OIDC-Base |
+| YahooJAPAN-OIDC-Link-Base | アカウントリンクの共通定義v3（OIDC版） | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimTypeOnWhichToEnable</td><td>issuers</td></tr><tr><td>ClaimValueOnWhichToEnable</td><td>yahoo.co.jp</td></tr></table> | YahooJAPAN-OIDC-Base | issuerUserIdToLink<br>issuerToLink | YahooJAPAN-OIDC-Base |
+| YahooJAPAN-OIDC-Link-v3 | アカウントリンク定義v3（OIDC版） | - | - | - | YahooJAPAN-OIDC-Link-Base |
 
 ### Apple ID接続定義（Domain：apple.com） 注：シークレットを定期的に更新する必要があります
 | ID | 概要 | Metadata | 入力 | 出力 | IncludeTechnicalProfile |
@@ -311,13 +430,24 @@
 | auID-Unlink | [Deprecated]アカウントアンリンク定義v2。今後は[auID-Unlink-v3](./aadb2c_selmid_extension.md#idp_auid-unlink-v3)を利用してください。 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>kddi.com</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink |
 | <a id="idp_auid-unlink-v3"/>auID-Unlink-v3 | アカウントアンリンク定義v3 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>kddi.com</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink-v3 |
 
+### xID接続定義（Domain：x-id.me）
+| ID | 概要 | Metadata | 入力 | 出力 | IncludeTechnicalProfile |
+|:---|:---|:---|:---|:---|:---|
+| XID-OIDC-Base | 接続の共通定義 | - | - | issuerUserId<br>email<br>identityProvider<br>authenticationSource<br>identityProviderAccessToken<br>selmid_xid_verified_at_date<br>selmid_xid_system_date_for_reVerification | - |
+| XID-OIDC-SignIn-v3 | 接続定義v3 | - | - | CreateRandomUPNUserName<br>CreateUserPrincipalName<br>CreateAlternativeSecurityId<br>AppendAlternativeSecurityId | XID-OIDC-Base |
+| XID-OIDC-Link-Base | アカウントリンクの共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimTypeOnWhichToEnable</td><td>issuers</td></tr><tr><td>ClaimValueOnWhichToEnable</td><td>x-id.me</td></tr></table> | - | issuerUserIdToLink<br>issuerToLink | XID-OIDC-Base |
+| XID-OIDC-Link-v3 | アカウントリンク定義v3 | - | - | CreateAlternativeSecurityIdToLink<br>AppendAlternativeSecurityIdToLink | XID-OIDC-Link-Base |
+| XID-Unlink-v3 | アカウントアンリンク定義v3 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimValueOnWhichToEnable</td><td>x-id.me</td></tr></table> | - | issuerToUnlink | SocialAccount-Unlink-v3 |
 ## <a id="claimstransformation"></a>属性変換に関連する機能定義（`ClaimsProviders`エレメント配下）  
 | ID | 概要 | Metadata | 入力 | 出力 | 出力変換 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|:---|
 | SocialAccount-Unlink-Base | アカウントアンリンクの共通定義 | <table><tr><th>key</th><th>value</th></tr><tr><td>ClaimTypeOnWhichToEnable</td><td>issuers</td></tr></table> | - | issuerToUnlink | - | - |
+| Check-MatchObjectIds | ログインユーザーのObjectIdとソーシャルアカウントに紐づくユーザー情報のObjectId（objectIdToLink）を一致しているか確認します。 | - | objectId<br>objectIdToLink | objectIdDoesNotMatch | - | - |
 | SocialAccount-Unlink | アカウントリンク定義v2。今後は[SocialAccount-Unlink-v3](./aadb2c_selmid_extension.md#socialaccount-unlink-v3)を利用してください。 | - | - | RemoveUserIdentityFromCollectionByIssuer | - | SocialAccount-Unlink-Base |
 | <a id="socialaccount-unlink-v3"/>SocialAccount-Unlink-v3 | アカウントリンク定義v3 | - | - | RemoveAlternativeSecurityFromCollectionByIssuer | - | SocialAccount-Unlink-Base |
-| GetContextData | コンテキスト情報を取得します | <table><tr><th>key</th><th>value</th></tr><tr><td>IncludeClaimResolvingInClaimsHandling</td><td>true</td></tr></table> | ipaddress<br>Culture<br>LanguageName<br>lang_ja<br>lang_en | - | - | - |
+| GetContextData | コンテキスト情報を取得します | <table><tr><th>key</th><th>value</th></tr><tr><td>IncludeClaimResolvingInClaimsHandling</td><td>true</td></tr></table> | - | ipaddress<br>Culture<br>LanguageName<br>lang_ja<br>lang_en<br>isSignUpEnabled<br>--カスタムメール利用時は下記を設定--<br>sendgridTemplateIdForGeneralOTP<br>sendgridTemplateIdForMfaOTP<br>sendgridTemplateIdForWelcome<br>sendgridTemplateIdForPasswordChange | IsJapanese<br>IsEnglish | - |
+| LocalAccountSignUp | ローカルアカウントのサインアップであることを示すフラグを設定します | - | - | - | isLocalSignupFlow | - | - |
+| ForgotPassword | パスワードを忘れた場合のボタンを押されたことを示すフラグを設定します | - | - | - | isForgotPassword | - | - |
 | AssertReadOnlyEmailNotChange | 二段階認証用画面（メールアドレス）でメールアドレスが画面で変更されていないかチェックします | - | - | readOnlyEmail | - | - | - |
 | GenerateWelcomeMessage | Welcome用メールの本文を生成します | - | email | sendGridReqBody | - | - |
 | GeneratePasswordChangeMessage | パスワード変更用メールの本文を生成します | - | email | sendGridReqBody | - | - |
@@ -331,11 +461,16 @@
 | GetSelmidOutputEmailFromSignInNamesEmailAddress | signInNames.emailAddressの値をもとにselmid_output_email属性を取得します | - | - | selmid_output_email | - | SetSelmidOutputEmailFromSignInNamesEmailAddress |
 | GetCosmosDBConfig | FIDO認証機能データベースの接続先設定 | - | - | selmid_fido_cosmosdb_account_endpoint<br>selmid_fido_cosmosdb_account_key<br>selmid_fido_cosmosdb_database_id<br>selmid_fido_cosmosdb_challenge_container_id<br>selmid_fido_cosmosdb_store_container_suffix | - | - |
 | GenerateConditionalAccessClaimFlags | 条件付きアクセスの評価処理結果のChallengeからフラグ設定（個別のフラグを使うことがない場合は不要） | - | - | isConditionalAccessChallengeMfa<br>isConditionalAccessChallengeChgPwd<br>isConditionalAccessChallengeBlock | SetIsConditionalAccessChallengeMfa<br>SetIsConditionalAccessChallengeChgPwd<br>SetIsConditionalAccessChallengeBlock | - |
+| Set-termsOfUseConsentRequired-true | termsOfUseConsentRequiredをtrueに設定し、利用規約のバージョンを設定します | - | - | termsOfUseConsentRequired | SetCurrentTermsOfUseVersion | - |
+| SetLogonTime | lastLogonTimeに現在時刻を設定します | - | - | lastLogonTime | SetLastLogonTimeNow | - |
+| CheckSessionTime | SSOセッションが有効かをチェックします | - | - | lastLogonTime | CompareLastLogonTimeToRTRevocationTime | - |
+| GenerateSessionRevokedError | SSOセッション破棄のエラーを生成します | - | - | errorCode<br>errorMessage | GenerateSessionRevokedErrorCode<br>GenerateSessionRevokedErrorMessage | - |
 
 ## <a id="restapi"></a>REST APIに関連する機能定義（`ClaimsProviders`エレメント配下）  
 | ID | 概要 | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|
 | API-LINEFriendStatus | LINE公式アカウントの友だち関係を取得します | - | identityProviderAccessToken | extension_LINEFriend | - |
+| REST-LINERevokeAuthority | LINEアカウントリンク解除時の連動アプリに対する権限取消処理を実行します | - | selmid_line_revokeAuthority_channelId<br>selmid_line_revokeAuthority_channelSecret<br>selmid_line_revokeAuthority_userAccessToken<br>selmid_line_revokeAuthority_forceNormalEnd | selmid_result<br>userMessage | - |
 | REST-API-EVALUATE-CAPYDATA-FOR-RISKBASES | リスクベース認証用データの評価を行います | - | capy_userId<br>capy_data<br>capy_private_key<br>capy_riskbase_key | capy_risk_result<br>capy_risk_level<br>capy_risk_reasons<br>userMessage | - |
 | REST-API-APPROVE-CAPYDATA-FOR-RISKBASES | リスクベース認証用データの承認を行います | - | capy_data<br>capy_private_key<br>capy_riskbase_key | capy_risk_result<br>capy_risk_reason<br>userMessage | - |
 | REST-API-EVALUATE-CAPYDATA-FOR-PUZZLE | パズルキャプチャ用データの評価を行います | - | submit.capy_answer<br>submit.capy_challengekey<br>capy_private_key | capy_puzzle_result<br>capy_puzzle_reason<br>userMessage | - |
@@ -344,18 +479,19 @@
 | REST-API-CUSTOMERINFO-MATCH | 本人確認（マッチング）を行います | - | - | status<br>userMessage<br>selmid_result<br>selmid_docomo_result_code<br>selmid_kddi_status<br>selmid_kddi_result_code<br>selmid_docomo_mb_result<br>selmid_docomo_mb_guidancecode<br>selmid_docomo_httpCode<br>selmid_docomo_httpMessage<br>selmid_docomo_moreInformation<br>selmid_kddi_error_result_code<br>selmid_kddi_error_message | - |
 | SendGrid | SendGrid送信を行います | sendGridReqBody | - | - |
 | SendOtp | [Deprecated]OTP用メール送信を行います。今後は[SendGeneralOtp](./aadb2c_selmid_extension.md#sendgeneralotp)を利用してください。 | - | - | - | SendGrid |
-| <a id="sendgeneralotp"/>SendGeneralOtp | OTP用メール送信を行います | - | - | - | SendGrid |
-| SendMfaOtp | MFA OTP用メール送信を行います | - | - | SendGrid |
-| SendWelcomeMessage | Welcome用メール送信を行います | - | - | - | SendGrid |
-| SendPasswordChangeMessage | パスワード変更用メール送信を行います | - | - | - | SendGrid |
-| REST-API-TOTP-GENERATE | TOTPの認証コード生成を行います | - | - | selmid_totp_otpauth_url<br>selmid_totp_secret_code<br>extension_selmid_totp_secret_key | - |
-| REST-API-TOTP-VERIFY | TOTPの認証コード生成を行います | - | selmid_totp_code<br>extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | extension_selmid_totp_timestepmatched<br>selmid_result<br>userMessage | - |
+| <a id="sendgeneralotp"/>SendGeneralOtp | OTP用メール送信を行います | GetTemplateIdForGeneralOTP<br>GenerateSendGridRequestBodyForGeneralOTP | - | - | SendGrid |
+| SendMfaOtp | MFA OTP用メール送信を行います | GetTemplateIdForMfaOTP<br>GenerateSendGridRequestBodyForMfaOTP | - | SendGrid |
+| SendWelcomeMessage | Welcome用メール送信を行います | GetTemplateIdForWelcome<br>GenerateSendGridRequestBodyForWelcome | - | - | SendGrid |
+| SendPasswordChangeMessage | パスワード変更用メール送信を行います | GetTemplateIdForPasswordChange<br>GenerateSendGridRequestBodyForPasswordChange | - | - | SendGrid |
+| REST-API-TOTP-GENERATE | [Deprecated]TOTPの認証コード生成を行います | - | - | selmid_totp_otpauth_url<br>selmid_totp_secret_code<br>extension_selmid_totp_secret_key | - |
+| REST-API-TOTP-VERIFY | [Deprecated]TOTPの認証コード生成を行います | - | selmid_totp_code<br>extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | extension_selmid_totp_timestepmatched<br>selmid_result<br>userMessage | - |
 | REST-API-GOOGLE-RECAPTCHA-SITE-VERIFY | google reCAPTCHAのresponseデータの検証を行います | - | responseを受け取ったフィールドのClaimType Id（標準ではgoogle_recaptcha_responseを用意）<br>google_recaptcha_secret_key<br>ipaddress | userMessage | - |
 | REST-FIDOGetChallengeForRegist | FIDO登録時Challenge取得処理 | - | tenantName<br>objectId<br>selmid_fido_att_type<br>selmid_fido_auth_type<br>selmid_fido_user_verification | selmid_fido_api_response | - |
 | REST-FIDOGetChallengeForSignIn | FIDO認証時Challenge取得処理 | - | tenantName<br>objectId | selmid_fido_api_response | - |
 | REST-FIDOMakeCredential | FIDO登録処理 | GenerateRequestBodyForFIDOMakeCredentials | selmide_fido_api_request | selmid_result<br>userMessage | - |
 | REST-FIDOMakeAssertion | FIDO認証処理 | GenerateRequestBodyForFIDOMakeAssertion | selmide_fido_api_request | selmid_result<br>userMessage | - |
-
+| REST-XID-Userdata | xIDユーザ情報（基本4情報）取得処理 | - | selmid_xid_private_key<br>selmid_xid_public_key<br>selmid_xid_is_re_verification<br>selmid_xid_reverification_reason<br>selmid_xid_reverification_notification_title<br>selmid_xid_reverification_notification_description | selmid_result<br>userMessage<br>selmid_xid_error_description<br>selmid_xid_status<br>givenName<br>surname<br>selmid_xid_year<br>selmid_xid_month<br>selmid_xid_date<br>selmid_xid_birthdate<br>selmid_xid_claims_hash<br>selmid_xid_birthdate<br>selmid_xid_prefecture<br>selmid_xid_city<br>selmid_xid_address<br>selmid_xid_gender | - |
+| REST-XID-Serial-Request | xIDシリアル取得処理 | - | identityProviderAccessToken<br>selmid_xid_serial_bytes<br>selmid_xid_serial_is_digest<br>selmid_xid_serial_reason<br>selmid_xid_serial_notification_title<br>selmid_xid_serial_notification_description<br>selmid_xid_serial_callback_url<br>selmid_xid_reverification_reason<br>selmid_xid_reverification_notification_title<br>selmid_xid_reverification_notification_description | selmid_result<br>userMessage<br>selmid_xid_error_description<br>selmid_xid_is_renewed<br>selmid_xid_status | - |
 ## ローカルアカウントに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | Metadata | 入力 | 出力 | 検証プロファイル |
 |:---|:---|:---|:---|:---|:---|
@@ -365,32 +501,36 @@
 | ID | 動作概要 | Metadata | 入力 | 永続 | 出力 | 出力変換 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|:---|:---|
 | AAD-Common | Active Directoryの共通プロファイル | <table><tr><th>key</th><th>value</th></tr><tr><td>ApplicationObjectId</td><td></td></tr><tr><td>ClientId</td><td></td></tr></table> | - | - | - | - | - |
+| AAD-UserReadUsingEmailAddressThrowsErrorWhenExists | メールアドレスをキーにユーザを取得し、取得できる場合エラーをスローします | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>Read</td></tr><tr><td>RaiseErrorIfClaimsPrincipalDoesNotExist</td><td>false</td></tr></table> | email | - | selmid_comparison_claim1<br>selmid_comparison_claim2 | SELMIDAssertComparisonValuesEqual | AAD-Common |
 | AAD-UserReadUsingUserIdentityToLink-NoError | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）（存在しない場合でもエラーは発生しません）。今後は[AAD-UserReadUsingAlternativeSecurityIdToLink-NoError](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityidtolinknoerror)を利用してください。 | - | userIdentitiesToLink | - | objectIdToLink | - | AAD-Common |
 | AAD-UserReadUsingUserIdentity | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）。今後は[AAD-UserReadUsingAlternativeSecurityId](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityid)を利用してください。 | - | userIdentities | - | objectId<br>userIdentities | - | AAD-Common |
 | AAD-UserReadUsingUserIdentity-NoError | [Deprecated]ディレクトリ内のソーシャル アカウントを検索します（アカウントリンク用）（存在しない場合のエラーなし）。今後は[AAD-UserReadUsingAlternativeSecurityId-NoError](./aadb2c_b2c_base.md#aaduserreadusingalternativesecurityidnoerror)を利用してください。 | - | - | - | - | - | AAD-UserReadUsingUserIdentity |
 | AAD-UserWriteUsingUserIdentity | [Deprecated]userIdentitiesをキーに属性情報をAzure Active Directoryのデータベースへ登録します（アカウントリンク用） | - | userIdentities | userIdentities<br>userPrincipalName<br>mailNickName<br>displayName | objectId<br>userIdentities<br>newUser<br>otherMails | - | - | AAD-Common |
-| AAD-UserUpdateWithUserIdentities | [Deprecated]アカウントリンク・アンリンク後の状態を更新します（アカウントリンク用）。今後は[AAD-AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#aaduserupdatewithalternativesecurityids)を利用してください。 | - | objectId | objectId<br>userIdentities | objectId<br>userIdentities | - | AAD-Common |
+| AAD-UserUpdateWithUserIdentities | [Deprecated]アカウントリンク・アンリンク後の状態を更新します（アカウントリンク用）。今後は[AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#aaduserupdatewithalternativesecurityids)を利用してください。 | - | objectId | objectId<br>userIdentities | objectId<br>userIdentities | - | AAD-Common |
 | Update-TOU-Status | 規約への同意状態を書き込みます | - | objectId | objectId<br>extension_termsOfUseConsentDateTime<br>extension_termsOfUseConsentVersion | extension_termsOfUseConsentDateTime<br>extension_termsOfUseConsentVersion | - | AAD-Common |
-| Check-TOU-Status-by-Version | 規約への同意状態取得します（バージョンで比較する場合） | - | objectId | - | extension_termsOfUseConsentVersion<br>extension_termsOfUseConsentDateTime | - | AAD-Common |
-| Check-TOU-Status-by-DateTime | 規約への同意状態取得します（日付で比較する場合） | - | objectId | - | extension_termsOfUseConsentVersion<br>extension_termsOfUseConsentDateTime | - | AAD-Common |
-| AAD-UserWriteUsingSocial| ソーシャル情報をもとにローカルアカウントとして書き込みます | - | selmid_dummy_local_account_email | selmid_dummy_local_account_email<br>selmid_dummy_password<br>displayName<br>passwordPolicies | objectId<br>newUser<br>userPrincipalName | - | AAD-Common |
+| Check-TOU-Status-Base | 規約への同意状態取得します | - | objectId | - | extension_termsOfUseConsentVersion<br>extension_termsOfUseConsentDateTime<br>refreshTokensValidFromDateTimeForRevokeSSOSessions | - | AAD-Common |
+| Check-TOU-Status-by-Version | 規約への同意状態取得します（バージョンで比較する場合） | - | objectId | - | - | SetCurrentTermsOfUseVersion<br>IsTermsOfUseConsentRequiredForVersion | Check-TOU-Status-Base |
+| Check-TOU-Status-by-DateTime | 規約への同意状態取得します（日付で比較する場合） | - | objectId | - | - | SetCurrentTermsOfUseVersion<br>IsTermsOfUseConsentRequiredForDateTime | Check-TOU-Status-Base |
+| AAD-UserWriteUsingSocial| ソーシャル情報をもとにローカルアカウントとして書き込みます | - | selmid_dummy_local_account_email | selmid_dummy_local_account_email<br>selmid_dummy_password<br>displayName<br>alternativeSecurityIds<br>passwordPolicies | objectId<br>newUser<br>userPrincipalName<br>alternativeSecurityIds<br>extractTargetAlternativeSecurityIds | ExtractIssuersFromExtractTargetAlternativeSecurityIds | AAD-Common |
 | AAD-UserReadSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）のみを取得します | - | objectId | - | signInNames.emailAddress | - | AAD-Common |
 | AAD-UserWriteSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）を書き込みます | - | objectId | objectId<br>email | - | - | AAD-Common |
-| AAD-UserReadUsingObjectId-ThrowIfRefreshTokenIsNotValid | objectIdをキーにリフレッシュトークン有効日を取得します（リフレッシュトークンが無効の場合はエラー） | - | - | - | refreshTokensValidFromDateTime | AssertRefreshTokenIssuedOnDateTimeIsLaterThanRefreshTokensValidFromDateTime | AAD-UserReadUsingObjectId |
+| AAD-UserReadUsingObjectId-ThrowIfRefreshTokenIsNotValid | [Deprecated]objectIdをキーにリフレッシュトークン有効日を取得します（リフレッシュトークンが無効の場合はエラー）。今後は[AAD-UserReadUsingObjectId-CheckRefreshTokenDate](./aadb2c_selmid_extension.md#aaduserreadusingobjectidcheckrefreshtokendate)を利用してください。 | - | - | - | refreshTokensValidFromDateTime | AssertRefreshTokenIssuedOnDateTimeIsLaterThanRefreshTokensValidFromDateTime | AAD-UserReadUsingObjectId |
+| <a id="aaduserreadusingobjectidcheckrefreshtokendate"/>AAD-UserReadUsingObjectId-CheckRefreshTokenDate | objectIdをキーにリフレッシュトークン有効日を取得します（リフレッシュトークンが無効の場合はエラー） | - | - | - | refreshTokensValidFromDateTime | AssertRefreshTokenIssuedOnDateTimeIsLaterThanRefreshTokensValidFromDateTime | AAD-Common |
 | TpEngine_RefreshToken | リフレッシュトークン取得定義 | - | - | - | objectId<br>refreshTokenIssuedOnDateTime | - | - |
 
 ## セルフ アサートに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | 入力変換 | 入力 | 出力 | 検証プロファイル  | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|:---|
 | SelfAsserted-Input-ToU-SignIn | 利用規約の表示、同意の取得のための画面 | - | objectId<br>termsOfUseConsentChoice | termsOfUseConsentChoice<br>extension_termsOfUseConsentVersion | Update-TOU-Status | - |
+| SelfAsserted-Input-ToU-SignIn-NoWrite | 利用規約の表示、同意の取得のための画面（Azure ADへの書き込みなし） | - | objectId<br>termsOfUseConsentChoice | termsOfUseConsentChoice | - | - |
 | MakeCapydata-ForRiskBases | リスクベース認証 Capyデータ作成画面 | - | capy_userId | capy_userId<br>capy_data | - | - |
 | EmailVerifyOnSignIn | メールアドレス検証画面 | - | readOnlyEmail | readOnlyEmail | - | - |
-| SelfAsserted-Error | エラーメッセージ画面 | - | errorMessage | errorMessage | - | - |
-| SelfAsserted-Social-v2 | [Deprecated]ソーシャルアカウントのサインアップ画面。今後は[AAD-AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#selfassertedsocial)を利用してください。 | - | displayName<br>givenName<br>surname | displayName<br>givenName<br>surname | AAD-UserWriteUsingUserIdentity | - |
-| AppFactor-TOTP-Regist | TOTP登録画面(QR表示&コード検証) | - |  - |selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_secret_key | selmid_totp_code<br>selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_timestepmatched | - | - |
-| AppFactor-TOTP-Verify | TOTP検証画面(コード検証) |  - |extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | selmid_totp_code<br>extension_selmid_totp_timestepmatched | - | - |
+| SelfAsserted-Error | エラーメッセージ画面 | - | errorMessage | selmid_keep_stay_on_reload_flag<br>errorMessage | - | - |
+| SelfAsserted-Social-v2 | [Deprecated]ソーシャルアカウントのサインアップ画面。今後は[AAD-UserUpdateWithAlternativeSecurityIds](./aadb2c_b2c_base.md#selfassertedsocial)を利用してください。 | - | displayName<br>givenName<br>surname | displayName<br>givenName<br>surname | AAD-UserWriteUsingUserIdentity | - |
+| AppFactor-TOTP-Regist | [Deprecated]TOTP登録画面(QR表示&コード検証)。今後は[EnableOTPAuthentication](./aadb2c_selmid_extension.md#enableotpauthentication)を利用してください。 | - |  - |selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_secret_key | selmid_totp_code<br>selmid_totp_secret_code<br>selmid_totp_otpauth_url<br>extension_selmid_totp_timestepmatched | - | - |
+| AppFactor-TOTP-Verify | [Deprecated]TOTP検証画面(コード検証)。今後は[OTPVerification](./aadb2c_selmid_extension.md#otpverification)を利用してください。 |  - |extension_selmid_totp_secret_key<br>extension_selmid_totp_timestepmatched | selmid_totp_code<br>extension_selmid_totp_timestepmatched | - | - |
 | SelfAsserted-SocialAsLocalAccount | ソーシャルサインアップ画面（ローカルアカウントとして作成用）| CreateSelmidDummyEmailAsLocalAccount | - | objectId<br>newUser<br>executed-SelfAsserted-Input<executed-SelfAssertedAsLocalAccount-Input> | GetDummyPassword1<br>GetDummyPassword2<br>GetDummyPassword3<br>GetDummyPassword4<br>AAD-UserWriteUsingSocial | - |
-| LocalAccountWriteSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）の設定画面 | - |objectId | email | AAD-UserWriteSignInNamesEmailAddressUsingObjectId |
+| LocalAccountWriteSignInNamesEmailAddressUsingObjectId | サインインID（signInNames.emailAddress）の設定画面 | - |objectId | email | AAD-UserWriteSignInNamesEmailAddressUsingObjectId | - |
 | SelfAsserted-Error-AccountLinkTargetIdentityIsExists | リンク対象のアカウントが既に存在する場合のエラー画面 | SetErrorMessageForAccountLinkTargetIdentityIsExists | - | - | - | SelfAsserted-Error |
 | SelfAsserted-Error-SignInNamesEmailAddressIsNotSet | signInNames.emailAddressが未設定の場合のエラー画面 | SetErrorMessageForSignInNamesEmailAddressIsNotSet | - | - | - | SelfAsserted-Error |
 | SelfAsserted-FIDOEnrollment | FIDO認証登録画面 | - | selmid_fido_api_response | selmid_fido_api_response<br>selmid_fido_select_authenticator<br>selmid_fido_authenticator_name<br>selmid_fido_raw_id<br>selmid_fido_client_data_json<br>selmid_fido_attestation<br>selmid_fido_type<br>selmid_fido_extensions<br>selmid_fido_id<br>selmid_fido_wapi_error_code<br>selmid_fido_wapi_error_message<br>issuerToLink | CreateFIDOAlternativeSecurityIdToLink<br>AppendAlternativeSecurityIdToLink | - |
@@ -398,16 +538,28 @@
 | SelfAsserted-Error-FidoGetChallengeError | FIDOのChallenge取得エラー発生時のエラー画面 | SetErrorMessageForFidoError | - | - | - | SelfAsserted-Error |
 
 ## Conditional Accessに関連する機能定義（`ClaimsProviders`エレメント配下）
-| ID | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 動作概要 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
+| ID | 動作概要 | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|:---|
 | ConditionalAccessEvaluation | 条件付きアクセス:評価処理 | <table><tr><th>key</th><th>value</th></tr><tr><td>OperationType</td><td>Evaluation</td></tr></table> | CreatePasswordAuthenticationMethodClaim<br>AddToconditionalAuthenticationMethodsUsed | objectId<br>conditionalAuthenticationMethodsUsed<br>isConditionalAccessFederated<br>isConditionalAccessMfaRegistered<br>estsRequestId | conditionalAccessClaimCollection<br>conditionalAccessStatus | - |
 | ConditionalAccessRemediation | 条件付きアクセス:修復処理 | <table><tr><th>key</th><th>value</th></tr><tr><td>OperationType</td><td>Remediation</td></tr></table> | - | conditionalAccessClaimCollection | - | - |
 
 ## PhoneFactorに関連する機能定義（`ClaimsProviders`エレメント配下）
-| ID | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 動作概要 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
+| ID | 動作概要 | Metadata | 入力変換 | 入力 | 出力 | IncludeTechnicalProfile |
 |:---|:---|:---|:---|:---|:---|:---|
 | PhoneFactor-Input | 電話番号入力するための画面 | - | - | - | - | PhoneFactor-InputOrVerify |
 | PhoneFactor-VerifyByAuthenticationPhoneNumber | 登録済み電話番号の検証するための画面 | <table><tr><th>key</th><th>value</th></tr><tr><td>ManualPhoneNumberEntryAllowed</td><td>false</td></tr></table> | - | - | - | PhoneFactor-InputOrVerify |
+
+## TOTPに関連する機能定義（`ClaimsProviders`エレメント配下）
+| ID | 動作概要 | Metadata | 入力変換 | 入力 | 表示 | 出力 | 出力変換 | ValidationTechnicalProfiles |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| AzureMfa-BeginVerifyOTP | TOTP：検証プロセス開始 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>BeginVerifyOTP</td></tr></table> | - | totpSecretKey<br>objectId<br>userPrincipalName | - | - | - | - |
+| AzureMfa-VerifyOTP | TOTP：コード検証 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>VerifyOTP</td></tr></table> | - | otp | - | - | - | - |
+| AzureMfa-GetAvailableDevices | TOTP：利用可能デバイス数の取得 | <table><tr><th>key</th><th>value</th></tr><tr><td>Operation</td><td>GetAvailableDevices</td></tr></table> | - | userPrincipalName | - | numberOfAvailableDevices | - | - |
+| <a id="enableotpauthentication"/>EnableOTPAuthentication | TOTP：登録画面 | - | CreateTOTPSecret<br>CreateOtpauthUriLabel<br>CreateOtpauthUriString | qrCodeContent<br>totpSecretKey | authenticatorAppIconControl<br>totpQrCodeControl<br>authenticatorInfoControl<br>QrCodeVerifyInstruction<br>otp | objectId<br>otp<br>totpSecretKey | - | - |
+| <a id="otpverification"/>OTPVerification | TOTP：コード検証画面 | - | - | - | QrCodeVerifyInstruction<br>otp<br>totp_skip_totp_verify | objectId<br>otp<br>totp_skip_totp_verify | - | - |
+| SetTotpDefaultValue | 利用可能デバイス数を初期化（0に設定） | - | - | - | - | numberOfAvailableDevices | - | - |
+| CreateTotpIdentifier-SignInName | SignInNameをtotpIdentifierへコピー | - | - | - | - | totpIdentifier | SignInNameToTotpIdentifier | - |
+| CreateTotpIdentifier-DisplayName | DisplayNameをtotpIdentifierへコピー | - | - | - | - | totpIdentifier | DisplayNameToTotpIdentifier | - |
 
 ##  Application Insightsに関連する機能定義（`ClaimsProviders`エレメント配下）
 | ID | 動作概要 | Metadata | 入力 |
@@ -432,19 +584,21 @@
 | SM-SocialLogin | ソーシャルアカウントのサインインセッションを管理します| identityProvider<br>authenticationSource | - | - |
 | SM-MFA | 多要素認証セッションを管理します| strongAuthenticationPhoneNumber | - | - |
 | SM-MFA-Email |emailによるMFA用セッションを管理します | readOnlyEmail | isActiveMFASession | - |
-| SM-MFA-Totp | TOTPによるMFA用セッションを管理します | selmid_totp_code | isActiveMFASession | - |
 | SM-MFA-Fido | FIDOによるMFA用セッションを管理します | objectId | objectIdFromSession<br>isActiveMFASession | - |
+| [Deprecated]SM-MFA-Totp | TOTPによるMFA用セッションを管理します | selmid_totp_code | isActiveMFASession | - |
+| SM-MFA-TOTP | TOTPによるMFA用セッションを管理します | totpIdentifier | - | - |
 
-## トークン発行者定義（`ClaimsProviders`エレメント配下）
-| ID | 概要 | Metadata |
+## カスタムエラー定義（`ClaimsProviders`エレメント配下）
+| ID | 概要  |  入力 |
 |:---|:---|:---|
-| JwtIssuer | アプリケーションに返却される JWT トークンを発行します | <table><tr><th>key</th><th>value</th></tr><tr><td>RefreshTokenUserJourneyId</td><td>TokenRefresh</td></tr></table> |
+| ReturnOAuth2Error | OAuth2 カスタムエラーの定義 | errorCode<br>errorMessage |
 
 ## UserJourneysに関連する機能定義（`UserJourneys`エレメント配下）
 ### UserJourney
 | ID | 概要 |
 |:---|:---|
-| TokenRefresh | リフレッシュトークン（無効の場合はエラー） | 
+| TokenRefresh | [Deprecated]リフレッシュトークン（無効の場合はエラー）。今後は[RedeemRefreshToken](./aadb2c_selmid_extension.md#redeemrefreshtoken)を利用してください。 | 
+| <a id="redeemrefreshtoken"/>RedeemRefreshToken | リフレッシュトークン（無効の場合はエラー） | 
 
 ## SubJourneysに関連する機能定義（`SubJourneys`エレメント配下）
 ### SubJourney
@@ -452,8 +606,13 @@
 |:---|:---|:---|
 | SetSelmidOutputEmail | selmid_output_email（id_tokenやrestapi等への出力用email）を決定します | Call |
 | CheckSignInNamesEmailAddressIsDummy | signInNames.emailAddressが設定されていない（ダミー値のまま）場合は、パスワード設定出来ないようにチェックを実施します。 | Call |
+| SetTotpInitialValue | TOTPに関連する値を初期化します | Call |
 
 ## RelyingPartyに関連する機能定義（`RelyingParty`エレメント配下）
+### Endpoints
+| Id | UserJourneyReferenceId |
+|:---|:---|
+| Token | RedeemRefreshToken |
 ### UserJourneyBehaviors
 | 要素 | 属性 | 値 |
 |:---|:---|:---|
